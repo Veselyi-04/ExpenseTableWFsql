@@ -26,7 +26,7 @@ namespace LoginWFsql
         private LoginForm LF;
 
         /*Масив с таблице дней (которая слева)*/
-        public Day[] week = new Day[7];
+        public Day[] days;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -41,11 +41,10 @@ namespace LoginWFsql
             InitializeComponent();
             fill_Top_Bar();
             fill_Array_Week_Days();
-            show_Group_List_Day();
+            //show_Group_List_Day(); to delet
             show_Selected_Day();
 
-            /*TextBox tb_cash = new TextBox();
-            mainContainer.Panel2.Controls.Add(tb_cash);
+            /*
             mainContainer.Panel2.Controls.Remove(lbCash);
 
             tb_cash.BackColor = Color.Gray;
@@ -55,162 +54,167 @@ namespace LoginWFsql
             tb_cash.Multiline = false;
             tb_cash.Name = "tb_cash";
             tb_cash.Size = tb_cash.Size;*/
-
-
+        
         }
 
         private void show_Selected_Day(int i = 0)
         {
-            lbNameDay.Text = week[i].date.DayOfWeek.ToString();
-            lbDate.Text = week[i].date.ToShortDateString();
-            lbCash.Text = week[i].cash;
-            lbCard.Text = week[i].card;
-            lbIOwe.Text = week[i].i_owe;
-            lbOweMe.Text = week[i].owe_me;
-            lbSaved.Text = week[i].saved;
-            lbWasted.Text = week[i].wasted;
-            tbWasted.Text = week[i].str_wasted;
-            lbIncome.Text = week[i].in_come;
-            tbIncome.Text = week[i].str_income;
+            lbNameDay.Text = days[i].date.DayOfWeek.ToString();
+            lbDate.Text = days[i].date.ToShortDateString();
+            lbCash.Text = days[i].cash.ToString();
+            lbCard.Text = days[i].card.ToString();
+            lbIOwe.Text = days[i].i_owe.ToString();
+            lbOweMe.Text = days[i].owe_me.ToString();
+            lbSaved.Text = days[i].saved.ToString();
+            lbWasted.Text = days[i].wasted.ToString();
+            tbWasted.Text = days[i].str_wasted;
+            lbIncome.Text = days[i].in_come.ToString();
+            tbIncome.Text = days[i].str_income;
         }
 
         private void fill_Array_Week_Days()
         {
             db.openConnection();
+            int count;
 
-            MySqlCommand command = new MySqlCommand("SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
+            /* Берем из БД количество заполненых дней у етого пользоватля */
+            {
+                command = new MySqlCommand("SELECT COUNT(*) FROM days WHERE days.id_user = @currentUserID", db.getConnection());
+                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                reader = command.ExecuteReader();
+                reader.Read();
+                count = reader.GetInt32(0);
+                reader.Close();
+            }
+
+            command = new MySqlCommand("SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
                 "FROM days WHERE days.id_user = @currentUserID ORDER BY date DESC", db.getConnection());
 
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
 
             reader = command.ExecuteReader();
 
-            for (int i = 0; i < week.Length; i++)
-            {
-                if (reader.Read())
-                {
-                    while(reader.GetDateTime(9) < DateTime.Today.AddDays(-i))
-                    {
-                        get_empty_day(i);
-                        i++;
-                    }
+            days = new Day[count];
 
-                    get_day_from_base(i);
-                }
-                else
-                    get_empty_day(i);
+            for (int i = 0; i < days.Length; i++)
+            {
+                reader.Read();
+                get_day_from_base(i);
+
             }
             reader.Close();
             db.closeConnection();
         }
 
-        private void show_Group_List_Day()
+     /*   private void show_Group_List_Day()
         {
             Color Color_For_Empty = Color.Gray;
-            /*Day1*/
+            //Day1
             {
-                gbDay0.Text = week[0].date.DayOfWeek.ToString();
-                _lb0_mini_Date.Text = week[0].date.ToShortDateString();
-                _lb0_mini_Cash.Text = week[0].cash;
-                _lb0_mini_income.Text = week[0].in_come;
-                _lb0_mini_wasted.Text = week[0].wasted;
-                if (week[0].is_empty)
+                gbDay0.Text = days[0].date.DayOfWeek.ToString();
+                _lb0_mini_Date.Text = days[0].date.ToShortDateString();
+                _lb0_mini_Cash.Text = days[0].cash;
+                _lb0_mini_income.Text = days[0].in_come;
+                _lb0_mini_wasted.Text = days[0].wasted;
+                if (days[0].is_empty)
                     gbDay0.ForeColor = Color_For_Empty;
             }
-            /*Day2*/
+            //Day2
             {
-                gbDay1.Text = week[1].date.DayOfWeek.ToString();
-                _lb1_mini_Date.Text = week[1].date.ToShortDateString();
-                _lb1_mini_Cash.Text = week[1].cash;
-                _lb1_mini_income.Text = week[1].in_come;
-                _lb1_mini_wasted.Text = week[1].wasted;
-                if (week[1].is_empty)
+                gbDay1.Text = days[1].date.DayOfWeek.ToString();
+                _lb1_mini_Date.Text = days[1].date.ToShortDateString();
+                _lb1_mini_Cash.Text = days[1].cash;
+                _lb1_mini_income.Text = days[1].in_come;
+                _lb1_mini_wasted.Text = days[1].wasted;
+                if (days[1].is_empty)
                     gbDay1.ForeColor = Color_For_Empty;
             }
-            /*Day3*/
+            //Day3
             {
-                gbDay2.Text = week[2].date.DayOfWeek.ToString();
-                _lb2_mini_Date.Text = week[2].date.ToShortDateString();
-                _lb2_mini_Cash.Text = week[2].cash;
-                _lb2_mini_income.Text = week[2].in_come;
-                _lb2_mini_wasted.Text = week[2].wasted;
-                if (week[2].is_empty)
+                gbDay2.Text = days[2].date.DayOfWeek.ToString();
+                _lb2_mini_Date.Text = days[2].date.ToShortDateString();
+                _lb2_mini_Cash.Text = days[2].cash;
+                _lb2_mini_income.Text = days[2].in_come;
+                _lb2_mini_wasted.Text = days[2].wasted;
+                if (days[2].is_empty)
                     gbDay2.ForeColor = Color_For_Empty;
             }
-            /*Day4*/
+            //Day4
             {
-                gbDay3.Text = week[3].date.DayOfWeek.ToString();
-                _lb3_mini_Date.Text = week[3].date.ToShortDateString();
-                _lb3_mini_Cash.Text = week[3].cash;
-                _lb3_mini_income.Text = week[3].in_come;
-                _lb3_mini_wasted.Text = week[3].wasted;
-                if (week[3].is_empty)
+                gbDay3.Text = days[3].date.DayOfWeek.ToString();
+                _lb3_mini_Date.Text = days[3].date.ToShortDateString();
+                _lb3_mini_Cash.Text = days[3].cash;
+                _lb3_mini_income.Text = days[3].in_come;
+                _lb3_mini_wasted.Text = days[3].wasted;
+                if (days[3].is_empty)
                     gbDay3.ForeColor = Color_For_Empty;
             }
-            /*Day5*/
+            //Day5
             {
-                gbDay4.Text = week[4].date.DayOfWeek.ToString();
-                _lb4_mini_Date.Text = week[4].date.ToShortDateString();
-                _lb4_mini_Cash.Text = week[4].cash;
-                _lb4_mini_income.Text = week[4].in_come;
-                _lb4_mini_wasted.Text = week[4].wasted;
-                if (week[4].is_empty)
+                gbDay4.Text = days[4].date.DayOfWeek.ToString();
+                _lb4_mini_Date.Text = days[4].date.ToShortDateString();
+                _lb4_mini_Cash.Text = days[4].cash;
+                _lb4_mini_income.Text = days[4].in_come;
+                _lb4_mini_wasted.Text = days[4].wasted;
+                if (days[4].is_empty)
                     gbDay4.ForeColor = Color_For_Empty;
             }
-            /*Day6*/
+            //Day6
             {
-                gbDay5.Text = week[5].date.DayOfWeek.ToString();
-                _lb5_mini_Date.Text = week[5].date.ToShortDateString();
-                _lb5_mini_Cash.Text = week[5].cash;
-                _lb5_mini_income.Text = week[5].in_come;
-                _lb5_mini_wasted.Text = week[5].wasted;
-                if (week[5].is_empty)
+                gbDay5.Text = days[5].date.DayOfWeek.ToString();
+                _lb5_mini_Date.Text = days[5].date.ToShortDateString();
+                _lb5_mini_Cash.Text = days[5].cash;
+                _lb5_mini_income.Text = days[5].in_come;
+                _lb5_mini_wasted.Text = days[5].wasted;
+                if (days[5].is_empty)
                     gbDay5.ForeColor = Color_For_Empty;
             }
-            /*Day7*/
+            //Day7
             {
-                gbDay6.Text = week[6].date.DayOfWeek.ToString();
-                _lb6_mini_Date.Text = week[6].date.ToShortDateString();
-                _lb6_mini_Cash.Text = week[6].cash;
-                _lb6_mini_income.Text = week[6].in_come;
-                _lb6_mini_wasted.Text = week[6].wasted;
-                if (week[6].is_empty)
+                gbDay6.Text = days[6].date.DayOfWeek.ToString();
+                _lb6_mini_Date.Text = days[6].date.ToShortDateString();
+                _lb6_mini_Cash.Text = days[6].cash;
+                _lb6_mini_income.Text = days[6].in_come;
+                _lb6_mini_wasted.Text = days[6].wasted;
+                if (days[6].is_empty)
                     gbDay6.ForeColor = Color_For_Empty;
             }
 
-        }
+        }*/ // to delet
 
         private void get_day_from_base(int i)
         {
-            week[i] = new Day();
-            week[i].cash = reader.GetString(0);
-            week[i].card = reader.GetString(1);
-            week[i].i_owe = reader.GetString(2);
-            week[i].owe_me = reader.GetString(3);
-            week[i].saved = reader.GetString(4);
-            week[i].wasted = reader.GetString(5);
-            week[i].str_wasted = reader.GetString(6);
-            week[i].in_come = reader.GetString(7);
-            week[i].str_income = reader.GetString(8);
-            week[i].date = reader.GetDateTime(9);
-            week[i].is_empty = false;
+            days[i] = new Day(i);
+            days[i].cash = reader.GetInt32(0);
+            days[i].card = reader.GetInt32(1);
+            days[i].i_owe = reader.GetInt32(2);
+            days[i].owe_me = reader.GetInt32(3);
+            days[i].saved = reader.GetInt32(4);
+            days[i].wasted = reader.GetInt32(5);
+            days[i].str_wasted = reader.GetString(6);
+            days[i].in_come = reader.GetInt32(7);
+            days[i].str_income = reader.GetString(8);
+            days[i].date = reader.GetDateTime(9);
+
+            mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
+
         }
 
-        private void get_empty_day(int i)
+        /*private void get_empty_day(int i)
         {
-            week[i] = new Day();
-            week[i].cash = "--.--";
-            week[i].card = "--.--";
-            week[i].i_owe = "--.--";
-            week[i].owe_me = "--.--";
-            week[i].saved = "--.--";
-            week[i].wasted = "--.--";
-            week[i].str_wasted = "";
-            week[i].in_come = "--.--";
-            week[i].str_income = "";
-            week[i].date = DateTime.Today.AddDays(-i);
-            week[i].is_empty = true;
-        }
+            days[i] = new System.Windows.Forms.Day();
+            days[i].cash = "--.--";
+            days[i].card = "--.--";
+            days[i].i_owe = "--.--";
+            days[i].owe_me = "--.--";
+            days[i].saved = "--.--";
+            days[i].wasted = "--.--";
+            days[i].str_wasted = "";
+            days[i].in_come = "--.--";
+            days[i].str_income = "";
+            days[i].date = DateTime.Today.AddDays(-i);
+            days[i].is_empty = true;
+        }*/ // to-delet
 
 
         private void fill_Top_Bar()
