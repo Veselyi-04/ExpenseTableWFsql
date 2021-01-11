@@ -44,11 +44,26 @@ namespace LoginWFsql
             Show_Selected_Day();
         }
 
-        private void Show_list_days()
+        private void Show_list_days(bool is_week = false)
         {
-            for (int i = 0; i < days.Length; i++)
+            if (is_week)
             {
-                mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
+                for (int i = 0; i < 7; i++)
+                {
+                    if (days.Length == i)
+                        return; 
+                    
+                    mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
+                    days[i].is_show = true;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < days.Length; i++)
+                {
+                    mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
+                    days[i].is_show = true;
+                }
             }
         }
 
@@ -56,7 +71,9 @@ namespace LoginWFsql
         {
             for (int i = 0; i < days.Length; i++)
             {
-                mainContainer.Panel1.Controls.Remove(days[i].Get_GroupBox());
+                if (days[i].is_show)
+                    mainContainer.Panel1.Controls.Remove(days[i].Get_GroupBox());
+                else return;
             }
         }
 
@@ -92,7 +109,11 @@ namespace LoginWFsql
             command = new MySqlCommand(SqlCommand.main_command_str, db.getConnection());
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             reader = command.ExecuteReader();
-            
+
+            // Ограничиваем считывание дней небольше 30
+            if (count_days > 30)
+                count_days = 30;
+
             days = new Day[count_days];
             int i = 0;
             while (reader.Read() && i < days.Length)
@@ -216,7 +237,6 @@ namespace LoginWFsql
             days[i].in_come = 0.0f;
             days[i].str_income = "";
             days[i].date = date;
-            days[i].is_empty = true;
         }
 
         private void Fill_ComboBox_Month()
@@ -332,19 +352,104 @@ namespace LoginWFsql
             this.btMinimize.BackColor = Color.FromArgb(23, 34,59);
         }
         /*________________________________________________________________*/
-        private void cbMonth_SelectedIndexChanged(object sender, EventArgs e)
+
+        /*______________Кнопки <7 - <30 и ComboBoxMonth___________________*/
+        private void push_handler(bool _IS_WEEK)
         {
-            string ff = cbMonth.Items[cbMonth.SelectedIndex].ToString();
-            if (ff == " ")
+            string temp;
+            if (cbMonth.SelectedIndex != -1)
+                temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
+            else
+                temp = " ";
+
+            if (temp != " ")
+            {
+                // Если раннее был выведен список дней выбраного месяца, ТО:
+                // 1) его надо почистить
+                Clear_list_days();
+                // 2) его надо заполнить просто всеми существующими днями последовательно
+                Fill_Array_Days();
+                // просто сбрасываем на стандартное значение
+                cbMonth.SelectedIndex = -1;
+                // 3) его надо вывести в нужнем нам количистве true = 7 false = огран значение(30)
+                Show_list_days(is_week: _IS_WEEK);
+            }
+            else // иначе там (Fill_Array_Days) итак был простой последовательный список существующих дней
+            {
+                // и мы чистим панель
+                Clear_list_days();
+                // для дальнейшего вывода нужнего нам количества дней true = 7 false = огран значение(30)
+                Show_list_days(is_week: _IS_WEEK);
+            }
+        }
+
+        private void cbMonth_SelectionChangeCommited(object sender, EventArgs e)
+        {
+            string temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
+            if (temp == " ")
             {
                 Clear_list_days();
                 Fill_Array_Days();
                 Show_list_days();
                 return;
             }
+
             Clear_list_days();
             Fill_Array_Days_from_Select_Month();
             Show_list_days();
         }
+
+        private void lb_To_7_Click(object sender, EventArgs e)
+        {
+            push_handler(_IS_WEEK: true);
+        }
+
+        private void lb_To_30_Click(object sender, EventArgs e)
+        {
+            push_handler(_IS_WEEK: false);
+        }
+
+        private void lb_To_30_MouseEnter(object sender, EventArgs e)
+        {
+            lb_To_30.BackColor = Color.FromArgb(80, 80, 80);
+        }
+
+        private void lb_To_30_MouseLeave(object sender, EventArgs e)
+        {
+            lb_To_30.BackColor = Color.FromArgb(45, 45, 45);
+        }
+
+        private void lb_To_30_MouseDown(object sender, MouseEventArgs e)
+        {
+            lb_To_30.BackColor = Color.FromArgb(45, 45, 45);
+        }
+
+        private void lb_To_30_MouseUp(object sender, MouseEventArgs e)
+        {
+            lb_To_30.BackColor = Color.FromArgb(80, 80, 80);
+        }
+
+        private void lb_To_7_MouseEnter(object sender, EventArgs e)
+        {
+            lb_To_7.BackColor = Color.FromArgb(80, 80, 80);
+        }
+
+        private void lb_To_7_MouseLeave(object sender, EventArgs e)
+        {
+            lb_To_7.BackColor = Color.FromArgb(45, 45, 45);
+        }
+
+        private void lb_To_7_MouseDown(object sender, MouseEventArgs e)
+        {
+            lb_To_7.BackColor = Color.FromArgb(45, 45, 45);
+        }
+
+        private void lb_To_7_MouseUp(object sender, MouseEventArgs e)
+        {
+            lb_To_7.BackColor = Color.FromArgb(80, 80, 80);
+        }
+
+
+        /*________________________________________________________________*/
     }
 }

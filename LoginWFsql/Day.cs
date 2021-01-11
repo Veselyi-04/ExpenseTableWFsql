@@ -22,7 +22,7 @@ namespace LoginWFsql
         public string str_income;
         public DateTime date;
 
-        public bool is_empty = false;
+        public bool is_show = false;
 
         public Day(int index)
         {
@@ -162,6 +162,11 @@ namespace LoginWFsql
         public GroupBox Get_GroupBox()
         {
             return groupBox;
+        }
+
+        public bool Check_show()
+        {
+            return is_show;
         }
 
         private GroupBox groupBox;

@@ -50,8 +50,8 @@ namespace LoginWFsql
             this.label13 = new System.Windows.Forms.Label();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.cbMonth = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lb_To_30 = new System.Windows.Forms.Label();
+            this.lb_To_7 = new System.Windows.Forms.Label();
             this.gbNewDay = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this._lb0_mini_income = new System.Windows.Forms.Label();
@@ -345,8 +345,8 @@ namespace LoginWFsql
             this.mainContainer.Panel1.AutoScroll = true;
             this.mainContainer.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.mainContainer.Panel1.Controls.Add(this.cbMonth);
-            this.mainContainer.Panel1.Controls.Add(this.label4);
-            this.mainContainer.Panel1.Controls.Add(this.label1);
+            this.mainContainer.Panel1.Controls.Add(this.lb_To_30);
+            this.mainContainer.Panel1.Controls.Add(this.lb_To_7);
             this.mainContainer.Panel1.Controls.Add(this.gbNewDay);
             this.mainContainer.Panel1.Cursor = System.Windows.Forms.Cursors.Default;
             // 
@@ -387,43 +387,52 @@ namespace LoginWFsql
             this.cbMonth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cbMonth.DropDownHeight = 75;
             this.cbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMonth.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbMonth.ForeColor = System.Drawing.Color.White;
             this.cbMonth.FormattingEnabled = true;
             this.cbMonth.IntegralHeight = false;
             this.cbMonth.Items.AddRange(new object[] {
             " "});
-            this.cbMonth.Location = new System.Drawing.Point(142, 3);
+            this.cbMonth.Location = new System.Drawing.Point(142, 4);
             this.cbMonth.Name = "cbMonth";
             this.cbMonth.Size = new System.Drawing.Size(65, 21);
             this.cbMonth.TabIndex = 12;
-            this.cbMonth.SelectedIndexChanged += new System.EventHandler(this.cbMonth_SelectedIndexChanged);
+            this.cbMonth.SelectionChangeCommitted += new System.EventHandler(this.cbMonth_SelectionChangeCommited);
             // 
-            // label4
+            // lb_To_30
             // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label4.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(74, 4);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 20);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "< 30";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_To_30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_To_30.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lb_To_30.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_To_30.ForeColor = System.Drawing.Color.White;
+            this.lb_To_30.Location = new System.Drawing.Point(74, 4);
+            this.lb_To_30.Name = "lb_To_30";
+            this.lb_To_30.Size = new System.Drawing.Size(65, 20);
+            this.lb_To_30.TabIndex = 10;
+            this.lb_To_30.Text = "< 30";
+            this.lb_To_30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_To_30.Click += new System.EventHandler(this.lb_To_30_Click);
+            this.lb_To_30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_To_30_MouseDown);
+            this.lb_To_30.MouseEnter += new System.EventHandler(this.lb_To_30_MouseEnter);
+            this.lb_To_30.MouseLeave += new System.EventHandler(this.lb_To_30_MouseLeave);
+            this.lb_To_30.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_30_MouseUp);
             // 
-            // label1
+            // lb_To_7
             // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label1.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "< 7";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_To_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lb_To_7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lb_To_7.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_To_7.ForeColor = System.Drawing.Color.White;
+            this.lb_To_7.Location = new System.Drawing.Point(3, 4);
+            this.lb_To_7.Name = "lb_To_7";
+            this.lb_To_7.Size = new System.Drawing.Size(65, 20);
+            this.lb_To_7.TabIndex = 9;
+            this.lb_To_7.Text = "< 7";
+            this.lb_To_7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_To_7.Click += new System.EventHandler(this.lb_To_7_Click);
+            this.lb_To_7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseDown);
+            this.lb_To_7.MouseEnter += new System.EventHandler(this.lb_To_7_MouseEnter);
+            this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
+            this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
             // 
             // gbNewDay
             // 
@@ -935,7 +944,7 @@ namespace LoginWFsql
         private System.Windows.Forms.Panel panel32;
         private System.Windows.Forms.Button bt_show0;
         private System.Windows.Forms.ComboBox cbMonth;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lb_To_30;
+        private System.Windows.Forms.Label lb_To_7;
     }
 }
