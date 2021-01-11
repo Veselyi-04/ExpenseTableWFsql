@@ -9,11 +9,11 @@ namespace LoginWFsql
 {
     static class SqlCommand
     {
-        static public MySqlCommand command;
-
         static public string main_command_str = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
             "FROM days WHERE days.id_user = @currentUserID " +
             "ORDER BY date DESC";
+
+        static public string count_rows_from_main_command = "SELECT COUNT(*) FROM days WHERE days.id_user = @currentUserID";
 
         static public string select_month_command_str = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
             "FROM days WHERE days.id_user = @currentUserID " +

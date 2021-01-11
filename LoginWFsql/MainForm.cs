@@ -14,14 +14,15 @@ namespace LoginWFsql
     public partial class MainForm : Form
     {
         // Для работы с бд
+        private readonly DataBase db = new DataBase();
         private MySqlCommand command;
-        private DataBase db = new DataBase();
         private MySqlDataReader reader;
+
         /*ID текущего пользователя*/
-        private int currentUserID;
+        private readonly int currentUserID;
 
         /*(основная)Скрытая логин форма, чтобы потом корректно завершить работу програмы */
-        private LoginForm LF;
+        private readonly LoginForm LF;
 
         /*Масив с таблице дней (которая слева)*/
         public Day[] days;
@@ -30,20 +31,36 @@ namespace LoginWFsql
         {
             currentUserID = id;
             LF = lf;
-            startForm();
+            StartForm();
         }
 
-        private void startForm()
+        private void StartForm()
         {
             InitializeComponent();
-            fill_Top_Bar();
-            fill_ComboBox_Month();
-            fill_Array_Days();
-            show_Selected_Day();
+            Fill_Top_Bar();
+            Fill_ComboBox_Month();
+            Fill_Array_Days();
+            Show_list_days();
+            Show_Selected_Day();
         }
 
-        
-        private void show_Selected_Day(int i = 0)
+        private void Show_list_days()
+        {
+            for (int i = 0; i < days.Length; i++)
+            {
+                mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
+            }
+        }
+
+        private void Clear_list_days()
+        {
+            for (int i = 0; i < days.Length; i++)
+            {
+                mainContainer.Panel1.Controls.Remove(days[i].Get_GroupBox());
+            }
+        }
+
+        private void Show_Selected_Day(int i = 0)
         {
             lbNameDay.Text = days[i].date.DayOfWeek.ToString();
             lbDate.Text = days[i].date.ToShortDateString();
@@ -58,31 +75,29 @@ namespace LoginWFsql
             tbIncome.Text = days[i].str_income;
         }
 
-        private void fill_Array_Days()
+        private void Fill_Array_Days()
         {
             db.openConnection();
             int count_days;
-            int year;
-            int month;
+            // берем количество существующих дней для создания масива нужного размера
+            {
+                command = new MySqlCommand(SqlCommand.count_rows_from_main_command, db.getConnection());
+                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                reader = command.ExecuteReader();
+                reader.Read();
+                count_days = reader.GetInt32(0);
+                reader.Close();
+            }
 
             command = new MySqlCommand(SqlCommand.main_command_str, db.getConnection());
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            reader = command.ExecuteReader();
-
-            reader.Read();
-            year = reader.GetDateTime(9).Year;
-            month = reader.GetDateTime(9).Month;
-            reader.Close();
-
-            count_days = DateTime.DaysInMonth(year, month);
-
             reader = command.ExecuteReader();
             
             days = new Day[count_days];
             int i = 0;
             while (reader.Read() && i < days.Length)
             {
-                get_day_from_base(i);
+                Get_day_from_base(i);
                 i++;
             }
 
@@ -90,7 +105,7 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
-        private void fill_Array_Days_from_Select_Month()
+        private void Fill_Array_Days_from_Select_Month()
         {
             db.openConnection();
             int count_days;
@@ -114,10 +129,11 @@ namespace LoginWFsql
             // Находим прев.Месяц и след.Месяц
             {
                 beforeDate = new DateTime(year, int.Parse(month), 1);
+
                 if (month == "12")
                     afterDate = new DateTime(year + 1, 1, 1);
                 else
-                    afterDate = new DateTime(year, (int.Parse(month) + 1), 1);                
+                    afterDate = beforeDate.AddMonths(1);
             }
 
             // создаем запрос
@@ -131,21 +147,48 @@ namespace LoginWFsql
             reader = command.ExecuteReader();
 
             days = new Day[count_days];
+
+            DateTime lastDay = new DateTime(year, int.Parse(month), count_days);
+
             for (int i = 0; i < days.Length; i++)
             {
+                // читаем то что мы вытянули из БД
                 while (reader.Read())
                 {
-                    get_day_from_base(i);
+                    // Узнаем дату дня который взяли из БД
+                    DateTime current = reader.GetDateTime(9);
+
+                    // Ищем для нее место начиная с конца месяца (при выборе даты отсортированы от 1->0)
+                    while (current != lastDay)
+                    {
+                        // если несовпало, вставляем на ето место пустой день
+                        Get_empty_day(i, lastDay);
+
+                        // отнимаем день и снова проверяем current
+                        lastDay = lastDay.AddDays(-1);
+                        i++;
+                    }
+
+                    // если совпало то вставляем етот день в список(масив)
+                    Get_day_from_base(i);
+
+                    // отнимаем день и возвращаемся проверить reader.Read() есть ли там следущий день
+                    lastDay = lastDay.AddDays(-1);
                     i++;
                 }
-                get_empty_day(i);
+
+                // если нет то до кона days.Length забиваем пустыми днями
+                Get_empty_day(i, lastDay);
+
+                // и все-же каждый раз отнимаем дату
+                lastDay = lastDay.AddDays(-1);
             }
 
             reader.Close();
             db.closeConnection();
         }
 
-        private void get_day_from_base(int i)
+        private void Get_day_from_base(int i)
         {
             days[i] = new Day(i);
             days[i].cash = reader.GetInt32(0);
@@ -158,11 +201,9 @@ namespace LoginWFsql
             days[i].in_come = reader.GetInt32(7);
             days[i].str_income = reader.GetString(8);
             days[i].date = reader.GetDateTime(9);
-
-            mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
         }
 
-        private void get_empty_day(int i)
+        private void Get_empty_day(int i, DateTime date)
         {
             days[i] = new Day(i);
             days[i].cash = 0.0f;
@@ -174,11 +215,11 @@ namespace LoginWFsql
             days[i].str_wasted = "";
             days[i].in_come = 0.0f;
             days[i].str_income = "";
-            days[i].date = DateTime.Today.AddDays(-i);
+            days[i].date = date;
             days[i].is_empty = true;
         }
 
-        private void fill_ComboBox_Month()
+        private void Fill_ComboBox_Month()
         {
             db.openConnection();
             command = new MySqlCommand(SqlCommand.fill_ComboBox_Month_str, db.getConnection());
@@ -201,7 +242,7 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
-        private void fill_Top_Bar()
+        private void Fill_Top_Bar()
         {
             string userlogin;
             int cash;
@@ -293,8 +334,17 @@ namespace LoginWFsql
         /*________________________________________________________________*/
         private void cbMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
-            mainContainer.Panel1.Controls.Clear();
-            fill_Array_Days_from_Select_Month();
+            string ff = cbMonth.Items[cbMonth.SelectedIndex].ToString();
+            if (ff == " ")
+            {
+                Clear_list_days();
+                Fill_Array_Days();
+                Show_list_days();
+                return;
+            }
+            Clear_list_days();
+            Fill_Array_Days_from_Select_Month();
+            Show_list_days();
         }
     }
 }

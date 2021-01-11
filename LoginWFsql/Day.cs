@@ -159,6 +159,10 @@ namespace LoginWFsql
             return groupBox;
         }
 
+        public GroupBox Get_GroupBox()
+        {
+            return groupBox;
+        }
 
         private GroupBox groupBox;
         private Label lb_in_come;
