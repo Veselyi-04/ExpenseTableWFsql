@@ -34,18 +34,18 @@ namespace LoginWFsql
             //
             // InitializeComponent
             //
-            GroupBox groupBox = new GroupBox();
-            Label lb_in_come = new Label();
-            Label lb_wasted = new Label();
-            Label lb_cash = new Label();
-            Label lb_date = new Label();
-            Button bt_show = new Button();
-            PictureBox pb_wasted = new PictureBox();
-            PictureBox pb_cash = new PictureBox();
-            PictureBox pb_income = new PictureBox();
-            Panel line_income = new Panel();
-            Panel line_wasted = new Panel();
-            Panel line_cash = new Panel();
+            groupBox = new GroupBox();
+            lb_in_come = new Label();
+            lb_wasted = new Label();
+            lb_cash = new Label();
+            lb_date = new Label();
+            bt_show = new Button();
+            pb_wasted = new PictureBox();
+            pb_cash = new PictureBox();
+            pb_income = new PictureBox();
+            line_income = new Panel();
+            line_wasted = new Panel();
+            line_cash = new Panel();
             // 
             // groupBox
             //
@@ -64,7 +64,7 @@ namespace LoginWFsql
             groupBox.Cursor = Cursors.Hand;
             groupBox.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             groupBox.ForeColor = Color.White;
-            groupBox.Location = new Point(2, (65 * index));
+            groupBox.Location = new Point(2, (65 * index + 25)); // 20 ето пложение начального захардкоженого дня
             groupBox.Size = new Size(205, 60);
             groupBox.Text = date.DayOfWeek.ToString();
             //
@@ -140,18 +140,21 @@ namespace LoginWFsql
             line_income.BackColor = Color.White;
             line_income.Location = new Point(99, 28);
             line_income.Size = new Size(35, 1);
+            line_income.BringToFront();
             //
             // line_wasted
             //
             line_wasted.BackColor = Color.White;
             line_wasted.Location = new Point(99, 49);
             line_wasted.Size = new Size(35, 1);
+            line_wasted.BringToFront();
             //
             // line_cash
             //
             line_cash.BackColor = Color.White;
             line_cash.Location = new Point(28, 49);
             line_cash.Size = new Size(35, 1);
+            line_cash.BringToFront();
 
             return groupBox;
         }

@@ -13,12 +13,10 @@ namespace LoginWFsql
 {
     public partial class MainForm : Form
     {
-        /*Команды для работы с БД*/
-        DataBase db = new DataBase();
-        MySqlCommand command;
-        MySqlDataReader reader;
-        /*-----------------------*/
-
+        // Для работы с бд
+        private MySqlCommand command;
+        private DataBase db = new DataBase();
+        private MySqlDataReader reader;
         /*ID текущего пользователя*/
         private int currentUserID;
 
@@ -37,26 +35,14 @@ namespace LoginWFsql
 
         private void startForm()
         {
-            
             InitializeComponent();
             fill_Top_Bar();
-            fill_Array_Week_Days();
-            //show_Group_List_Day(); to delet
+            fill_ComboBox_Month();
+            fill_Array_Days();
             show_Selected_Day();
-
-            /*
-            mainContainer.Panel2.Controls.Remove(lbCash);
-
-            tb_cash.BackColor = Color.Gray;
-            tb_cash.Cursor = Cursors.PanNW;
-            tb_cash.BorderStyle = BorderStyle.FixedSingle;
-            tb_cash.Location = new Point(lbCash.Location.X, lbCash.Location.Y);
-            tb_cash.Multiline = false;
-            tb_cash.Name = "tb_cash";
-            tb_cash.Size = tb_cash.Size;*/
-        
         }
 
+        
         private void show_Selected_Day(int i = 0)
         {
             lbNameDay.Text = days[i].date.DayOfWeek.ToString();
@@ -72,115 +58,92 @@ namespace LoginWFsql
             tbIncome.Text = days[i].str_income;
         }
 
-        private void fill_Array_Week_Days()
+        private void fill_Array_Days()
         {
             db.openConnection();
-            int count;
+            int count_days;
+            int year;
+            int month;
 
-            /* Берем из БД количество заполненых дней у етого пользоватля */
-            {
-                command = new MySqlCommand("SELECT COUNT(*) FROM days WHERE days.id_user = @currentUserID", db.getConnection());
-                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-                reader = command.ExecuteReader();
-                reader.Read();
-                count = reader.GetInt32(0);
-                reader.Close();
-            }
-
-            command = new MySqlCommand("SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
-                "FROM days WHERE days.id_user = @currentUserID ORDER BY date DESC", db.getConnection());
-
+            command = new MySqlCommand(SqlCommand.main_command_str, db.getConnection());
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-
             reader = command.ExecuteReader();
 
-            days = new Day[count];
+            reader.Read();
+            year = reader.GetDateTime(9).Year;
+            month = reader.GetDateTime(9).Month;
+            reader.Close();
 
-            for (int i = 0; i < days.Length; i++)
+            count_days = DateTime.DaysInMonth(year, month);
+
+            reader = command.ExecuteReader();
+            
+            days = new Day[count_days];
+            int i = 0;
+            while (reader.Read() && i < days.Length)
             {
-                reader.Read();
                 get_day_from_base(i);
-
+                i++;
             }
+
             reader.Close();
             db.closeConnection();
         }
 
-     /*   private void show_Group_List_Day()
+        private void fill_Array_Days_from_Select_Month()
         {
-            Color Color_For_Empty = Color.Gray;
-            //Day1
+            db.openConnection();
+            int count_days;
+            int year;
+            string month;
+
+            // записываем выбраную в cbMonth дату
+            string selected = cbMonth.Items[cbMonth.SelectedIndex].ToString();
+
+            // Разсоединяем и конвертируем ее в число
+            year = int.Parse(selected.Substring(0, 4));
+            month = selected.Substring(5);
+
+            // Узнаем сколько дней в выбраном месяце
+            count_days = DateTime.DaysInMonth(year, int.Parse(month));
+
+            // Строки для сохранения прев.Месяца и след.Месяца
+            DateTime beforeDate;
+            DateTime afterDate;
+
+            // Находим прев.Месяц и след.Месяц
             {
-                gbDay0.Text = days[0].date.DayOfWeek.ToString();
-                _lb0_mini_Date.Text = days[0].date.ToShortDateString();
-                _lb0_mini_Cash.Text = days[0].cash;
-                _lb0_mini_income.Text = days[0].in_come;
-                _lb0_mini_wasted.Text = days[0].wasted;
-                if (days[0].is_empty)
-                    gbDay0.ForeColor = Color_For_Empty;
-            }
-            //Day2
-            {
-                gbDay1.Text = days[1].date.DayOfWeek.ToString();
-                _lb1_mini_Date.Text = days[1].date.ToShortDateString();
-                _lb1_mini_Cash.Text = days[1].cash;
-                _lb1_mini_income.Text = days[1].in_come;
-                _lb1_mini_wasted.Text = days[1].wasted;
-                if (days[1].is_empty)
-                    gbDay1.ForeColor = Color_For_Empty;
-            }
-            //Day3
-            {
-                gbDay2.Text = days[2].date.DayOfWeek.ToString();
-                _lb2_mini_Date.Text = days[2].date.ToShortDateString();
-                _lb2_mini_Cash.Text = days[2].cash;
-                _lb2_mini_income.Text = days[2].in_come;
-                _lb2_mini_wasted.Text = days[2].wasted;
-                if (days[2].is_empty)
-                    gbDay2.ForeColor = Color_For_Empty;
-            }
-            //Day4
-            {
-                gbDay3.Text = days[3].date.DayOfWeek.ToString();
-                _lb3_mini_Date.Text = days[3].date.ToShortDateString();
-                _lb3_mini_Cash.Text = days[3].cash;
-                _lb3_mini_income.Text = days[3].in_come;
-                _lb3_mini_wasted.Text = days[3].wasted;
-                if (days[3].is_empty)
-                    gbDay3.ForeColor = Color_For_Empty;
-            }
-            //Day5
-            {
-                gbDay4.Text = days[4].date.DayOfWeek.ToString();
-                _lb4_mini_Date.Text = days[4].date.ToShortDateString();
-                _lb4_mini_Cash.Text = days[4].cash;
-                _lb4_mini_income.Text = days[4].in_come;
-                _lb4_mini_wasted.Text = days[4].wasted;
-                if (days[4].is_empty)
-                    gbDay4.ForeColor = Color_For_Empty;
-            }
-            //Day6
-            {
-                gbDay5.Text = days[5].date.DayOfWeek.ToString();
-                _lb5_mini_Date.Text = days[5].date.ToShortDateString();
-                _lb5_mini_Cash.Text = days[5].cash;
-                _lb5_mini_income.Text = days[5].in_come;
-                _lb5_mini_wasted.Text = days[5].wasted;
-                if (days[5].is_empty)
-                    gbDay5.ForeColor = Color_For_Empty;
-            }
-            //Day7
-            {
-                gbDay6.Text = days[6].date.DayOfWeek.ToString();
-                _lb6_mini_Date.Text = days[6].date.ToShortDateString();
-                _lb6_mini_Cash.Text = days[6].cash;
-                _lb6_mini_income.Text = days[6].in_come;
-                _lb6_mini_wasted.Text = days[6].wasted;
-                if (days[6].is_empty)
-                    gbDay6.ForeColor = Color_For_Empty;
+                beforeDate = new DateTime(year, int.Parse(month), 1);
+                if (month == "12")
+                    afterDate = new DateTime(year + 1, 1, 1);
+                else
+                    afterDate = new DateTime(year, (int.Parse(month) + 1), 1);                
             }
 
-        }*/ // to delet
+            // создаем запрос
+            command = new MySqlCommand(SqlCommand.select_month_command_str, db.getConnection());
+            // заменяем заглушки на реальные значения
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            command.Parameters.Add("@beforeMonth", MySqlDbType.DateTime).Value = beforeDate;
+            command.Parameters.Add("@afterMonth", MySqlDbType.DateTime).Value = afterDate;
+
+            // выполняем команду в Ридере
+            reader = command.ExecuteReader();
+
+            days = new Day[count_days];
+            for (int i = 0; i < days.Length; i++)
+            {
+                while (reader.Read())
+                {
+                    get_day_from_base(i);
+                    i++;
+                }
+                get_empty_day(i);
+            }
+
+            reader.Close();
+            db.closeConnection();
+        }
 
         private void get_day_from_base(int i)
         {
@@ -197,25 +160,46 @@ namespace LoginWFsql
             days[i].date = reader.GetDateTime(9);
 
             mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
-
         }
 
-        /*private void get_empty_day(int i)
+        private void get_empty_day(int i)
         {
-            days[i] = new System.Windows.Forms.Day();
-            days[i].cash = "--.--";
-            days[i].card = "--.--";
-            days[i].i_owe = "--.--";
-            days[i].owe_me = "--.--";
-            days[i].saved = "--.--";
-            days[i].wasted = "--.--";
+            days[i] = new Day(i);
+            days[i].cash = 0.0f;
+            days[i].card = 0.0f;
+            days[i].i_owe = 0.0f;
+            days[i].owe_me = 0.0f;
+            days[i].saved = 0.0f;
+            days[i].wasted = 0.0f;
             days[i].str_wasted = "";
-            days[i].in_come = "--.--";
+            days[i].in_come = 0.0f;
             days[i].str_income = "";
             days[i].date = DateTime.Today.AddDays(-i);
             days[i].is_empty = true;
-        }*/ // to-delet
+        }
 
+        private void fill_ComboBox_Month()
+        {
+            db.openConnection();
+            command = new MySqlCommand(SqlCommand.fill_ComboBox_Month_str, db.getConnection());
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+
+                string year = reader.GetString(0);
+                string month = reader.GetString(1);
+
+                if (month.Length < 2)
+                    month = "0" + month;
+
+                cbMonth.Items.Insert(1, $"{year}.{month}");
+
+            }
+            reader.Close();
+            db.closeConnection();
+        }
 
         private void fill_Top_Bar()
         {
@@ -225,13 +209,7 @@ namespace LoginWFsql
             int saved;
             db.openConnection();
             {
-                command = new MySqlCommand(
-                    "SELECT users.login, days.cash, days.i_owe, days.saved " +
-                    "FROM users " +
-                    "INNER JOIN days ON days.id_user = users.id " +
-                    "WHERE users.id = @currentUserID"
-                    , db.getConnection());
-
+                command = new MySqlCommand(SqlCommand.fill_topBar_command_str, db.getConnection());
                 command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
                 reader = command.ExecuteReader();
 
@@ -313,6 +291,10 @@ namespace LoginWFsql
             this.btMinimize.BackColor = Color.FromArgb(23, 34,59);
         }
         /*________________________________________________________________*/
-
+        private void cbMonth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mainContainer.Panel1.Controls.Clear();
+            fill_Array_Days_from_Select_Month();
+        }
     }
 }
