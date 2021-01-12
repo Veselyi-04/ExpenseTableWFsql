@@ -30,13 +30,16 @@ namespace LoginWFsql
         {
             this.index = index + 1;
         }
-
-        public GroupBox Create_and_get_Group()
+        
+        /// <summary>
+        /// Создает новый GroupBox(), для дальнейшего его вывода в Лист с днями
+        /// </summary>
+        public void Create_New_Group_Box()
         {
             //
             // InitializeComponent
             //
-            groupBox = new GroupBox();
+            GroupBox = new GroupBox();
             lb_in_come = new Label();
             lb_wasted = new Label();
             lb_cash = new Label();
@@ -51,24 +54,24 @@ namespace LoginWFsql
             // 
             // groupBox
             //
-            groupBox.BackColor = Color.FromArgb(45, 45, 45);
-            groupBox.Controls.Add(lb_in_come);
-            groupBox.Controls.Add(lb_wasted);
-            groupBox.Controls.Add(lb_cash);
-            groupBox.Controls.Add(lb_date);
-            groupBox.Controls.Add(bt_show);
-            groupBox.Controls.Add(pb_wasted);
-            groupBox.Controls.Add(pb_cash);
-            groupBox.Controls.Add(pb_income);
-            groupBox.Controls.Add(line_income);
-            groupBox.Controls.Add(line_wasted);
-            groupBox.Controls.Add(line_cash);
-            groupBox.Cursor = Cursors.Hand;
-            groupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox.ForeColor = Color.White;
-            groupBox.Location = new Point(2, (65 * index + 25)); // 25 ето пложение начального захардкоженого дня
-            groupBox.Size = new Size(200, 60); 
-            groupBox.Text = date.DayOfWeek.ToString();
+            GroupBox.BackColor = Color.FromArgb(45, 45, 45);
+            GroupBox.Controls.Add(lb_in_come);
+            GroupBox.Controls.Add(lb_wasted);
+            GroupBox.Controls.Add(lb_cash);
+            GroupBox.Controls.Add(lb_date);
+            GroupBox.Controls.Add(bt_show);
+            GroupBox.Controls.Add(pb_wasted);
+            GroupBox.Controls.Add(pb_cash);
+            GroupBox.Controls.Add(pb_income);
+            GroupBox.Controls.Add(line_income);
+            GroupBox.Controls.Add(line_wasted);
+            GroupBox.Controls.Add(line_cash);
+            GroupBox.Cursor = Cursors.Hand;
+            GroupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            GroupBox.ForeColor = Color.White;
+            GroupBox.Location = new Point(2, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть кнопки
+            GroupBox.Size = new Size(200, 60);
+            GroupBox.Text = date.DayOfWeek.ToString();
             //
             // lb_in_come
             //
@@ -158,33 +161,30 @@ namespace LoginWFsql
             line_cash.Size = new Size(35, 1);
             line_cash.BringToFront();
 
-            if(is_empty)
+            if (is_empty)
             {
-                groupBox.Scale(new SizeF(0.95f, 0.95f));
-                groupBox.Location = new Point(5, (65 * index + 25));
+                GroupBox.Scale(new SizeF(0.95f, 0.95f));
+                GroupBox.Location = new Point(5, (65 * index + 25));
 
                 bt_show.Text = "NEW";
 
-                groupBox.ForeColor = emptyColor;
+                GroupBox.ForeColor = emptyColor;
                 line_income.BackColor = emptyColor;
                 line_wasted.BackColor = emptyColor;
                 line_cash.BackColor = emptyColor;
             }
-
-            return groupBox;
         }
 
-        public GroupBox Get_GroupBox()
-        {
-            return groupBox;
-        }
-
+        /// <summary>
+        /// Возвращает булевое значение для проверки, выведен ли етот день в список
+        /// </summary>
+        /// <returns> bool: is_show </returns>
         public bool Check_show()
         {
             return is_show;
         }
 
-        private GroupBox groupBox;
+        public GroupBox GroupBox { get; set; }
         private Label lb_in_come;
         private Label lb_wasted;
         private Label lb_cash;

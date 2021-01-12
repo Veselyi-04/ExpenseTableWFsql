@@ -40,43 +40,64 @@ namespace LoginWFsql
             Fill_Top_Bar();
             Fill_ComboBox_Month();
             Fill_Array_Days();
-            Show_list_days();
+            Show_list_days(30);
             Show_Selected_Day();
         }
 
-        private void Show_list_days(bool is_week = false)
+        /// <summary>
+        /// Выводит список дней в лист (который слева) Принимает колво дней которое надо вывести
+        /// </summary>
+        /// <param name="count"> Колво дней которое надо вывести (до 30!) </param>
+        private void Show_list_days(int count)
         {
-            if (is_week)
+            On_Of_gbNewDay(true);
+            for (int i = 0; i < count; i++)
             {
-                for (int i = 0; i < 7; i++)
-                {
-                    if (days.Length == i)
-                        return; 
-                    
-                    mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
-                    days[i].is_show = true;
-                }
+                // Проверка на случай если будет меньше дней чем мы хочем вывести
+                if (days.Length == i)
+                    return;
+
+                days[i].Create_New_Group_Box();
+                mainContainer.Panel1.Controls.Add(days[i].GroupBox);
+                days[i].is_show = true;
+            }
+        }
+
+        /// <summary>
+        ///  Выводит список дней выбраного месяца в лист, [Разница]: меняет положение дней
+        /// </summary>
+        private void Show_list_days_from_Select_Month()
+        {
+            On_Of_gbNewDay(false);
+            for (int i = 0; i < days.Length; i++)
+            {
+                days[i].Create_New_Group_Box();
+                days[i].GroupBox.Location = new Point(2, (65 * i + 25));
+                mainContainer.Panel1.Controls.Add(days[i].GroupBox);
+                days[i].is_show = true;
+            }
+        }
+
+        /// <summary>
+        /// Включает или отключаест видимость, верхнего GroupBox(кнопка для создания нового дня)
+        /// </summary>
+        /// <param name="On_Off"> true = on, false = off.</param>
+        private void On_Of_gbNewDay(bool On_Off)
+        {
+            if(On_Off)
+            {
+                gbNewDay.Visible = true;
             }
             else
             {
-                for (int i = 0; i < days.Length; i++)
-                {
-                    mainContainer.Panel1.Controls.Add(days[i].Create_and_get_Group());
-                    days[i].is_show = true;
-                }
+                gbNewDay.Visible = false;
             }
         }
 
-        private void Clear_list_days()
-        {
-            for (int i = 0; i < days.Length; i++)
-            {
-                if (days[i].is_show)
-                    mainContainer.Panel1.Controls.Remove(days[i].Get_GroupBox());
-                else return;
-            }
-        }
-
+        /// <summary>
+        /// Выводит информацию о выбраном дне на главую панель
+        /// </summary>
+        /// <param name="i"> индекс дня</param>
         private void Show_Selected_Day(int i = 0)
         {
             lbNameDay.Text = days[i].date.DayOfWeek.ToString();
@@ -92,6 +113,9 @@ namespace LoginWFsql
             tbIncome.Text = days[i].str_income;
         }
 
+        /// <summary>
+        /// Заполнение масива дней с Базы Даных
+        /// </summary>
         private void Fill_Array_Days()
         {
             db.openConnection();
@@ -126,6 +150,9 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
+        /// <summary>
+        /// Заполнение масива дней (определенным месяцем) с Базы Даных
+        /// </summary>
         private void Fill_Array_Days_from_Select_Month()
         {
             db.openConnection();
@@ -209,6 +236,23 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
+        /// <summary>
+        /// Чистит список дней от ранее выведеных
+        /// </summary>
+        private void Clear_list_days()
+        {
+            for (int i = 0; i < days.Length; i++)
+            {
+                // Для чего нужна ета проверка: 
+                if (days[i].is_show)// бывает что в списке есть 30 дней но показано только 7-последних и он должен удалить только те 7 и не идти дальше
+                    mainContainer.Panel1.Controls.Remove(days[i].GroupBox);
+                else return;
+            }
+        }
+
+        /// <summary>
+        /// Заполняет конкретный день масива существующим днем из БД
+        /// </summary>
         private void Get_day_from_base(int i)
         {
             days[i] = new Day(i);
@@ -224,6 +268,9 @@ namespace LoginWFsql
             days[i].date = reader.GetDateTime(9);
         }
 
+        /// <summary>
+        /// Заполняет конкретный день масива пустым днем
+        /// </summary>
         private void Get_empty_day(int i, DateTime date)
         {
             days[i] = new Day(i);
@@ -240,6 +287,9 @@ namespace LoginWFsql
             days[i].is_empty = true;
         }
 
+        /// <summary>
+        /// Заполняет ComboBox месяцами из БД
+        /// </summary>
         private void Fill_ComboBox_Month()
         {
             db.openConnection();
@@ -263,6 +313,9 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
+        /// <summary>
+        /// Заполняет верхнюю панель последними даными из БД
+        /// </summary>
         private void Fill_Top_Bar()
         {
             string userlogin;
@@ -355,35 +408,6 @@ namespace LoginWFsql
         /*________________________________________________________________*/
 
         /*______________Кнопки <7 - <30 и ComboBoxMonth___________________*/
-        private void push_handler(bool _IS_WEEK)
-        {
-            string temp;
-            if (cbMonth.SelectedIndex != -1)
-                temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
-            else
-                temp = " ";
-
-            if (temp != " ")
-            {
-                // Если раннее был выведен список дней выбраного месяца, ТО:
-                // 1) его надо почистить
-                Clear_list_days();
-                // 2) его надо заполнить просто всеми существующими днями последовательно
-                Fill_Array_Days();
-                // просто сбрасываем на стандартное значение
-                cbMonth.SelectedIndex = -1;
-                // 3) его надо вывести в нужнем нам количистве true = 7 false = огран значение(30)
-                Show_list_days(is_week: _IS_WEEK);
-            }
-            else // иначе там (Fill_Array_Days) итак был простой последовательный список существующих дней
-            {
-                // и мы чистим панель
-                Clear_list_days();
-                // для дальнейшего вывода нужнего нам количества дней true = 7 false = огран значение(30)
-                Show_list_days(is_week: _IS_WEEK);
-            }
-        }
-
         private void cbMonth_SelectionChangeCommited(object sender, EventArgs e)
         {
             string temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
@@ -391,25 +415,51 @@ namespace LoginWFsql
             {
                 Clear_list_days();
                 Fill_Array_Days();
-                Show_list_days();
+                Show_list_days(30);
                 return;
             }
 
             Clear_list_days();
             Fill_Array_Days_from_Select_Month();
-            Show_list_days();
+            Show_list_days_from_Select_Month();
         }
 
         private void lb_To_7_Click(object sender, EventArgs e)
         {
-            push_handler(_IS_WEEK: true);
+            Preparation_Panel_From_Show();
+            Show_list_days(7);
         }
 
         private void lb_To_30_Click(object sender, EventArgs e)
         {
-            push_handler(_IS_WEEK: false);
+            Preparation_Panel_From_Show();
+            Show_list_days(30);
         }
+        private void Preparation_Panel_From_Show()
+        {
+            string temp;
 
+            // проверка на то не стоит ли там стандартное значение (тоесть: ничего не выбрано)
+            if (cbMonth.SelectedIndex == -1)
+                temp = " ";
+            else
+                temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
+
+            if (temp != " ")// Если раннее был выведен список дней выбраного месяца, ТО:
+            {
+                // 1) его надо почистить
+                Clear_list_days();
+                // 2) его надо заполнить просто всеми существующими днями последовательно
+                Fill_Array_Days();
+                // просто сбрасываем на стандартное значение
+                cbMonth.SelectedIndex = -1;
+            }
+            else // иначе там (Fill_Array_Days) итак был простой последовательный список существующих дней
+            {
+                // и мы чистим панель
+                Clear_list_days();
+            }
+        }
         private void lb_To_30_MouseEnter(object sender, EventArgs e)
         {
             lb_To_30.BackColor = Color.FromArgb(80, 80, 80);
