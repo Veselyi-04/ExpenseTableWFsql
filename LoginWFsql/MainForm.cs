@@ -237,6 +237,7 @@ namespace LoginWFsql
             days[i].in_come = 0.0f;
             days[i].str_income = "";
             days[i].date = date;
+            days[i].is_empty = true;
         }
 
         private void Fill_ComboBox_Month()

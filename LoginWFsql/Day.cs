@@ -10,7 +10,7 @@ namespace LoginWFsql
 {
     public class Day
     {
-        private int index;
+        private readonly int index;
         public float cash;
         public float card;
         public float i_owe;
@@ -22,7 +22,9 @@ namespace LoginWFsql
         public string str_income;
         public DateTime date;
 
+        public Color emptyColor = Color.Gray;
         public bool is_show = false;
+        public bool is_empty = false;
 
         public Day(int index)
         {
@@ -62,10 +64,10 @@ namespace LoginWFsql
             groupBox.Controls.Add(line_wasted);
             groupBox.Controls.Add(line_cash);
             groupBox.Cursor = Cursors.Hand;
-            groupBox.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            groupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox.ForeColor = Color.White;
-            groupBox.Location = new Point(2, (65 * index + 25)); // 20 ето пложение начального захардкоженого дня
-            groupBox.Size = new Size(205, 60);
+            groupBox.Location = new Point(2, (65 * index + 25)); // 25 ето пложение начального захардкоженого дня
+            groupBox.Size = new Size(200, 60); 
             groupBox.Text = date.DayOfWeek.ToString();
             //
             // lb_in_come
@@ -95,19 +97,19 @@ namespace LoginWFsql
             // lb_date
             //
             lb_date.AutoEllipsis = true;
-            lb_date.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lb_date.Font = new Font("Arial Rounded MT Bold", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lb_date.BorderStyle = BorderStyle.FixedSingle;
-            lb_date.Location = new Point(146, 8);
-            lb_date.Size = new Size(58, 15);
+            lb_date.Location = new Point(145, 8); // 146
+            lb_date.Size = new Size(54, 15); // 58
             lb_date.Text = date.ToShortDateString();
             //
             // bt_show
             //
             bt_show.FlatAppearance.BorderSize = 0;
             bt_show.FlatStyle = FlatStyle.Flat;
-            bt_show.Font = new Font("a_LatinoNr", 8F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            bt_show.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             bt_show.Location = new Point(145, 25);
-            bt_show.Size = new Size(58, 30);
+            bt_show.Size = new Size(54, 30);//58
             bt_show.Text = "SHOW";
             bt_show.UseVisualStyleBackColor = true;
             //
@@ -155,6 +157,19 @@ namespace LoginWFsql
             line_cash.Location = new Point(28, 49);
             line_cash.Size = new Size(35, 1);
             line_cash.BringToFront();
+
+            if(is_empty)
+            {
+                groupBox.Scale(new SizeF(0.95f, 0.95f));
+                groupBox.Location = new Point(5, (65 * index + 25));
+
+                bt_show.Text = "NEW";
+
+                groupBox.ForeColor = emptyColor;
+                line_income.BackColor = emptyColor;
+                line_wasted.BackColor = emptyColor;
+                line_cash.BackColor = emptyColor;
+            }
 
             return groupBox;
         }

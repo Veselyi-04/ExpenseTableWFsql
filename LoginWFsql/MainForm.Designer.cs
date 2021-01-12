@@ -449,11 +449,11 @@ namespace LoginWFsql
             this.gbNewDay.Controls.Add(this._lb0_mini_Date);
             this.gbNewDay.Controls.Add(this.bt_show0);
             this.gbNewDay.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.gbNewDay.Font = new System.Drawing.Font("a_LatinoNr", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.gbNewDay.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbNewDay.ForeColor = System.Drawing.Color.White;
             this.gbNewDay.Location = new System.Drawing.Point(2, 25);
             this.gbNewDay.Name = "gbNewDay";
-            this.gbNewDay.Size = new System.Drawing.Size(205, 60);
+            this.gbNewDay.Size = new System.Drawing.Size(200, 60);
             this.gbNewDay.TabIndex = 0;
             this.gbNewDay.TabStop = false;
             this.gbNewDay.Text = "gbDay0";
@@ -546,9 +546,9 @@ namespace LoginWFsql
             // 
             this._lb0_mini_Date.AutoEllipsis = true;
             this._lb0_mini_Date.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._lb0_mini_Date.Location = new System.Drawing.Point(146, 8);
+            this._lb0_mini_Date.Location = new System.Drawing.Point(145, 8);
             this._lb0_mini_Date.Name = "_lb0_mini_Date";
-            this._lb0_mini_Date.Size = new System.Drawing.Size(58, 15);
+            this._lb0_mini_Date.Size = new System.Drawing.Size(54, 15);
             this._lb0_mini_Date.TabIndex = 0;
             this._lb0_mini_Date.Text = "15.04.2015";
             // 
@@ -556,10 +556,10 @@ namespace LoginWFsql
             // 
             this.bt_show0.FlatAppearance.BorderSize = 0;
             this.bt_show0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_show0.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bt_show0.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_show0.Location = new System.Drawing.Point(145, 25);
             this.bt_show0.Name = "bt_show0";
-            this.bt_show0.Size = new System.Drawing.Size(58, 30);
+            this.bt_show0.Size = new System.Drawing.Size(54, 30);
             this.bt_show0.TabIndex = 8;
             this.bt_show0.Text = "SHOW";
             this.bt_show0.UseVisualStyleBackColor = true;
@@ -864,6 +864,7 @@ namespace LoginWFsql
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.panelTopStats.ResumeLayout(false);
             this.panelTopStats.PerformLayout();
