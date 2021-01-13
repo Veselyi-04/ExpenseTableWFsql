@@ -32,9 +32,21 @@ namespace LoginWFsql
         }
         
         /// <summary>
-        /// Создает новый GroupBox(), для дальнейшего его вывода в Лист с днями
+        /// Создает новый GroupBox(), для дальнейшего его вывода в Лист с днями.
+        /// Сам определяет пустой ето день или заполненый.
         /// </summary>
         public void Create_New_Group_Box()
+        {
+            if (is_empty)
+                Create_Empty_Group_Box();
+            else
+                Create_Filled_Group_Box();
+        }
+
+        /// <summary>
+        /// Создает груп бокс существующего дня.
+        /// </summary>
+        private void Create_Filled_Group_Box()
         {
             //
             // InitializeComponent
@@ -160,19 +172,52 @@ namespace LoginWFsql
             line_cash.Location = new Point(28, 49);
             line_cash.Size = new Size(35, 1);
             line_cash.BringToFront();
+        }
 
-            if (is_empty)
-            {
-                GroupBox.Scale(new SizeF(0.95f, 0.95f));
-                GroupBox.Location = new Point(5, (65 * index + 25));
-
-                bt_show.Text = "NEW";
-
-                GroupBox.ForeColor = emptyColor;
-                line_income.BackColor = emptyColor;
-                line_wasted.BackColor = emptyColor;
-                line_cash.BackColor = emptyColor;
-            }
+        /// <summary>
+        /// Создает пустой груп бокс, (чтото вроде заглушки с кнопкой для создания дня на том месте).
+        /// </summary>
+        private void Create_Empty_Group_Box()
+        {
+            //
+            // InitializeComponent
+            //
+            GroupBox = new GroupBox();
+            lb_date = new Label();
+            bt_show = new Button();
+            // 
+            // groupBox
+            //
+            GroupBox.Controls.Add(lb_date);
+            GroupBox.Controls.Add(bt_show);
+            GroupBox.Cursor = Cursors.Hand;
+            GroupBox.BackColor = Color.FromArgb(45, 45, 45);
+            GroupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            GroupBox.ForeColor = emptyColor;
+            GroupBox.Size = new Size(200, 60);
+            //GroupBox.Scale(new SizeF(0.95f, 0.95f));
+            GroupBox.Location = new Point(5, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть кнопки
+            GroupBox.Text = date.DayOfWeek.ToString();
+            //
+            // lb_date
+            //
+            lb_date.AutoEllipsis = true;
+            lb_date.AutoSize = true;
+            lb_date.Font = new Font("Arial Rounded MT Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lb_date.Location = new Point(60, 15);
+            lb_date.Text = date.ToShortDateString();
+            //
+            // bt_show
+            //
+            bt_show.FlatAppearance.BorderSize = 0;
+            bt_show.FlatStyle = FlatStyle.Flat;
+            bt_show.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bt_show.Text = "CREATE NEW DAY";
+            bt_show.TextAlign = ContentAlignment.BottomCenter;
+            bt_show.Dock = DockStyle.Bottom;
+            bt_show.Location = new Point(3, 14);
+            bt_show.Size = new Size(194, 39);
+            bt_show.UseVisualStyleBackColor = true;
         }
 
         /// <summary>
