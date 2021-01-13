@@ -50,7 +50,7 @@ namespace LoginWFsql
         /// <param name="count"> Колво дней которое надо вывести (до 30!) </param>
         private void Show_list_days(int count)
         {
-            On_Of_gbNewDay(true);
+            On_Of_btCrateNewDay(true);
             for (int i = 0; i < count; i++)
             {
                 // Проверка на случай если будет меньше дней чем мы хочем вывести
@@ -68,7 +68,7 @@ namespace LoginWFsql
         /// </summary>
         private void Show_list_days_from_Select_Month()
         {
-            On_Of_gbNewDay(false);
+            On_Of_btCrateNewDay(false);
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box();
@@ -82,15 +82,15 @@ namespace LoginWFsql
         /// Включает или отключаест видимость, верхнего GroupBox(кнопка для создания нового дня)
         /// </summary>
         /// <param name="On_Off"> true = on, false = off.</param>
-        private void On_Of_gbNewDay(bool On_Off)
+        private void On_Of_btCrateNewDay(bool On_Off)
         {
             if(On_Off)
             {
-                gbNewDay.Visible = true;
+                btCrateNewDay.Visible = true;
             }
             else
             {
-                gbNewDay.Visible = false;
+                btCrateNewDay.Visible = false;
             }
         }
 
@@ -460,47 +460,69 @@ namespace LoginWFsql
                 Clear_list_days();
             }
         }
+
         private void lb_To_30_MouseEnter(object sender, EventArgs e)
         {
-            lb_To_30.BackColor = Color.FromArgb(80, 80, 80);
+            Lighting_lb(lb_To_30);
         }
 
         private void lb_To_30_MouseLeave(object sender, EventArgs e)
         {
-            lb_To_30.BackColor = Color.FromArgb(45, 45, 45);
+            Blackout_lb(lb_To_30);
         }
 
         private void lb_To_30_MouseDown(object sender, MouseEventArgs e)
         {
-            lb_To_30.BackColor = Color.FromArgb(45, 45, 45);
+            Blackout_lb(lb_To_30);
         }
 
         private void lb_To_30_MouseUp(object sender, MouseEventArgs e)
         {
-            lb_To_30.BackColor = Color.FromArgb(80, 80, 80);
+            Lighting_lb(lb_To_30);
         }
 
         private void lb_To_7_MouseEnter(object sender, EventArgs e)
         {
-            lb_To_7.BackColor = Color.FromArgb(80, 80, 80);
+            Lighting_lb(lb_To_7);
         }
 
         private void lb_To_7_MouseLeave(object sender, EventArgs e)
         {
-            lb_To_7.BackColor = Color.FromArgb(45, 45, 45);
+            Blackout_lb(lb_To_7);
         }
 
         private void lb_To_7_MouseDown(object sender, MouseEventArgs e)
         {
-            lb_To_7.BackColor = Color.FromArgb(45, 45, 45);
+            Blackout_lb(lb_To_7);
         }
 
         private void lb_To_7_MouseUp(object sender, MouseEventArgs e)
         {
-            lb_To_7.BackColor = Color.FromArgb(80, 80, 80);
+            Lighting_lb(lb_To_7);
+        }
+        
+        /// <summary>
+        /// Затемняет кнопку(в нашем случае кнопка ето лейбл)
+        /// </summary>
+        private void Blackout_lb (Label button)
+        {
+            int r = button.BackColor.R - 10;
+            int g = button.BackColor.G - 10;
+            int b = button.BackColor.B - 10;
+            button.BackColor = Color.FromArgb(r, g, b);
         }
 
-
+        /// <summary>
+        /// Осветляет кнопку(в нашем случае кнопка ето лейбл)
+        /// </summary>
+        /// <param name="button"></param>
+        private void Lighting_lb(Label button)
+        {
+            int r = button.BackColor.R + 10;
+            int g = button.BackColor.G + 10;
+            int b = button.BackColor.B + 10;
+            button.BackColor = Color.FromArgb(r, g, b);
+        }
         /*________________________________________________________________*/
     }
 }

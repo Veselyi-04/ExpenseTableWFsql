@@ -28,7 +28,7 @@ namespace LoginWFsql
 
         public Day(int index)
         {
-            this.index = index + 1;
+            this.index = index;
         }
         
         /// <summary>
@@ -80,8 +80,8 @@ namespace LoginWFsql
             GroupBox.Controls.Add(line_cash);
             GroupBox.Cursor = Cursors.Hand;
             GroupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GroupBox.ForeColor = Color.White;
-            GroupBox.Location = new Point(2, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть кнопки
+            GroupBox.ForeColor = Color.White; // 65 ето ширина груп бокса
+            GroupBox.Location = new Point(2, (65 * index + 67)); // 68 ето начальное минимальное положение так как выше еще есть кнопки
             GroupBox.Size = new Size(200, 60);
             GroupBox.Text = date.DayOfWeek.ToString();
             //
@@ -196,7 +196,7 @@ namespace LoginWFsql
             GroupBox.ForeColor = emptyColor;
             GroupBox.Size = new Size(200, 60);
             //GroupBox.Scale(new SizeF(0.95f, 0.95f));
-            GroupBox.Location = new Point(5, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть кнопки
+            GroupBox.Location = new Point(5, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть 3 кнопки (3 потомучто 4 мы скрываем)
             GroupBox.Text = date.DayOfWeek.ToString();
             //
             // lb_date
@@ -218,6 +218,7 @@ namespace LoginWFsql
             bt_show.Location = new Point(3, 14);
             bt_show.Size = new Size(194, 39);
             bt_show.UseVisualStyleBackColor = true;
+            //bt_show.BackColor = Color.FromArgb(55, 55, 55);
         }
 
         /// <summary>

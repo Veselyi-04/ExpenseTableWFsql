@@ -49,21 +49,10 @@ namespace LoginWFsql
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
+            this.btCrateNewDay = new System.Windows.Forms.Button();
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
-            this.gbNewDay = new System.Windows.Forms.GroupBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this._lb0_mini_income = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this._lb0_mini_wasted = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.botline0 = new System.Windows.Forms.Panel();
-            this._lb0_mini_Cash = new System.Windows.Forms.Label();
-            this._lb0_mini_Date = new System.Windows.Forms.Label();
-            this.bt_show0 = new System.Windows.Forms.Button();
             this.panel32 = new System.Windows.Forms.Panel();
             this.panel29 = new System.Windows.Forms.Panel();
             this.tbIncome = new System.Windows.Forms.TextBox();
@@ -99,10 +88,6 @@ namespace LoginWFsql
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
-            this.gbNewDay.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopStats
@@ -344,10 +329,10 @@ namespace LoginWFsql
             // 
             this.mainContainer.Panel1.AutoScroll = true;
             this.mainContainer.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.mainContainer.Panel1.Controls.Add(this.btCrateNewDay);
             this.mainContainer.Panel1.Controls.Add(this.cbMonth);
             this.mainContainer.Panel1.Controls.Add(this.lb_To_30);
             this.mainContainer.Panel1.Controls.Add(this.lb_To_7);
-            this.mainContainer.Panel1.Controls.Add(this.gbNewDay);
             this.mainContainer.Panel1.Cursor = System.Windows.Forms.Cursors.Default;
             // 
             // mainContainer.Panel2
@@ -381,6 +366,21 @@ namespace LoginWFsql
             this.mainContainer.SplitterDistance = 227;
             this.mainContainer.TabIndex = 1;
             // 
+            // btCrateNewDay
+            // 
+            this.btCrateNewDay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.btCrateNewDay.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.btCrateNewDay.FlatAppearance.BorderSize = 0;
+            this.btCrateNewDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btCrateNewDay.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
+            this.btCrateNewDay.ForeColor = System.Drawing.Color.White;
+            this.btCrateNewDay.Location = new System.Drawing.Point(3, 27);
+            this.btCrateNewDay.Name = "btCrateNewDay";
+            this.btCrateNewDay.Size = new System.Drawing.Size(204, 35);
+            this.btCrateNewDay.TabIndex = 13;
+            this.btCrateNewDay.Text = "CREATE NEW";
+            this.btCrateNewDay.UseVisualStyleBackColor = false;
+            // 
             // cbMonth
             // 
             this.cbMonth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
@@ -400,6 +400,7 @@ namespace LoginWFsql
             // 
             // lb_To_30
             // 
+            this.lb_To_30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.lb_To_30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lb_To_30.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lb_To_30.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -418,6 +419,7 @@ namespace LoginWFsql
             // 
             // lb_To_7
             // 
+            this.lb_To_7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.lb_To_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lb_To_7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lb_To_7.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -433,136 +435,6 @@ namespace LoginWFsql
             this.lb_To_7.MouseEnter += new System.EventHandler(this.lb_To_7_MouseEnter);
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
-            // 
-            // gbNewDay
-            // 
-            this.gbNewDay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
-            this.gbNewDay.Controls.Add(this.panel2);
-            this.gbNewDay.Controls.Add(this._lb0_mini_income);
-            this.gbNewDay.Controls.Add(this.pictureBox3);
-            this.gbNewDay.Controls.Add(this.panel1);
-            this.gbNewDay.Controls.Add(this._lb0_mini_wasted);
-            this.gbNewDay.Controls.Add(this.pictureBox2);
-            this.gbNewDay.Controls.Add(this.pictureBox1);
-            this.gbNewDay.Controls.Add(this.botline0);
-            this.gbNewDay.Controls.Add(this._lb0_mini_Cash);
-            this.gbNewDay.Controls.Add(this._lb0_mini_Date);
-            this.gbNewDay.Controls.Add(this.bt_show0);
-            this.gbNewDay.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.gbNewDay.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbNewDay.ForeColor = System.Drawing.Color.White;
-            this.gbNewDay.Location = new System.Drawing.Point(2, 25);
-            this.gbNewDay.Name = "gbNewDay";
-            this.gbNewDay.Size = new System.Drawing.Size(200, 60);
-            this.gbNewDay.TabIndex = 0;
-            this.gbNewDay.TabStop = false;
-            this.gbNewDay.Text = "gbDay0";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(99, 28);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(35, 1);
-            this.panel2.TabIndex = 7;
-            // 
-            // _lb0_mini_income
-            // 
-            this._lb0_mini_income.AutoEllipsis = true;
-            this._lb0_mini_income.Font = new System.Drawing.Font("a_LatinoNr", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lb0_mini_income.Location = new System.Drawing.Point(96, 15);
-            this._lb0_mini_income.Name = "_lb0_mini_income";
-            this._lb0_mini_income.Size = new System.Drawing.Size(41, 14);
-            this._lb0_mini_income.TabIndex = 6;
-            this._lb0_mini_income.Text = "190";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::LoginWFsql.Properties.Resources.money_Income;
-            this.pictureBox3.Location = new System.Drawing.Point(76, 8);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 6;
-            this.pictureBox3.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(99, 49);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(35, 1);
-            this.panel1.TabIndex = 5;
-            // 
-            // _lb0_mini_wasted
-            // 
-            this._lb0_mini_wasted.AutoEllipsis = true;
-            this._lb0_mini_wasted.Font = new System.Drawing.Font("a_LatinoNr", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lb0_mini_wasted.Location = new System.Drawing.Point(96, 36);
-            this._lb0_mini_wasted.Name = "_lb0_mini_wasted";
-            this._lb0_mini_wasted.Size = new System.Drawing.Size(41, 14);
-            this._lb0_mini_wasted.TabIndex = 4;
-            this._lb0_mini_wasted.Text = "76.53";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::LoginWFsql.Properties.Resources.money_wasted3;
-            this.pictureBox2.Location = new System.Drawing.Point(76, 29);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::LoginWFsql.Properties.Resources.purse3;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 24);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
-            // botline0
-            // 
-            this.botline0.BackColor = System.Drawing.Color.White;
-            this.botline0.Location = new System.Drawing.Point(28, 49);
-            this.botline0.Name = "botline0";
-            this.botline0.Size = new System.Drawing.Size(35, 1);
-            this.botline0.TabIndex = 3;
-            // 
-            // _lb0_mini_Cash
-            // 
-            this._lb0_mini_Cash.AutoEllipsis = true;
-            this._lb0_mini_Cash.Font = new System.Drawing.Font("a_LatinoNr", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lb0_mini_Cash.Location = new System.Drawing.Point(25, 36);
-            this._lb0_mini_Cash.Name = "_lb0_mini_Cash";
-            this._lb0_mini_Cash.Size = new System.Drawing.Size(40, 15);
-            this._lb0_mini_Cash.TabIndex = 1;
-            this._lb0_mini_Cash.Text = "1250";
-            // 
-            // _lb0_mini_Date
-            // 
-            this._lb0_mini_Date.AutoEllipsis = true;
-            this._lb0_mini_Date.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._lb0_mini_Date.Location = new System.Drawing.Point(145, 8);
-            this._lb0_mini_Date.Name = "_lb0_mini_Date";
-            this._lb0_mini_Date.Size = new System.Drawing.Size(54, 15);
-            this._lb0_mini_Date.TabIndex = 0;
-            this._lb0_mini_Date.Text = "15.04.2015";
-            // 
-            // bt_show0
-            // 
-            this.bt_show0.FlatAppearance.BorderSize = 0;
-            this.bt_show0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_show0.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_show0.Location = new System.Drawing.Point(145, 25);
-            this.bt_show0.Name = "bt_show0";
-            this.bt_show0.Size = new System.Drawing.Size(54, 30);
-            this.bt_show0.TabIndex = 8;
-            this.bt_show0.Text = "SHOW";
-            this.bt_show0.UseVisualStyleBackColor = true;
             // 
             // panel32
             // 
@@ -878,10 +750,6 @@ namespace LoginWFsql
             this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
-            this.gbNewDay.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -890,17 +758,6 @@ namespace LoginWFsql
 
         private System.Windows.Forms.Panel panelTopStats;
         private System.Windows.Forms.SplitContainer mainContainer;
-        private System.Windows.Forms.GroupBox gbNewDay;
-        private System.Windows.Forms.Label _lb0_mini_Date;
-        private System.Windows.Forms.Label _lb0_mini_Cash;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel botline0;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label _lb0_mini_wasted;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label _lb0_mini_income;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Button btEdit;
@@ -943,9 +800,9 @@ namespace LoginWFsql
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel29;
         private System.Windows.Forms.Panel panel32;
-        private System.Windows.Forms.Button bt_show0;
         private System.Windows.Forms.ComboBox cbMonth;
         private System.Windows.Forms.Label lb_To_30;
         private System.Windows.Forms.Label lb_To_7;
+        private System.Windows.Forms.Button btCrateNewDay;
     }
 }
