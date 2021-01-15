@@ -94,7 +94,7 @@ namespace LoginWFsql
             lb_in_come.AutoEllipsis = true;
             lb_in_come.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_in_come.Location = new Point(96, 15);
-            lb_in_come.Size = new Size(40, 15);
+            lb_in_come.Size = new Size(42, 15);
             lb_in_come.Text = in_come.ToString();
             //
             // lb_wasted
@@ -102,7 +102,7 @@ namespace LoginWFsql
             lb_wasted.AutoEllipsis = true;
             lb_wasted.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_wasted.Location = new Point(96, 36);
-            lb_wasted.Size = new Size(40, 15);
+            lb_wasted.Size = new Size(42, 15);
             lb_wasted.Text = wasted.ToString();
             //
             // lb_cash
@@ -116,10 +116,10 @@ namespace LoginWFsql
             // lb_date
             //
             lb_date.AutoEllipsis = true;
-            lb_date.Font = new Font("Arial Rounded MT Bold", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lb_date.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lb_date.BorderStyle = BorderStyle.FixedSingle;
-            lb_date.Location = new Point(145, 8); // 146
-            lb_date.Size = new Size(54, 15); // 58
+            lb_date.Location = new Point(145, 7);
+            lb_date.Size = new Size(58, 15); 
             lb_date.Text = date.ToShortDateString();
             //
             // bt_show
