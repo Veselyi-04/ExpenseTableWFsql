@@ -149,7 +149,7 @@ namespace LoginWFsql
                 reader.Close();
             }
 
-            command = new MySqlCommand(SqlCommand.main_command_str, db.getConnection());
+            command = new MySqlCommand(SqlCommand.main_command, db.getConnection());
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             reader = command.ExecuteReader();
 
@@ -204,7 +204,7 @@ namespace LoginWFsql
             }
 
             // создаем запрос
-            command = new MySqlCommand(SqlCommand.select_month_command_str, db.getConnection());
+            command = new MySqlCommand(SqlCommand.select_month_command, db.getConnection());
             // заменяем заглушки на реальные значения
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             command.Parameters.Add("@beforeMonth", MySqlDbType.DateTime).Value = beforeDate;
@@ -217,38 +217,30 @@ namespace LoginWFsql
 
             DateTime lastDay = new DateTime(year, int.Parse(month), count_days);
 
-            for (int i = 0; i < days.Length; i++)
+            int i = 0;
+            // читаем то что мы вытянули из БД
+            while (reader.Read())
             {
-                // читаем то что мы вытянули из БД
-                while (reader.Read())
+                DateTime currentDate = reader.GetDateTime(9);
+
+                while(currentDate != lastDay)
                 {
-                    // Узнаем дату дня который взяли из БД
-                    DateTime current = reader.GetDateTime(9);
+                    Get_empty_day(i, lastDay);
 
-                    // Ищем для нее место начиная с конца месяца (при выборе даты отсортированы от 1->0)
-                    while (current != lastDay)
-                    {
-                        // если несовпало, вставляем на ето место пустой день
-                        Get_empty_day(i, lastDay);
-
-                        // отнимаем день и снова проверяем current
-                        lastDay = lastDay.AddDays(-1);
-                        i++;
-                    }
-
-                    // если совпало то вставляем етот день в список(масив)
-                    Get_day_from_base(i);
-
-                    // отнимаем день и возвращаемся проверить reader.Read() есть ли там следущий день
                     lastDay = lastDay.AddDays(-1);
                     i++;
                 }
 
-                // если нет то до кона days.Length забиваем пустыми днями
-                Get_empty_day(i, lastDay);
-
-                // и все-же каждый раз отнимаем дату
+                Get_day_from_base(i);
                 lastDay = lastDay.AddDays(-1);
+                i++;
+            }
+
+            while(i < count_days)
+            {
+                Get_empty_day(i, lastDay);
+                lastDay = lastDay.AddDays(-1);
+                i++;
             }
 
             reader.Close();
@@ -311,8 +303,11 @@ namespace LoginWFsql
         /// </summary>
         private void Fill_ComboBox_Month()
         {
+            cbMonth.Items.Clear();
+            cbMonth.Items.Add(" ");
+
             db.openConnection();
-            command = new MySqlCommand(SqlCommand.fill_ComboBox_Month_str, db.getConnection());
+            command = new MySqlCommand(SqlCommand.fill_ComboBox_Month, db.getConnection());
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             reader = command.ExecuteReader();
 
@@ -343,7 +338,7 @@ namespace LoginWFsql
             int saved;
             db.openConnection();
             {
-                command = new MySqlCommand(SqlCommand.fill_topBar_command_str, db.getConnection());
+                command = new MySqlCommand(SqlCommand.fill_topBar_command, db.getConnection());
                 command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
                 reader = command.ExecuteReader();
 
@@ -429,8 +424,8 @@ namespace LoginWFsql
         /*________________________________________________________________*/
         #endregion
 
-        #region Кнопки <7 - <30 и ComboBoxMonth [LeftPanel]
-        /*______________Кнопки <7 - <30 и ComboBoxMonth___________________*/
+        #region Кнопки <7 - <30, ComboBoxMonth, CrateNewDay -[LeftPanel]
+        /*______________Кнопки <7 - <30, ComboBoxMonth, CrateNewDay___________________*/
         private void cbMonth_SelectionChangeCommited(object sender, EventArgs e)
         {
             string temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
@@ -447,16 +442,23 @@ namespace LoginWFsql
             Show_list_days_from_Select_Month();
         }
 
+        private void btCrateNewDay_Click(object sender, EventArgs e)
+        {
+            if (Check_state_edit())
+                return;
+            Create_New_Day_Handler(-1);
+        }
+
         private void lb_To_7_Click(object sender, EventArgs e)
         {
             Preparation_Panel_From_Show();
-            Show_list_days(7);
+            Show_list_days(6);
         }
 
         private void lb_To_30_Click(object sender, EventArgs e)
         {
             Preparation_Panel_From_Show();
-            Show_list_days(30);
+            Show_list_days(29);
         }
         private void Preparation_Panel_From_Show()
         {
@@ -553,71 +555,101 @@ namespace LoginWFsql
         private void btEdit_Click(object sender, EventArgs e)
         {
             Initialize_Text_Box();
-            create_button_Chanel_Save();
+            create_button_Chanel_Save(is_edit: true);
             state_edit = true;
-            tb_cash.Text = lbCash.Text;
-            tb_card.Text = lbCard.Text;
+            tb_Cash.Text = lbCash.Text;
+            tb_Card.Text = lbCard.Text;
             tb_OweMe.Text = lbOweMe.Text;
             tb_IOwe.Text = lbIOwe.Text;
-            tb_saved.Text = lbSaved.Text;
+            tb_Saved.Text = lbSaved.Text;
             tb_Wasted.Text = lbWasted.Text;
             tb_Income.Text = lbIncome.Text;
             tb_Wasted.Text = lbWasted.Text;
             tb_Income.Text = lbIncome.Text;
-        }
-
-        private void btCrateNewDay_Click(object sender, EventArgs e)
-        {
-            if (Check_state_edit())
-                return;
-            Create_New_Day_Handler(-1);
         }
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            //
-            //lbDate
-            //
+            command = new MySqlCommand(SqlCommand.Update_Day, db.getConnection());
+            command.Parameters.Add("@cash", MySqlDbType.String).Value = tb_Cash.Text;
+            command.Parameters.Add("@card", MySqlDbType.String).Value = tb_Card.Text;
+            command.Parameters.Add("@i_owe", MySqlDbType.String).Value = tb_IOwe.Text;
+            command.Parameters.Add("@owe_me", MySqlDbType.String).Value = tb_OweMe.Text;
+            command.Parameters.Add("@saved", MySqlDbType.String).Value = tb_Saved.Text;
+            command.Parameters.Add("@wasted", MySqlDbType.String).Value = tb_Wasted.Text;
+            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = tb_Wasted_Str.Text;
+            command.Parameters.Add("@in_come", MySqlDbType.String).Value = tb_Income.Text;
+            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
 
-            //
-            //lbCash
-            //
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = days[Id_selected_day].date;
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
 
-            //
-            //lbCard
-            //
+            db.openConnection();
 
-            //
-            //lbOweMe
-            //
+            try
+            {
+                command.ExecuteNonQuery();
+                db.closeConnection();
+            }
+            catch (MySqlException ex)
+            {
 
-            //
-            //lbIOwe
-            //
+                MessageBox.Show($"Неизвесная Ошибка \n {ex.Message}", $"Ошибка {ex.Number}!",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            //
-            //lbSaved
-            //
+            Clear_list_days();
+            Fill_Top_Bar();
+            Fill_Array_Days();
+            Show_list_days(30);
+            Cancel_Edit();
+        }
 
-            //
-            //lbWasted
-            //
+        private void btCreate_Click(object sender, EventArgs e)
+        {
+            command = new MySqlCommand(SqlCommand.Save_NewDay, db.getConnection());
 
-            //
-            //lbIncome
-            //
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            command.Parameters.Add("@cash", MySqlDbType.String).Value = tb_Cash.Text;
+            command.Parameters.Add("@card", MySqlDbType.String).Value = tb_Card.Text;
+            command.Parameters.Add("@i_owe", MySqlDbType.String).Value = tb_IOwe.Text;
+            command.Parameters.Add("@owe_me", MySqlDbType.String).Value = tb_OweMe.Text;
+            command.Parameters.Add("@saved", MySqlDbType.String).Value = tb_Saved.Text;
+            command.Parameters.Add("@wasted", MySqlDbType.String).Value = tb_Wasted.Text;
+            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = tb_Wasted_Str.Text;
+            command.Parameters.Add("@in_come", MySqlDbType.String).Value = tb_Income.Text;
+            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
 
-            //
-            //lb_Wasted_Str
-            //
+            db.openConnection();
 
-            //
-            //lb_In_Come_Str
-            //
-
-
-
-            //////////////////////////////////////////////////////////
+            try
+            {
+                command.ExecuteNonQuery();
+                db.closeConnection();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1062) // 1062 ошибка повторяющегося уникального ключа (в нашем случае ето дата)
+                {
+                    MessageBox.Show($"День с такой датой уже существует!\nВы можете отредактировать его!", "Ошибка 1062!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Неизвесная Ошибка \n {ex.Message}", $"Ошибка {ex.Number}!",
+                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+            
+            Clear_list_days();
+            Fill_Top_Bar();
+            Fill_ComboBox_Month();
+            Fill_Array_Days();
+            Show_list_days(30);
+            Cancel_Edit();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
@@ -628,12 +660,11 @@ namespace LoginWFsql
         private void Create_New_Day_Handler(int i = -1)
         {
             Initialize_Text_Box();
-            create_button_Chanel_Save();
             state_edit = true;
-            Id_selected_day = 0;
 
             if (i == -1)
             {
+                create_button_Chanel_Save(is_edit: false);
                 _dateTime = new DateTimePicker
                 {
                     Location = new Point(lbDate.Location.X, lbDate.Location.Y - 5),
@@ -650,15 +681,16 @@ namespace LoginWFsql
             }
             else
             {
+                create_button_Chanel_Save(is_edit: true);
                 lbDate.Text = days[i].date.ToShortDateString();
                 lbNameDay.Text = days[i].date.DayOfWeek.ToString();
             }
 
-            tb_cash.Text = "0";
-            tb_card.Text = "0";
+            tb_Cash.Text = "0";
+            tb_Card.Text = "0";
             tb_OweMe.Text = "0";
             tb_IOwe.Text = "0";
-            tb_saved.Text = "0";
+            tb_Saved.Text = "0";
             tb_Wasted.Text = "0";
             tb_Income.Text = "0";
             tb_Wasted.Text = "0";
@@ -670,19 +702,19 @@ namespace LoginWFsql
             state_edit = false;
             if (_dateTime != null)
                 mainContainer.Panel2.Controls.Remove(_dateTime);
-            mainContainer.Panel2.Controls.Remove(tb_cash);
-            mainContainer.Panel2.Controls.Remove(tb_card);
+            mainContainer.Panel2.Controls.Remove(tb_Cash);
+            mainContainer.Panel2.Controls.Remove(tb_Card);
             mainContainer.Panel2.Controls.Remove(tb_OweMe);
             mainContainer.Panel2.Controls.Remove(tb_IOwe);
-            mainContainer.Panel2.Controls.Remove(tb_saved);
+            mainContainer.Panel2.Controls.Remove(tb_Saved);
             mainContainer.Panel2.Controls.Remove(tb_Wasted);
             mainContainer.Panel2.Controls.Remove(tb_Income);
             mainContainer.Panel2.Controls.Remove(tb_Wasted_Str);
             mainContainer.Panel2.Controls.Remove(tb_In_Come_Str);
             mainContainer.Panel2.Controls.Remove(cancel);
-            mainContainer.Panel2.Controls.Remove(save);
+            mainContainer.Panel2.Controls.Remove(save_create);
 
-            Show_Selected_Day(Id_selected_day);
+            Show_Selected_Day(0);
 
             btEdit.Visible = true;
             lbDate.Visible = true;
@@ -697,7 +729,7 @@ namespace LoginWFsql
             lb_In_Come_Str.Visible = true;
         }
 
-        private void create_button_Chanel_Save()
+        private void create_button_Chanel_Save(bool is_edit)
         {
             btEdit.Visible = false;
             cancel = new Button
@@ -716,9 +748,8 @@ namespace LoginWFsql
             mainContainer.Panel2.Controls.Add(cancel);
             cancel.Click += btCancel_Click;
 
-            save = new Button
+            save_create = new Button
             {
-                Text = "SAVE",
                 Width = btEdit.Width / 2 - 2,
                 Height = btEdit.Height,
                 Location = new Point(cancel.Location.X + btEdit.Width / 2, cancel.Location.Y),
@@ -728,9 +759,19 @@ namespace LoginWFsql
                 ForeColor = btEdit.ForeColor,
                 TextAlign = btEdit.TextAlign,
             };
-            save.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
-            mainContainer.Panel2.Controls.Add(save);
-            save.Click += btSave_Click;
+            save_create.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
+            mainContainer.Panel2.Controls.Add(save_create);
+            
+            if (is_edit)
+            {
+                save_create.Text = "SAVE";
+                save_create.Click += btSave_Click;
+            }
+            else
+            {
+                save_create.Text = "CREATE";
+                save_create.Click += btCreate_Click;
+            }
         }
 
         private void Initialize_Text_Box()
@@ -741,35 +782,35 @@ namespace LoginWFsql
             //
             //lbCash
             //
-            tb_cash = new TextBox
+            tb_Cash = new TextBox
             {
                 Size = lbCash.Size,
                 Location = lbCash.Location
             };
-            tb_cash.BackColor = bColor;
-            tb_cash.ForeColor = fColor;
-            tb_cash.TextAlign = HorizontalAlignment.Center;
-            tb_cash.BorderStyle = BorderStyle.None;
-            tb_cash.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            tb_Cash.BackColor = bColor;
+            tb_Cash.ForeColor = fColor;
+            tb_Cash.TextAlign = HorizontalAlignment.Center;
+            tb_Cash.BorderStyle = BorderStyle.None;
+            tb_Cash.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
             lbCash.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_cash);
-            tb_cash.BringToFront();
+            mainContainer.Panel2.Controls.Add(tb_Cash);
+            tb_Cash.BringToFront();
             //
             //lbCard
             //
-            tb_card = new TextBox
+            tb_Card = new TextBox
             {
                 Size = lbCard.Size,
                 Location = lbCard.Location
             };
-            tb_card.BackColor = bColor;
-            tb_card.ForeColor = fColor;
-            tb_card.TextAlign = HorizontalAlignment.Center;
-            tb_card.BorderStyle = BorderStyle.None;
-            tb_card.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            tb_Card.BackColor = bColor;
+            tb_Card.ForeColor = fColor;
+            tb_Card.TextAlign = HorizontalAlignment.Center;
+            tb_Card.BorderStyle = BorderStyle.None;
+            tb_Card.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
             lbCard.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_card);
-            tb_card.BringToFront();
+            mainContainer.Panel2.Controls.Add(tb_Card);
+            tb_Card.BringToFront();
             //
             //lbOweMe
             //
@@ -805,18 +846,18 @@ namespace LoginWFsql
             //
             //lbSaved
             //
-            tb_saved = new TextBox
+            tb_Saved = new TextBox
             {
                 Size = lbSaved.Size,
                 Location = lbSaved.Location
             };
-            tb_saved.BackColor = bColor;
-            tb_saved.ForeColor = fColor;
-            tb_saved.TextAlign = HorizontalAlignment.Center;
-            tb_saved.BorderStyle = BorderStyle.None;
-            tb_saved.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            tb_Saved.BackColor = bColor;
+            tb_Saved.ForeColor = fColor;
+            tb_Saved.TextAlign = HorizontalAlignment.Center;
+            tb_Saved.BorderStyle = BorderStyle.None;
+            tb_Saved.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
             lbSaved.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_saved);
+            mainContainer.Panel2.Controls.Add(tb_Saved);
             //
             //lbWasted
             //
@@ -901,13 +942,13 @@ namespace LoginWFsql
         }
 
         Button cancel;
-        Button save;
+        Button save_create;
         DateTimePicker _dateTime;
-        TextBox tb_cash;
-        TextBox tb_card;
+        TextBox tb_Cash;
+        TextBox tb_Card;
         TextBox tb_OweMe;
         TextBox tb_IOwe;
-        TextBox tb_saved;
+        TextBox tb_Saved;
         TextBox tb_Wasted;
         TextBox tb_Income;
         TextBox tb_Wasted_Str;
