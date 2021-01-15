@@ -109,8 +109,10 @@
     <Content Include="image\eyeClose3.png" />
     <Content Include="image\eyeOpen3.png" />
     <Content Include="image\idCardName.png" />
+    <None Include="image\i_owe.png" />
     <Content Include="image\money.ico" />
     <Content Include="image\money.png" />
+    <None Include="Resources\i_owe.png" />
     <None Include="image\moneySaved.png" />
     <Content Include="image\money_wasted3.png" />
     <Content Include="image\password.png" />

@@ -83,6 +83,16 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap i_owe {
+            get {
+                object obj = ResourceManager.GetObject("i_owe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap idCardName {
             get {
                 object obj = ResourceManager.GetObject("idCardName", resourceCulture);

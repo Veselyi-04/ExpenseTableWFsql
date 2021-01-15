@@ -121,17 +121,20 @@
   <data name="state_null" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\state_null.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="idCardName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\image\idCardName.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="money" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\image\money.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="moneySaved2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\moneySaved2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="eyeOpen3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\image\eyeOpen3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="user5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\image\user5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="moneySaved" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\moneySaved.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="password" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\image\password.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,13 +169,13 @@
   <data name="money_wasted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\money_wasted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="idCardName" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\image\idCardName.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="moneySaved" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\moneySaved.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="state_income" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\state_income.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="moneySaved2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\moneySaved2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="i_owe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\i_owe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

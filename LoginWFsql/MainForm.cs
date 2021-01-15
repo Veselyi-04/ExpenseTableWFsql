@@ -25,7 +25,13 @@ namespace LoginWFsql
         private readonly LoginForm LF;
 
         /*Масив с таблице дней (которая слева)*/
-        public Day[] days;
+        private Day[] days;
+
+        // Для проверки находимся ли мы сейчас в редакторе
+        private bool state_edit;
+
+        // Для того чтобы выводить ранее выбраный день полсе отмены редактирования
+        private int Id_selected_day;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -41,7 +47,7 @@ namespace LoginWFsql
             Fill_ComboBox_Month();
             Fill_Array_Days();
             Show_list_days(30);
-            Show_Selected_Day();
+            Show_Selected_Day(0);
         }
 
         /// <summary>
@@ -58,6 +64,7 @@ namespace LoginWFsql
                     return;
 
                 days[i].Create_New_Group_Box();
+                days[i].Click_Button += new DayEventHandler (Day_click_Handler);
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
@@ -72,10 +79,21 @@ namespace LoginWFsql
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box();
+                days[i].Click_Button += new DayEventHandler(Day_click_Handler);
                 days[i].GroupBox.Location = new Point(2, (65 * i + 25));
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
+        }
+
+        private void Day_click_Handler(int INDEX)
+        {
+            if (Check_state_edit())
+                return;
+            if (days[INDEX].is_empty)
+                Create_New_Day_Handler(INDEX);
+            else
+                Show_Selected_Day(INDEX);
         }
 
         /// <summary>
@@ -98,7 +116,7 @@ namespace LoginWFsql
         /// Выводит информацию о выбраном дне на главую панель
         /// </summary>
         /// <param name="i"> индекс дня</param>
-        private void Show_Selected_Day(int i = 0)
+        private void Show_Selected_Day(int i)
         {
             lbNameDay.Text = days[i].date.DayOfWeek.ToString();
             lbDate.Text = days[i].date.ToShortDateString();
@@ -108,9 +126,10 @@ namespace LoginWFsql
             lbOweMe.Text = days[i].owe_me.ToString();
             lbSaved.Text = days[i].saved.ToString();
             lbWasted.Text = days[i].wasted.ToString();
-            tbWasted.Text = days[i].str_wasted;
+            lb_Wasted_Str.Text = days[i].str_wasted;
             lbIncome.Text = days[i].in_come.ToString();
-            tbIncome.Text = days[i].str_income;
+            lb_In_Come_Str.Text = days[i].str_income;
+            Id_selected_day = i;
         }
 
         /// <summary>
@@ -347,6 +366,8 @@ namespace LoginWFsql
 
         }
 
+
+        #region Кнопки закрыть/свернуть и движение окна [TopPanel]
         /*_________Кнопки закрыть/свернуть и движение окна________________*/
         private void btClose_Click(object sender, EventArgs e)
         {
@@ -406,7 +427,9 @@ namespace LoginWFsql
             this.btMinimize.BackColor = Color.FromArgb(23, 34,59);
         }
         /*________________________________________________________________*/
+        #endregion
 
+        #region Кнопки <7 - <30 и ComboBoxMonth [LeftPanel]
         /*______________Кнопки <7 - <30 и ComboBoxMonth___________________*/
         private void cbMonth_SelectionChangeCommited(object sender, EventArgs e)
         {
@@ -524,5 +547,370 @@ namespace LoginWFsql
             button.BackColor = Color.FromArgb(r, g, b);
         }
         /*________________________________________________________________*/
+        #endregion
+        
+
+        private void btEdit_Click(object sender, EventArgs e)
+        {
+            Initialize_Text_Box();
+            create_button_Chanel_Save();
+            state_edit = true;
+            tb_cash.Text = lbCash.Text;
+            tb_card.Text = lbCard.Text;
+            tb_OweMe.Text = lbOweMe.Text;
+            tb_IOwe.Text = lbIOwe.Text;
+            tb_saved.Text = lbSaved.Text;
+            tb_Wasted.Text = lbWasted.Text;
+            tb_Income.Text = lbIncome.Text;
+            tb_Wasted.Text = lbWasted.Text;
+            tb_Income.Text = lbIncome.Text;
+        }
+
+        private void btCrateNewDay_Click(object sender, EventArgs e)
+        {
+            if (Check_state_edit())
+                return;
+            Create_New_Day_Handler(-1);
+        }
+
+        private void btSave_Click(object sender, EventArgs e)
+        {
+            //
+            //lbDate
+            //
+
+            //
+            //lbCash
+            //
+
+            //
+            //lbCard
+            //
+
+            //
+            //lbOweMe
+            //
+
+            //
+            //lbIOwe
+            //
+
+            //
+            //lbSaved
+            //
+
+            //
+            //lbWasted
+            //
+
+            //
+            //lbIncome
+            //
+
+            //
+            //lb_Wasted_Str
+            //
+
+            //
+            //lb_In_Come_Str
+            //
+
+
+
+            //////////////////////////////////////////////////////////
+        }
+
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            Cancel_Edit();
+        }
+
+        private void Create_New_Day_Handler(int i = -1)
+        {
+            Initialize_Text_Box();
+            create_button_Chanel_Save();
+            state_edit = true;
+            Id_selected_day = 0;
+
+            if (i == -1)
+            {
+                _dateTime = new DateTimePicker
+                {
+                    Location = new Point(lbDate.Location.X, lbDate.Location.Y - 5),
+                    Value = DateTime.Parse(lbDate.Text),
+                    Width = 150,
+                    Format = DateTimePickerFormat.Short,
+                    MaxDate = DateTime.Now,
+                    Font = lbDate.Font
+                };
+                _dateTime.ValueChanged += _dateTime_ValueChanged;
+                mainContainer.Panel2.Controls.Add(_dateTime);
+                _dateTime.BringToFront();
+                lbDate.Visible = false;
+            }
+            else
+            {
+                lbDate.Text = days[i].date.ToShortDateString();
+                lbNameDay.Text = days[i].date.DayOfWeek.ToString();
+            }
+
+            tb_cash.Text = "0";
+            tb_card.Text = "0";
+            tb_OweMe.Text = "0";
+            tb_IOwe.Text = "0";
+            tb_saved.Text = "0";
+            tb_Wasted.Text = "0";
+            tb_Income.Text = "0";
+            tb_Wasted.Text = "0";
+            tb_Income.Text = "0";
+        }
+
+        private void Cancel_Edit()
+        {
+            state_edit = false;
+            if (_dateTime != null)
+                mainContainer.Panel2.Controls.Remove(_dateTime);
+            mainContainer.Panel2.Controls.Remove(tb_cash);
+            mainContainer.Panel2.Controls.Remove(tb_card);
+            mainContainer.Panel2.Controls.Remove(tb_OweMe);
+            mainContainer.Panel2.Controls.Remove(tb_IOwe);
+            mainContainer.Panel2.Controls.Remove(tb_saved);
+            mainContainer.Panel2.Controls.Remove(tb_Wasted);
+            mainContainer.Panel2.Controls.Remove(tb_Income);
+            mainContainer.Panel2.Controls.Remove(tb_Wasted_Str);
+            mainContainer.Panel2.Controls.Remove(tb_In_Come_Str);
+            mainContainer.Panel2.Controls.Remove(cancel);
+            mainContainer.Panel2.Controls.Remove(save);
+
+            Show_Selected_Day(Id_selected_day);
+
+            btEdit.Visible = true;
+            lbDate.Visible = true;
+            lbCash.Visible = true;
+            lbCard.Visible = true;
+            lbOweMe.Visible = true;
+            lbIOwe.Visible = true;
+            lbSaved.Visible = true;
+            lbWasted.Visible = true;
+            lbIncome.Visible = true;
+            lb_Wasted_Str.Visible = true;
+            lb_In_Come_Str.Visible = true;
+        }
+
+        private void create_button_Chanel_Save()
+        {
+            btEdit.Visible = false;
+            cancel = new Button
+            {
+                Text = "CANCEL",
+                Width = btEdit.Width / 2 - 2,
+                Height = btEdit.Height,
+                Location = btEdit.Location,
+                BackColor = btEdit.BackColor,
+                FlatStyle = btEdit.FlatStyle,
+                Font = btEdit.Font,
+                ForeColor = btEdit.ForeColor,
+                TextAlign = btEdit.TextAlign,
+            };
+            cancel.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
+            mainContainer.Panel2.Controls.Add(cancel);
+            cancel.Click += btCancel_Click;
+
+            save = new Button
+            {
+                Text = "SAVE",
+                Width = btEdit.Width / 2 - 2,
+                Height = btEdit.Height,
+                Location = new Point(cancel.Location.X + btEdit.Width / 2, cancel.Location.Y),
+                BackColor = btEdit.BackColor,
+                FlatStyle = btEdit.FlatStyle,
+                Font = btEdit.Font,
+                ForeColor = btEdit.ForeColor,
+                TextAlign = btEdit.TextAlign,
+            };
+            save.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
+            mainContainer.Panel2.Controls.Add(save);
+            save.Click += btSave_Click;
+        }
+
+        private void Initialize_Text_Box()
+        {
+            Color bColor = mainContainer.BackColor;
+            Color fColor = Color.Gray;
+
+            //
+            //lbCash
+            //
+            tb_cash = new TextBox
+            {
+                Size = lbCash.Size,
+                Location = lbCash.Location
+            };
+            tb_cash.BackColor = bColor;
+            tb_cash.ForeColor = fColor;
+            tb_cash.TextAlign = HorizontalAlignment.Center;
+            tb_cash.BorderStyle = BorderStyle.None;
+            tb_cash.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbCash.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_cash);
+            tb_cash.BringToFront();
+            //
+            //lbCard
+            //
+            tb_card = new TextBox
+            {
+                Size = lbCard.Size,
+                Location = lbCard.Location
+            };
+            tb_card.BackColor = bColor;
+            tb_card.ForeColor = fColor;
+            tb_card.TextAlign = HorizontalAlignment.Center;
+            tb_card.BorderStyle = BorderStyle.None;
+            tb_card.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbCard.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_card);
+            tb_card.BringToFront();
+            //
+            //lbOweMe
+            //
+            tb_OweMe = new TextBox
+            {
+                Size = lbOweMe.Size,
+                Location = lbOweMe.Location
+            };
+            tb_OweMe.BackColor = bColor;
+            tb_OweMe.ForeColor = fColor;
+            tb_OweMe.TextAlign = HorizontalAlignment.Center;
+            tb_OweMe.BorderStyle = BorderStyle.None;
+            tb_OweMe.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbOweMe.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_OweMe);
+            tb_OweMe.BringToFront();
+            //
+            //lbIOwe
+            //
+            tb_IOwe = new TextBox
+            {
+                Size = lbIOwe.Size,
+                Location = lbIOwe.Location
+            };
+            tb_IOwe.BackColor = bColor;
+            tb_IOwe.ForeColor = fColor;
+            tb_IOwe.TextAlign = HorizontalAlignment.Center;
+            tb_IOwe.BorderStyle = BorderStyle.None;
+            tb_IOwe.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbIOwe.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_IOwe);
+            tb_IOwe.BringToFront();
+            //
+            //lbSaved
+            //
+            tb_saved = new TextBox
+            {
+                Size = lbSaved.Size,
+                Location = lbSaved.Location
+            };
+            tb_saved.BackColor = bColor;
+            tb_saved.ForeColor = fColor;
+            tb_saved.TextAlign = HorizontalAlignment.Center;
+            tb_saved.BorderStyle = BorderStyle.None;
+            tb_saved.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbSaved.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_saved);
+            //
+            //lbWasted
+            //
+            tb_Wasted = new TextBox
+            {
+                Size = lbWasted.Size,
+                Location = lbWasted.Location
+            };
+            tb_Wasted.BackColor = bColor;
+            tb_Wasted.ForeColor = fColor;
+            tb_Wasted.TextAlign = HorizontalAlignment.Center;
+            tb_Wasted.BorderStyle = BorderStyle.None;
+            tb_Wasted.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbWasted.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_Wasted);
+            //
+            //lbIncome
+            //
+            tb_Income = new TextBox
+            {
+                Size = lbIncome.Size,
+                Location = lbIncome.Location
+            };
+            tb_Income.BackColor = bColor;
+            tb_Income.ForeColor = fColor;
+            tb_Income.TextAlign = HorizontalAlignment.Center;
+            tb_Income.BorderStyle = BorderStyle.None;
+            tb_Income.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            lbIncome.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_Income);
+            //
+            //lb_Wasted_Str
+            //
+            tb_Wasted_Str = new TextBox
+            {
+                Size = lb_Wasted_Str.Size,
+                Location = lb_Wasted_Str.Location
+            };
+            tb_Wasted_Str.BackColor = Color.FromArgb(35, 35, 35);
+            tb_Wasted_Str.ForeColor = fColor;
+            tb_Wasted_Str.TextAlign = HorizontalAlignment.Left;
+            tb_Wasted_Str.BorderStyle = BorderStyle.None;
+            tb_Wasted_Str.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            tb_Wasted_Str.Multiline = true;
+            tb_Wasted_Str.ScrollBars = ScrollBars.Vertical;
+            lb_Wasted_Str.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_Wasted_Str);
+            //
+            //lb_In_Come_Str
+            //
+            tb_In_Come_Str = new TextBox
+            {
+                Size = lb_In_Come_Str.Size,
+                Location = lb_In_Come_Str.Location
+            };
+            tb_In_Come_Str.BackColor = Color.FromArgb(35, 35, 35);
+            tb_In_Come_Str.ForeColor = fColor;
+            tb_In_Come_Str.TextAlign = HorizontalAlignment.Left;
+            tb_In_Come_Str.BorderStyle = BorderStyle.None;
+            tb_In_Come_Str.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
+            tb_In_Come_Str.Multiline = true;
+            tb_In_Come_Str.ScrollBars = ScrollBars.Vertical;
+
+            lb_In_Come_Str.Visible = false;
+            mainContainer.Panel2.Controls.Add(tb_In_Come_Str);
+            //////////////////////////////////////////////////////////
+        }
+
+        private void _dateTime_ValueChanged(object sender, EventArgs e)
+        {
+            lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
+        }
+
+        private bool Check_state_edit()
+        {
+            if (state_edit)
+            {
+                MessageBox.Show("Завершите редактировани", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return true;
+            }
+            return false;
+        }
+
+        Button cancel;
+        Button save;
+        DateTimePicker _dateTime;
+        TextBox tb_cash;
+        TextBox tb_card;
+        TextBox tb_OweMe;
+        TextBox tb_IOwe;
+        TextBox tb_saved;
+        TextBox tb_Wasted;
+        TextBox tb_Income;
+        TextBox tb_Wasted_Str;
+        TextBox tb_In_Come_Str;
     }
 }

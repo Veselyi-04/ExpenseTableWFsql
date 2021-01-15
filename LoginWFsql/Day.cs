@@ -8,8 +8,10 @@ using System.Windows.Forms;
 
 namespace LoginWFsql
 {
+    public delegate void DayEventHandler(int INDEX);
     public class Day
     {
+        
         private readonly int index;
         public float cash;
         public float card;
@@ -25,6 +27,8 @@ namespace LoginWFsql
         public Color emptyColor = Color.Gray;
         public bool is_show = false;
         public bool is_empty = false;
+
+        public event DayEventHandler Click_Button = null;
 
         public Day(int index)
         {
@@ -81,8 +85,8 @@ namespace LoginWFsql
             GroupBox.Cursor = Cursors.Hand;
             GroupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             GroupBox.ForeColor = Color.White; // 65 ето ширина груп бокса
-            GroupBox.Location = new Point(2, (65 * index + 67)); // 68 ето начальное минимальное положение так как выше еще есть кнопки
-            GroupBox.Size = new Size(200, 60);
+            GroupBox.Location = new Point(4, (65 * index + 67)); // 68 ето начальное минимальное положение так как выше еще есть кнопки
+            GroupBox.Size = new Size(204, 60);
             GroupBox.Text = date.DayOfWeek.ToString();
             //
             // lb_in_come
@@ -127,6 +131,8 @@ namespace LoginWFsql
             bt_show.Size = new Size(54, 30);//58
             bt_show.Text = "SHOW";
             bt_show.UseVisualStyleBackColor = true;
+            bt_show.Click += new EventHandler(Invoke_Event);
+
             //
             // pb_wasted
             //
@@ -194,9 +200,9 @@ namespace LoginWFsql
             GroupBox.BackColor = Color.FromArgb(45, 45, 45);
             GroupBox.Font = new Font("Arial Rounded MT", 8.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             GroupBox.ForeColor = emptyColor;
-            GroupBox.Size = new Size(200, 60);
+            GroupBox.Size = new Size(204, 60);
             //GroupBox.Scale(new SizeF(0.95f, 0.95f));
-            GroupBox.Location = new Point(5, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть 3 кнопки (3 потомучто 4 мы скрываем)
+            GroupBox.Location = new Point(4, (65 * index + 25)); // 25 ето начальное минимальное положение так как выше еще есть 3 кнопки (3 потомучто 4 мы скрываем)
             GroupBox.Text = date.DayOfWeek.ToString();
             //
             // lb_date
@@ -218,7 +224,12 @@ namespace LoginWFsql
             bt_show.Location = new Point(3, 14);
             bt_show.Size = new Size(194, 39);
             bt_show.UseVisualStyleBackColor = true;
+            bt_show.Click += new EventHandler(Invoke_Event);
             //bt_show.BackColor = Color.FromArgb(55, 55, 55);
+        }
+        private void Invoke_Event(object sender, EventArgs e)
+        {
+            Click_Button.Invoke(index);
         }
 
         /// <summary>
@@ -235,7 +246,7 @@ namespace LoginWFsql
         private Label lb_wasted;
         private Label lb_cash;
         private Label lb_date;
-        private Button bt_show;
+        public Button bt_show { get; set; }
         private PictureBox pb_wasted;
         private PictureBox pb_cash;
         private PictureBox pb_income;
