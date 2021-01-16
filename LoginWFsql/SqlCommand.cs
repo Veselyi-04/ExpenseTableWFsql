@@ -34,5 +34,7 @@ namespace LoginWFsql
         static public string Update_Day = "UPDATE `days` SET `cash` = @cash, `card` = @card, `i_owe` = @i_owe, `owe_me` = @owe_me, " +
             "`saved` = @saved, `wasted` = @wasted, `str_wasted` = @str_wasted, `in_come` = @in_come, `str_in_come` = @str_in_come " +
             "WHERE days.date = @date AND days.id_user = @currentUserID";
+
+        static public string Delete_Day = "DELETE FROM `days` WHERE `days`.`date` = @date AND days.id_user = @currentUserID";
     }
 }

@@ -27,10 +27,15 @@ namespace LoginWFsql
         /*Масив с таблице дней (которая слева)*/
         private Day[] days;
 
-        // Для проверки находимся ли мы сейчас в редакторе
+        /// <summary>
+        /// Для проверки находимся ли мы сейчас в редакторе
+        /// </summary>
         private bool state_edit;
 
         // Для того чтобы выводить ранее выбраный день полсе отмены редактирования
+        /// <summary>
+        /// Запоминает последний день который мы выводили в MainPanel
+        /// </summary>
         private int Id_selected_day;
 
         public MainForm(LoginForm lf, int id)
@@ -64,7 +69,7 @@ namespace LoginWFsql
                     return;
 
                 days[i].Create_New_Group_Box();
-                days[i].Click_Button += new DayEventHandler (Day_click_Handler);
+                days[i].Click_Button += new DayEventHandler (btShow_click_Handler);
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
@@ -79,21 +84,26 @@ namespace LoginWFsql
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box();
-                days[i].Click_Button += new DayEventHandler(Day_click_Handler);
+                days[i].Click_Button += new DayEventHandler(btShow_click_Handler);
                 days[i].GroupBox.Location = new Point(2, (65 * i + 25));
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
         }
 
-        private void Day_click_Handler(int INDEX)
+        /// <summary>
+        /// Обработчик нажатия кнопки SHOW\/Принимает индекс дня
+        /// </summary>
+        /// <param name="INDEX">Индекс дня, на котором мы нажали кнопку</param>
+        private void btShow_click_Handler(int INDEX)
         {
             if (Check_state_edit())
                 return;
-            if (days[INDEX].is_empty)
-                Create_New_Day_Handler(INDEX);
+            // Тут определяем етот день пустой или нет
+            if (days[INDEX].is_empty) 
+                Create_New_Day_Handler(INDEX); // Да: ТОгда ето кнопка создания дня.
             else
-                Show_Selected_Day(INDEX);
+                Show_Selected_Day(INDEX); // Нет: тогда ето кнопка SHOW и мы показываем етот день
         }
 
         /// <summary>
@@ -267,14 +277,14 @@ namespace LoginWFsql
         private void Get_day_from_base(int i)
         {
             days[i] = new Day(i);
-            days[i].cash = reader.GetInt32(0);
-            days[i].card = reader.GetInt32(1);
-            days[i].i_owe = reader.GetInt32(2);
-            days[i].owe_me = reader.GetInt32(3);
-            days[i].saved = reader.GetInt32(4);
-            days[i].wasted = reader.GetInt32(5);
+            days[i].cash = reader.GetFloat(0);
+            days[i].card = reader.GetFloat(1);
+            days[i].i_owe = reader.GetFloat(2);
+            days[i].owe_me = reader.GetFloat(3);
+            days[i].saved = reader.GetFloat(4);
+            days[i].wasted = reader.GetFloat(5);
             days[i].str_wasted = reader.GetString(6);
-            days[i].in_come = reader.GetInt32(7);
+            days[i].in_come = reader.GetFloat(7);
             days[i].str_income = reader.GetString(8);
             days[i].date = reader.GetDateTime(9);
         }
@@ -361,14 +371,22 @@ namespace LoginWFsql
 
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопок для создания нового дня, (для основной кнопки и кнопки на пустом ГрупБоксе)
+        /// i= индекс выбраного дня(если ето кнопка груп бокса) иначе = -1 (ето основная кнопка)
+        /// </summary>
+        /// <param name="i"> При нажатии на ГрупБокс принимает индекс нужного дня</param>
         private void Create_New_Day_Handler(int i = -1)
         {
             Initialize_Text_Box();
             state_edit = true;
 
+            create_button_Chanel_Save(is_edit: false);
+
+            // Если -1  то ето основная кнопка
             if (i == -1)
             {
-                create_button_Chanel_Save(is_edit: false);
+                // В таком случае нам нужен DateTimePicker
                 _dateTime = new DateTimePicker
                 {
                     Location = new Point(lbDate.Location.X, lbDate.Location.Y - 5),
@@ -383,13 +401,14 @@ namespace LoginWFsql
                 _dateTime.BringToFront();
                 lbDate.Visible = false;
             }
-            else
+            else // Иначе ето нажата кнопка груп бокса и у нас есть индекс нужного дня
             {
-                create_button_Chanel_Save(is_edit: true);
+                // DateTimePicker нам не нужен так как дата уже установлена
                 lbDate.Text = days[i].date.ToShortDateString();
                 lbNameDay.Text = days[i].date.DayOfWeek.ToString();
             }
 
+            // Все поля устанавливаем по стандарту
             tb_Cash.Text = "0";
             tb_Card.Text = "0";
             tb_OweMe.Text = "0";
@@ -399,6 +418,41 @@ namespace LoginWFsql
             tb_Income.Text = "0";
             tb_Wasted.Text = "0";
             tb_Income.Text = "0";
+        }
+
+        private void Delete_Day()
+        {
+            command = new MySqlCommand(SqlCommand.Delete_Day, db.getConnection());
+
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = days[Id_selected_day].date;
+
+            db.openConnection();
+
+            try
+            {
+                command.ExecuteNonQuery();
+                db.openConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвесная ошибка\n {ex.Message}");
+                return;
+            }
+
+            Clear_list_days();
+            Fill_Top_Bar();
+            if (cbMonth.SelectedIndex == -1)
+            {
+                Fill_Array_Days();
+                Show_list_days(6);
+                Fill_ComboBox_Month();
+            }
+            else
+            {
+                Fill_Array_Days_from_Select_Month();
+                Show_list_days_from_Select_Month();
+            }
         }
 
 
@@ -471,6 +525,7 @@ namespace LoginWFsql
             string temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
             if (temp == " ")
             {
+                cbMonth.SelectedIndex = -1;
                 Clear_list_days();
                 Fill_Array_Days();
                 Show_list_days(30);
@@ -482,6 +537,9 @@ namespace LoginWFsql
             Show_list_days_from_Select_Month();
         }
 
+        /// <summary>
+        /// Кнопка CrateNewDay над листом дней
+        /// </summary>
         private void btCrateNewDay_Click(object sender, EventArgs e)
         {
             if (Check_state_edit())
@@ -493,24 +551,18 @@ namespace LoginWFsql
         {
             Preparation_Panel_From_Show();
             Show_list_days(6);
+            Show_Selected_Day(0);
         }
 
         private void lb_To_30_Click(object sender, EventArgs e)
         {
             Preparation_Panel_From_Show();
             Show_list_days(29);
+            Show_Selected_Day(0);
         }
         private void Preparation_Panel_From_Show()
         {
-            string temp;
-
-            // проверка на то не стоит ли там стандартное значение (тоесть: ничего не выбрано)
-            if (cbMonth.SelectedIndex == -1)
-                temp = " ";
-            else
-                temp = cbMonth.Items[cbMonth.SelectedIndex].ToString();
-
-            if (temp != " ")// Если раннее был выведен список дней выбраного месяца, ТО:
+            if (cbMonth.SelectedIndex != -1)// Если раннее был выведен список дней выбраного месяца, ТО:
             {
                 // 1) его надо почистить
                 Clear_list_days();
@@ -611,59 +663,33 @@ namespace LoginWFsql
         private void btSave_Click(object sender, EventArgs e)
         {
             command = new MySqlCommand(SqlCommand.Update_Day, db.getConnection());
-            command.Parameters.Add("@cash", MySqlDbType.String).Value = tb_Cash.Text;
-            command.Parameters.Add("@card", MySqlDbType.String).Value = tb_Card.Text;
-            command.Parameters.Add("@i_owe", MySqlDbType.String).Value = tb_IOwe.Text;
-            command.Parameters.Add("@owe_me", MySqlDbType.String).Value = tb_OweMe.Text;
-            command.Parameters.Add("@saved", MySqlDbType.String).Value = tb_Saved.Text;
-            command.Parameters.Add("@wasted", MySqlDbType.String).Value = tb_Wasted.Text;
-            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = tb_Wasted_Str.Text;
-            command.Parameters.Add("@in_come", MySqlDbType.String).Value = tb_Income.Text;
-            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
-
-            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = days[Id_selected_day].date;
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-
-            db.openConnection();
-
-            try
-            {
-                command.ExecuteNonQuery();
-                db.closeConnection();
-            }
-            catch (MySqlException ex)
-            {
-
-                MessageBox.Show($"Неизвесная Ошибка \n {ex.Message}", $"Ошибка {ex.Number}!",
-                   MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            Clear_list_days();
-            Fill_Top_Bar();
-            Fill_Array_Days();
-            Show_list_days(30);
-            Cancel_Edit();
+            
+            bt_create_save_Handler();
         }
 
-        private void btCreate_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обраотчик нажатия кнопок Create, Save
+        /// </summary>
+        private void bt_create_save_Handler()
         {
-            command = new MySqlCommand(SqlCommand.Save_NewDay, db.getConnection());
-
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            command.Parameters.Add("@cash", MySqlDbType.String).Value = tb_Cash.Text;
-            command.Parameters.Add("@card", MySqlDbType.String).Value = tb_Card.Text;
-            command.Parameters.Add("@i_owe", MySqlDbType.String).Value = tb_IOwe.Text;
-            command.Parameters.Add("@owe_me", MySqlDbType.String).Value = tb_OweMe.Text;
-            command.Parameters.Add("@saved", MySqlDbType.String).Value = tb_Saved.Text;
-            command.Parameters.Add("@wasted", MySqlDbType.String).Value = tb_Wasted.Text;
+            command.Parameters.Add("@cash", MySqlDbType.Float).Value = tb_Cash.Text;
+            command.Parameters.Add("@card", MySqlDbType.Float).Value = tb_Card.Text;
+            command.Parameters.Add("@i_owe", MySqlDbType.Float).Value = tb_IOwe.Text;
+            command.Parameters.Add("@owe_me", MySqlDbType.Float).Value = tb_OweMe.Text;
+            command.Parameters.Add("@saved", MySqlDbType.Float).Value = tb_Saved.Text;
+            command.Parameters.Add("@wasted", MySqlDbType.Float).Value = tb_Wasted.Text;
             command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = tb_Wasted_Str.Text;
-            command.Parameters.Add("@in_come", MySqlDbType.String).Value = tb_Income.Text;
+            command.Parameters.Add("@in_come", MySqlDbType.Float).Value = tb_Income.Text;
             command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
-            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
+
+            // Если _dateTime = null, значит мы находимся в редакторе дня а не в создании нового, и дата там уже установлена в lbDate 
+            if (_dateTime != null)
+                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
+            else
+                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text);
 
             db.openConnection();
-
             try
             {
                 command.ExecuteNonQuery();
@@ -673,7 +699,15 @@ namespace LoginWFsql
             {
                 if (ex.Number == 1062) // 1062 ошибка повторяющегося уникального ключа (в нашем случае ето дата)
                 {
-                    MessageBox.Show($"День с такой датой уже существует!\nВы можете отредактировать его!", "Ошибка 1062!",
+                    MessageBox.Show($"День с такой датой уже существует!\nВы можете отредактировать его!\n" +
+                        $"{ex.Message}", "Ошибка 1062!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (ex.Number == 1265)
+                {
+                    MessageBox.Show($"Поля предназначеные для чисел \n" +
+                        $"Не должны содержать других символов кроме точки!\n" +
+                        $"{ex.Message}", "Ошибка 1265!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -683,20 +717,33 @@ namespace LoginWFsql
                 }
                 return;
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", $"Ошибка!",
+                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             
-            Clear_list_days();
-            Fill_Top_Bar();
-            Fill_ComboBox_Month();
-            Fill_Array_Days();
-            Show_list_days(30);
-            Cancel_Edit();
+            End_Edit();
+        }
+        private void btCreate_Click(object sender, EventArgs e)
+        {
+            command = new MySqlCommand(SqlCommand.Save_NewDay, db.getConnection());
+           
+            bt_create_save_Handler();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            Cancel_Edit();
+            preparation_main_panel();
+            Show_Selected_Day(Id_selected_day);
         }
 
+        /// <summary>
+        /// Создает кнопку "Save" либо "Create"
+        /// </summary>
+        /// <param name="is_edit">True = Save; False = Create;</param>
         private void create_button_Chanel_Save(bool is_edit)
         {
             btEdit.Visible = false;
@@ -742,7 +789,10 @@ namespace LoginWFsql
             }
         }
 
-        private void Cancel_Edit()
+        /// <summary>
+        /// Подготовка панели для заканчивания редагирования либо отмены редагирования
+        /// </summary>
+        private void preparation_main_panel()
         {
             state_edit = false;
             if (_dateTime != null)
@@ -759,8 +809,6 @@ namespace LoginWFsql
             mainContainer.Panel2.Controls.Remove(cancel);
             mainContainer.Panel2.Controls.Remove(save_create);
 
-            Show_Selected_Day(0);
-
             btEdit.Visible = true;
             lbDate.Visible = true;
             lbCash.Visible = true;
@@ -774,21 +822,55 @@ namespace LoginWFsql
             lb_In_Come_Str.Visible = true;
         }
 
+        /// <summary>
+        /// Завершивание редактирования\создания дня
+        /// </summary>
+        private void End_Edit()
+        {
+            preparation_main_panel();
+
+            Clear_list_days();
+            Fill_Top_Bar();
+            if (cbMonth.SelectedIndex == -1)
+            {
+                Fill_Array_Days();
+                Show_list_days(6);
+                Fill_ComboBox_Month();
+            }
+            else
+            {
+                Fill_Array_Days_from_Select_Month();
+                Show_list_days_from_Select_Month();
+            }
+
+            Show_Selected_Day(Id_selected_day);
+        }
+
+        /// <summary>
+        /// При создании дня - lbNameDay будет менятся в зависиости от выбраного дня в DateTimePicker
+        /// </summary>
         private void _dateTime_ValueChanged(object sender, EventArgs e)
         {
             lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
         }
 
+        /// <summary>
+        /// Проверка находимся ли мы сейчас в состояние редагирования\создания или нет.
+        /// </summary>
+        /// <returns>[True]-[False]</returns>
         private bool Check_state_edit()
         {
             if (state_edit)
             {
-                MessageBox.Show("Завершите редактировани", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Завершите редактирование", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Создает необходимые компоненты для редагирования\создания дней
+        /// </summary>
         private void Initialize_Text_Box()
         {
             Color bColor = mainContainer.BackColor;
@@ -942,9 +1024,6 @@ namespace LoginWFsql
         }
         #endregion
 
-        
-
-        
 
         Button cancel;
         Button save_create;
