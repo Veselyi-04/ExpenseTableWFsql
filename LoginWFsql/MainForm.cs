@@ -206,11 +206,13 @@ namespace LoginWFsql
             // Находим прев.Месяц и след.Месяц
             {
                 beforeDate = new DateTime(year, int.Parse(month), 1);
+                afterDate = new DateTime(year, int.Parse(month), count_days);
 
-                if (month == "12")
-                    afterDate = new DateTime(year + 1, 1, 1);
-                else
-                    afterDate = beforeDate.AddMonths(1);
+                if (afterDate > DateTime.Now)
+                {
+                    afterDate = DateTime.Now;
+                    count_days = DateTime.Now.Day;
+                }
             }
 
             // создаем запрос

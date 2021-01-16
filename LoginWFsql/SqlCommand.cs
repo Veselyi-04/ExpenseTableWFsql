@@ -17,7 +17,7 @@ namespace LoginWFsql
 
         static public string select_month_command = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
             "FROM days WHERE days.id_user = @currentUserID " +
-            "AND (date >= @beforeMonth AND date < @afterMonth) " +
+            "AND (date >= @beforeMonth AND date <= @afterMonth) " +
             "ORDER BY date DESC";
 
         static public string fill_topBar_command = "SELECT users.login, days.cash, days.i_owe, days.saved, days.date " +
