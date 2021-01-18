@@ -31,6 +31,7 @@ namespace LoginWFsql
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelTopStats = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.pictureBox17 = new System.Windows.Forms.PictureBox();
             this._lb_state_saved = new System.Windows.Forms.Label();
@@ -38,7 +39,6 @@ namespace LoginWFsql
             this._lb_state_i_owe = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
             this._lb_state_cash = new System.Windows.Forms.Label();
-            this.pictureBox14 = new System.Windows.Forms.PictureBox();
             this.btMinimize = new System.Windows.Forms.Label();
             this.btClose = new System.Windows.Forms.Label();
             this._lb_state_userlogin = new System.Windows.Forms.Label();
@@ -48,11 +48,26 @@ namespace LoginWFsql
             this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.pictureBox14 = new System.Windows.Forms.PictureBox();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.btCrateNewDay = new System.Windows.Forms.Button();
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
+            this.cb_2_action_object = new System.Windows.Forms.ComboBox();
+            this.tb_quantity = new System.Windows.Forms.TextBox();
+            this.cb_1_action_object = new System.Windows.Forms.ComboBox();
+            this.cb_action = new System.Windows.Forms.ComboBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.bt_Delete = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lbIncome = new System.Windows.Forms.Label();
             this.lbWasted = new System.Windows.Forms.Label();
             this.lbSaved = new System.Windows.Forms.Label();
@@ -64,7 +79,6 @@ namespace LoginWFsql
             this.lb_Wasted_Str = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -73,26 +87,33 @@ namespace LoginWFsql
             this.lbDate = new System.Windows.Forms.Label();
             this.lbNameDay = new System.Windows.Forms.Label();
             this.btEdit = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.bt_Delete = new System.Windows.Forms.Button();
+            this.tb_comment = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lb_comment = new System.Windows.Forms.Label();
             this.panelTopStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopStats
             // 
             this.panelTopStats.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(34)))), ((int)(((byte)(59)))));
+            this.panelTopStats.Controls.Add(this.pictureBox5);
             this.panelTopStats.Controls.Add(this.panel12);
             this.panelTopStats.Controls.Add(this.pictureBox17);
             this.panelTopStats.Controls.Add(this._lb_state_saved);
@@ -100,7 +121,6 @@ namespace LoginWFsql
             this.panelTopStats.Controls.Add(this._lb_state_i_owe);
             this.panelTopStats.Controls.Add(this.pictureBox15);
             this.panelTopStats.Controls.Add(this._lb_state_cash);
-            this.panelTopStats.Controls.Add(this.pictureBox14);
             this.panelTopStats.Controls.Add(this.btMinimize);
             this.panelTopStats.Controls.Add(this.btClose);
             this.panelTopStats.Controls.Add(this._lb_state_userlogin);
@@ -117,6 +137,16 @@ namespace LoginWFsql
             this.panelTopStats.TabIndex = 0;
             this.panelTopStats.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelTopStats_MouseDown);
             this.panelTopStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTopStats_MouseMove);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::LoginWFsql.Properties.Resources.purse3;
+            this.pictureBox5.Location = new System.Drawing.Point(185, 3);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 46;
+            this.pictureBox5.TabStop = false;
             // 
             // panel12
             // 
@@ -190,16 +220,6 @@ namespace LoginWFsql
             this._lb_state_cash.Size = new System.Drawing.Size(66, 15);
             this._lb_state_cash.TabIndex = 8;
             this._lb_state_cash.Text = "4300грн";
-            // 
-            // pictureBox14
-            // 
-            this.pictureBox14.Image = global::LoginWFsql.Properties.Resources.purse3;
-            this.pictureBox14.Location = new System.Drawing.Point(181, 3);
-            this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox14.TabIndex = 8;
-            this.pictureBox14.TabStop = false;
             // 
             // btMinimize
             // 
@@ -316,6 +336,16 @@ namespace LoginWFsql
             this.label13.Text = "/";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pictureBox14
+            // 
+            this.pictureBox14.Image = global::LoginWFsql.Properties.Resources.purse3;
+            this.pictureBox14.Location = new System.Drawing.Point(15, 47);
+            this.pictureBox14.Name = "pictureBox14";
+            this.pictureBox14.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox14.TabIndex = 8;
+            this.pictureBox14.TabStop = false;
+            // 
             // mainContainer
             // 
             this.mainContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -337,6 +367,18 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
+            this.mainContainer.Panel2.Controls.Add(this.lb_comment);
+            this.mainContainer.Panel2.Controls.Add(this.tb_comment);
+            this.mainContainer.Panel2.Controls.Add(this.cb_2_action_object);
+            this.mainContainer.Panel2.Controls.Add(this.tb_quantity);
+            this.mainContainer.Panel2.Controls.Add(this.cb_1_action_object);
+            this.mainContainer.Panel2.Controls.Add(this.cb_action);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox8);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox7);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox6);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox3);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox2);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox1);
             this.mainContainer.Panel2.Controls.Add(this.bt_Delete);
             this.mainContainer.Panel2.Controls.Add(this.panel3);
             this.mainContainer.Panel2.Controls.Add(this.panel2);
@@ -344,6 +386,7 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lbIncome);
             this.mainContainer.Panel2.Controls.Add(this.lbWasted);
             this.mainContainer.Panel2.Controls.Add(this.lbSaved);
+            this.mainContainer.Panel2.Controls.Add(this.pictureBox14);
             this.mainContainer.Panel2.Controls.Add(this.lbIOwe);
             this.mainContainer.Panel2.Controls.Add(this.lbOweMe);
             this.mainContainer.Panel2.Controls.Add(this.lbCard);
@@ -352,7 +395,6 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lb_Wasted_Str);
             this.mainContainer.Panel2.Controls.Add(this.label14);
             this.mainContainer.Panel2.Controls.Add(this.label11);
-            this.mainContainer.Panel2.Controls.Add(this.label15);
             this.mainContainer.Panel2.Controls.Add(this.label9);
             this.mainContainer.Panel2.Controls.Add(this.label7);
             this.mainContainer.Panel2.Controls.Add(this.label5);
@@ -361,7 +403,8 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lbDate);
             this.mainContainer.Panel2.Controls.Add(this.lbNameDay);
             this.mainContainer.Panel2.Controls.Add(this.btEdit);
-            this.mainContainer.Panel2.Controls.Add(this.label16);
+            this.mainContainer.Panel2.Controls.Add(this.label1);
+            this.mainContainer.Panel2.Controls.Add(this.label4);
             this.mainContainer.Size = new System.Drawing.Size(694, 454);
             this.mainContainer.SplitterDistance = 227;
             this.mainContainer.TabIndex = 1;
@@ -437,12 +480,164 @@ namespace LoginWFsql
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
             // 
+            // cb_2_action_object
+            // 
+            this.cb_2_action_object.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.cb_2_action_object.Enabled = false;
+            this.cb_2_action_object.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb_2_action_object.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_2_action_object.FormattingEnabled = true;
+            this.cb_2_action_object.Location = new System.Drawing.Point(38, 211);
+            this.cb_2_action_object.Name = "cb_2_action_object";
+            this.cb_2_action_object.Size = new System.Drawing.Size(121, 28);
+            this.cb_2_action_object.TabIndex = 53;
+            // 
+            // tb_quantity
+            // 
+            this.tb_quantity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.tb_quantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tb_quantity.Font = new System.Drawing.Font("Bodoni MT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_quantity.Location = new System.Drawing.Point(172, 172);
+            this.tb_quantity.Name = "tb_quantity";
+            this.tb_quantity.Size = new System.Drawing.Size(100, 27);
+            this.tb_quantity.TabIndex = 52;
+            this.tb_quantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cb_1_action_object
+            // 
+            this.cb_1_action_object.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.cb_1_action_object.Enabled = false;
+            this.cb_1_action_object.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb_1_action_object.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_1_action_object.FormattingEnabled = true;
+            this.cb_1_action_object.Location = new System.Drawing.Point(38, 171);
+            this.cb_1_action_object.Name = "cb_1_action_object";
+            this.cb_1_action_object.Size = new System.Drawing.Size(121, 28);
+            this.cb_1_action_object.TabIndex = 51;
+            // 
+            // cb_action
+            // 
+            this.cb_action.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.cb_action.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb_action.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_action.FormattingEnabled = true;
+            this.cb_action.Items.AddRange(new object[] {
+            "",
+            "Растрата",
+            "Доход",
+            "Одолжил",
+            "Перевод"});
+            this.cb_action.Location = new System.Drawing.Point(38, 128);
+            this.cb_action.Name = "cb_action";
+            this.cb_action.Size = new System.Drawing.Size(121, 28);
+            this.cb_action.TabIndex = 50;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = global::LoginWFsql.Properties.Resources.i_owe;
+            this.pictureBox8.Location = new System.Drawing.Point(272, 75);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox8.TabIndex = 48;
+            this.pictureBox8.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::LoginWFsql.Properties.Resources.money_Income;
+            this.pictureBox7.Location = new System.Drawing.Point(256, 243);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox7.TabIndex = 47;
+            this.pictureBox7.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::LoginWFsql.Properties.Resources.money_wasted3;
+            this.pictureBox6.Location = new System.Drawing.Point(12, 246);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(22, 22);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox6.TabIndex = 46;
+            this.pictureBox6.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::LoginWFsql.Properties.Resources.i_owe;
+            this.pictureBox3.Location = new System.Drawing.Point(272, 102);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 45;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::LoginWFsql.Properties.Resources.moneySaved;
+            this.pictureBox2.Location = new System.Drawing.Point(26, 75);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 44;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::LoginWFsql.Properties.Resources.purse;
+            this.pictureBox1.Location = new System.Drawing.Point(269, 47);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 43;
+            this.pictureBox1.TabStop = false;
+            // 
+            // bt_Delete
+            // 
+            this.bt_Delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.bt_Delete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.bt_Delete.FlatAppearance.BorderSize = 0;
+            this.bt_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_Delete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Delete.ForeColor = System.Drawing.Color.White;
+            this.bt_Delete.Location = new System.Drawing.Point(6, 398);
+            this.bt_Delete.Name = "bt_Delete";
+            this.bt_Delete.Size = new System.Drawing.Size(452, 45);
+            this.bt_Delete.TabIndex = 42;
+            this.bt_Delete.Text = "DELETE";
+            this.bt_Delete.UseVisualStyleBackColor = false;
+            this.bt_Delete.Click += new System.EventHandler(this.btDelete_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Location = new System.Drawing.Point(418, -7);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1, 50);
+            this.panel3.TabIndex = 41;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Location = new System.Drawing.Point(48, -7);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1, 50);
+            this.panel2.TabIndex = 40;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Location = new System.Drawing.Point(48, 42);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(370, 1);
+            this.panel1.TabIndex = 39;
+            // 
             // lbIncome
             // 
             this.lbIncome.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbIncome.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbIncome.ForeColor = System.Drawing.Color.White;
-            this.lbIncome.Location = new System.Drawing.Point(392, 183);
+            this.lbIncome.Location = new System.Drawing.Point(355, 252);
             this.lbIncome.Name = "lbIncome";
             this.lbIncome.Size = new System.Drawing.Size(70, 16);
             this.lbIncome.TabIndex = 25;
@@ -454,7 +649,7 @@ namespace LoginWFsql
             this.lbWasted.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbWasted.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbWasted.ForeColor = System.Drawing.Color.White;
-            this.lbWasted.Location = new System.Drawing.Point(156, 183);
+            this.lbWasted.Location = new System.Drawing.Point(156, 253);
             this.lbWasted.Name = "lbWasted";
             this.lbWasted.Size = new System.Drawing.Size(70, 16);
             this.lbWasted.TabIndex = 23;
@@ -463,36 +658,39 @@ namespace LoginWFsql
             // 
             // lbSaved
             // 
+            this.lbSaved.AutoSize = true;
             this.lbSaved.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbSaved.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbSaved.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbSaved.ForeColor = System.Drawing.Color.White;
-            this.lbSaved.Location = new System.Drawing.Point(154, 121);
+            this.lbSaved.Location = new System.Drawing.Point(130, 82);
             this.lbSaved.Name = "lbSaved";
-            this.lbSaved.Size = new System.Drawing.Size(70, 16);
+            this.lbSaved.Size = new System.Drawing.Size(52, 14);
             this.lbSaved.TabIndex = 20;
             this.lbSaved.Text = "00000";
             this.lbSaved.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbIOwe
             // 
+            this.lbIOwe.AutoSize = true;
             this.lbIOwe.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbIOwe.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbIOwe.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbIOwe.ForeColor = System.Drawing.Color.White;
-            this.lbIOwe.Location = new System.Drawing.Point(390, 112);
+            this.lbIOwe.Location = new System.Drawing.Point(373, 108);
             this.lbIOwe.Name = "lbIOwe";
-            this.lbIOwe.Size = new System.Drawing.Size(70, 16);
+            this.lbIOwe.Size = new System.Drawing.Size(52, 14);
             this.lbIOwe.TabIndex = 18;
             this.lbIOwe.Text = "00000";
             this.lbIOwe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbOweMe
             // 
+            this.lbOweMe.AutoSize = true;
             this.lbOweMe.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbOweMe.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbOweMe.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbOweMe.ForeColor = System.Drawing.Color.White;
-            this.lbOweMe.Location = new System.Drawing.Point(390, 73);
+            this.lbOweMe.Location = new System.Drawing.Point(400, 81);
             this.lbOweMe.Name = "lbOweMe";
-            this.lbOweMe.Size = new System.Drawing.Size(70, 16);
+            this.lbOweMe.Size = new System.Drawing.Size(52, 14);
             this.lbOweMe.TabIndex = 16;
             this.lbOweMe.Text = "00000";
             this.lbOweMe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -502,7 +700,7 @@ namespace LoginWFsql
             this.lbCard.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCard.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCard.ForeColor = System.Drawing.Color.White;
-            this.lbCard.Location = new System.Drawing.Point(105, 92);
+            this.lbCard.Location = new System.Drawing.Point(368, 56);
             this.lbCard.Name = "lbCard";
             this.lbCard.Size = new System.Drawing.Size(70, 16);
             this.lbCard.TabIndex = 14;
@@ -514,7 +712,7 @@ namespace LoginWFsql
             this.lbCash.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCash.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCash.ForeColor = System.Drawing.Color.White;
-            this.lbCash.Location = new System.Drawing.Point(133, 62);
+            this.lbCash.Location = new System.Drawing.Point(142, 56);
             this.lbCash.Name = "lbCash";
             this.lbCash.Size = new System.Drawing.Size(70, 16);
             this.lbCash.TabIndex = 12;
@@ -527,9 +725,9 @@ namespace LoginWFsql
             this.lb_In_Come_Str.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_In_Come_Str.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lb_In_Come_Str.ForeColor = System.Drawing.Color.White;
-            this.lb_In_Come_Str.Location = new System.Drawing.Point(270, 221);
+            this.lb_In_Come_Str.Location = new System.Drawing.Point(256, 271);
             this.lb_In_Come_Str.Name = "lb_In_Come_Str";
-            this.lb_In_Come_Str.Size = new System.Drawing.Size(170, 105);
+            this.lb_In_Come_Str.Size = new System.Drawing.Size(180, 70);
             this.lb_In_Come_Str.TabIndex = 38;
             // 
             // lb_Wasted_Str
@@ -538,9 +736,9 @@ namespace LoginWFsql
             this.lb_Wasted_Str.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_Wasted_Str.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lb_Wasted_Str.ForeColor = System.Drawing.Color.White;
-            this.lb_Wasted_Str.Location = new System.Drawing.Point(33, 221);
+            this.lb_Wasted_Str.Location = new System.Drawing.Point(19, 271);
             this.lb_Wasted_Str.Name = "lb_Wasted_Str";
-            this.lb_Wasted_Str.Size = new System.Drawing.Size(170, 105);
+            this.lb_Wasted_Str.Size = new System.Drawing.Size(180, 70);
             this.lb_Wasted_Str.TabIndex = 37;
             // 
             // label14
@@ -548,7 +746,7 @@ namespace LoginWFsql
             this.label14.Cursor = System.Windows.Forms.Cursors.Default;
             this.label14.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label14.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label14.Location = new System.Drawing.Point(313, 176);
+            this.label14.Location = new System.Drawing.Point(276, 245);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(79, 23);
             this.label14.TabIndex = 24;
@@ -560,57 +758,48 @@ namespace LoginWFsql
             this.label11.Cursor = System.Windows.Forms.Cursors.Default;
             this.label11.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label11.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label11.Location = new System.Drawing.Point(32, 176);
+            this.label11.Location = new System.Drawing.Point(32, 246);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(124, 23);
             this.label11.TabIndex = 22;
             this.label11.Text = "Потрачено:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label15
-            // 
-            this.label15.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label15.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label15.Location = new System.Drawing.Point(111, 198);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(45, 23);
-            this.label15.TabIndex = 26;
-            this.label15.Text = "на:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label9
             // 
+            this.label9.AutoSize = true;
             this.label9.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label9.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label9.Location = new System.Drawing.Point(29, 115);
+            this.label9.Location = new System.Drawing.Point(45, 79);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(124, 23);
+            this.label9.Size = new System.Drawing.Size(83, 17);
             this.label9.TabIndex = 21;
             this.label9.Text = "Отложено:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
+            this.label7.AutoSize = true;
             this.label7.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label7.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label7.Location = new System.Drawing.Point(276, 105);
+            this.label7.Location = new System.Drawing.Point(296, 105);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(114, 23);
+            this.label7.Size = new System.Drawing.Size(77, 17);
             this.label7.TabIndex = 19;
             this.label7.Text = "Я должен:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
+            this.label5.AutoSize = true;
             this.label5.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label5.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label5.Location = new System.Drawing.Point(244, 66);
+            this.label5.Location = new System.Drawing.Point(296, 78);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(146, 23);
+            this.label5.Size = new System.Drawing.Size(100, 17);
             this.label5.TabIndex = 17;
             this.label5.Text = "Мне должны:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -620,7 +809,7 @@ namespace LoginWFsql
             this.label3.Cursor = System.Windows.Forms.Cursors.Default;
             this.label3.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label3.Location = new System.Drawing.Point(29, 85);
+            this.label3.Location = new System.Drawing.Point(292, 49);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 23);
             this.label3.TabIndex = 15;
@@ -632,7 +821,7 @@ namespace LoginWFsql
             this.label2.Cursor = System.Windows.Forms.Cursors.Default;
             this.label2.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label2.Location = new System.Drawing.Point(29, 55);
+            this.label2.Location = new System.Drawing.Point(38, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 23);
             this.label2.TabIndex = 13;
@@ -665,6 +854,7 @@ namespace LoginWFsql
             // btEdit
             // 
             this.btEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.btEdit.Enabled = false;
             this.btEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.btEdit.FlatAppearance.BorderSize = 0;
             this.btEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -674,61 +864,59 @@ namespace LoginWFsql
             this.btEdit.Name = "btEdit";
             this.btEdit.Size = new System.Drawing.Size(400, 45);
             this.btEdit.TabIndex = 7;
-            this.btEdit.Text = "EDIT";
+            this.btEdit.Text = "Save";
             this.btEdit.UseVisualStyleBackColor = true;
             this.btEdit.Click += new System.EventHandler(this.btEdit_Click);
             // 
-            // label16
+            // tb_comment
             // 
-            this.label16.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label16.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.ForeColor = System.Drawing.Color.LightSalmon;
-            this.label16.Location = new System.Drawing.Point(347, 198);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(45, 23);
-            this.label16.TabIndex = 27;
-            this.label16.Text = "от:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tb_comment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.tb_comment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tb_comment.Font = new System.Drawing.Font("Bodoni MT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_comment.Location = new System.Drawing.Point(278, 150);
+            this.tb_comment.Multiline = true;
+            this.tb_comment.Name = "tb_comment";
+            this.tb_comment.Size = new System.Drawing.Size(180, 70);
+            this.tb_comment.TabIndex = 54;
             // 
-            // panel1
+            // label1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(48, 42);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(370, 1);
-            this.panel1.TabIndex = 39;
+            this.label1.AutoSize = true;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label1.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label1.Location = new System.Drawing.Point(51, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 17);
+            this.label1.TabIndex = 55;
+            this.label1.Text = "Действие:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel2
+            // label4
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(48, -7);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1, 50);
-            this.panel2.TabIndex = 40;
+            this.label4.AutoSize = true;
+            this.label4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label4.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label4.Location = new System.Drawing.Point(195, 156);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 17);
+            this.label4.TabIndex = 56;
+            this.label4.Text = "СУМА:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel3
+            // lb_comment
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(418, -7);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1, 50);
-            this.panel3.TabIndex = 41;
-            // 
-            // bt_Delete
-            // 
-            this.bt_Delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.bt_Delete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.bt_Delete.FlatAppearance.BorderSize = 0;
-            this.bt_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_Delete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_Delete.ForeColor = System.Drawing.Color.White;
-            this.bt_Delete.Location = new System.Drawing.Point(6, 398);
-            this.bt_Delete.Name = "bt_Delete";
-            this.bt_Delete.Size = new System.Drawing.Size(452, 45);
-            this.bt_Delete.TabIndex = 42;
-            this.bt_Delete.Text = "DELETE";
-            this.bt_Delete.UseVisualStyleBackColor = false;
-            this.bt_Delete.Click += new System.EventHandler(this.btDelete_Click);
+            this.lb_comment.AutoSize = true;
+            this.lb_comment.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lb_comment.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_comment.ForeColor = System.Drawing.Color.LightSalmon;
+            this.lb_comment.Location = new System.Drawing.Point(315, 132);
+            this.lb_comment.Name = "lb_comment";
+            this.lb_comment.Size = new System.Drawing.Size(105, 17);
+            this.lb_comment.TabIndex = 57;
+            this.lb_comment.Text = "Комментарий";
+            this.lb_comment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -745,15 +933,23 @@ namespace LoginWFsql
             this.Text = "MainForm";
             this.panelTopStats.ResumeLayout(false);
             this.panelTopStats.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
+            this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -773,7 +969,6 @@ namespace LoginWFsql
         private System.Windows.Forms.Label lbCash;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lbIncome;
         private System.Windows.Forms.Label lbWasted;
         private System.Windows.Forms.Label label9;
@@ -782,7 +977,6 @@ namespace LoginWFsql
         private System.Windows.Forms.Label lbIOwe;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lbOweMe;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Panel panel24;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.Label btMinimize;
@@ -808,5 +1002,20 @@ namespace LoginWFsql
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button bt_Delete;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.ComboBox cb_action;
+        private System.Windows.Forms.ComboBox cb_2_action_object;
+        private System.Windows.Forms.TextBox tb_quantity;
+        private System.Windows.Forms.ComboBox cb_1_action_object;
+        private System.Windows.Forms.Label lb_comment;
+        private System.Windows.Forms.TextBox tb_comment;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
     }
 }
