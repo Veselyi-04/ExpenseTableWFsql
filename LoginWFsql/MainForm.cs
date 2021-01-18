@@ -154,18 +154,17 @@ namespace LoginWFsql
             int count_days;
             // берем количество существующих дней для создания масива нужного размера
             {
-                command = new MySqlCommand(SqlCommand.count_days, db.getConnection());
-                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                command = SqlCommand.Сount_Days(currentUserID, db.getConnection());
                 reader = command.ExecuteReader();
                 reader.Read();
                 count_days = reader.GetInt32(0);
                 reader.Close();
             }
 
-            command = new MySqlCommand(SqlCommand.main_command, db.getConnection());
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            reader = command.ExecuteReader();
+            command = SqlCommand.Main_Сommand(currentUserID, db.getConnection());
 
+            reader = command.ExecuteReader();
+            
             // Ограничиваем считывание дней небольше 30
             if (count_days > 30)
                 count_days = 30;
@@ -203,27 +202,23 @@ namespace LoginWFsql
             count_days = DateTime.DaysInMonth(year, int.Parse(month));
 
             // Строки для сохранения прев.Месяца и след.Месяца
-            DateTime beforeDate;
-            DateTime afterDate;
+            DateTime first_day_month;
+            DateTime last_day_month;
 
             // Находим прев.Месяц и след.Месяц
             {
-                beforeDate = new DateTime(year, int.Parse(month), 1);
-                afterDate = new DateTime(year, int.Parse(month), count_days);
+                first_day_month = new DateTime(year, int.Parse(month), 1);
+                last_day_month = new DateTime(year, int.Parse(month), count_days);
 
-                if (afterDate > DateTime.Now)
+                if (last_day_month > DateTime.Now)
                 {
-                    afterDate = DateTime.Now;
+                    last_day_month = DateTime.Now;
                     count_days = DateTime.Now.Day;
                 }
             }
 
             // создаем запрос
-            command = new MySqlCommand(SqlCommand.select_month_command, db.getConnection());
-            // заменяем заглушки на реальные значения
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            command.Parameters.Add("@beforeMonth", MySqlDbType.DateTime).Value = beforeDate;
-            command.Parameters.Add("@afterMonth", MySqlDbType.DateTime).Value = afterDate;
+            command = SqlCommand.Select_Month(currentUserID, first_day_month, last_day_month, db.getConnection());
 
             // выполняем команду в Ридере
             reader = command.ExecuteReader();
@@ -322,8 +317,9 @@ namespace LoginWFsql
             cbMonth.Items.Add(" ");
 
             db.openConnection();
-            command = new MySqlCommand(SqlCommand.fill_ComboBox_Month, db.getConnection());
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+
+            command = SqlCommand.Fill_ComboBox_Month(currentUserID, db.getConnection());
+
             reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -353,8 +349,8 @@ namespace LoginWFsql
             int saved;
             db.openConnection();
             {
-                command = new MySqlCommand(SqlCommand.fill_topBar_command, db.getConnection());
-                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                command = SqlCommand.Fill_TopBar(currentUserID, db.getConnection());
+
                 reader = command.ExecuteReader();
 
                 reader.Read();
@@ -427,11 +423,8 @@ namespace LoginWFsql
 
         private void Delete_Day()
         {
-            command = new MySqlCommand(SqlCommand.Delete_Day, db.getConnection());
-
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = days[Id_selected_day].date;
-
+            command = SqlCommand.Delete_Day(currentUserID, date: days[Id_selected_day].date, db.getConnection()); ;
+                
             db.openConnection();
             {
                 try
@@ -679,36 +672,58 @@ namespace LoginWFsql
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            command = new MySqlCommand(SqlCommand.Update_Day, db.getConnection());
-            
-            bt_create_save_Handler();
+            DateTime date = DateTime.Parse(lbDate.Text);
+
+            try
+            {
+                command = SqlCommand.Update_Day(currentUserID, float.Parse(tb_Cash.Text), float.Parse(tb_Card.Text), float.Parse(tb_IOwe.Text), float.Parse(tb_OweMe.Text),
+               float.Parse(tb_Saved.Text), float.Parse(tb_Wasted.Text), tb_Wasted_Str.Text, float.Parse(tb_Income.Text), tb_In_Come_Str.Text, date, db.getConnection());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Поля предназначеные для чисел \n" +
+                        $"Не должны содержать других символов!\n" +
+                        $"{ex.Message}\nИспользуйте запятую для не целых чисел.", "Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            db.openConnection();
+            command.ExecuteNonQuery();
+            db.closeConnection();
+
+            End_Edit();
         }
 
         /// <summary>
         /// Обраотчик нажатия кнопок Create, Save
         /// </summary>
-        private void bt_create_save_Handler()
+        private void btCreate_Click(object sender, EventArgs e)
         {
-            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            command.Parameters.Add("@cash", MySqlDbType.Float).Value = tb_Cash.Text;
-            command.Parameters.Add("@card", MySqlDbType.Float).Value = tb_Card.Text;
-            command.Parameters.Add("@i_owe", MySqlDbType.Float).Value = tb_IOwe.Text;
-            command.Parameters.Add("@owe_me", MySqlDbType.Float).Value = tb_OweMe.Text;
-            command.Parameters.Add("@saved", MySqlDbType.Float).Value = tb_Saved.Text;
-            command.Parameters.Add("@wasted", MySqlDbType.Float).Value = tb_Wasted.Text;
-            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = tb_Wasted_Str.Text;
-            command.Parameters.Add("@in_come", MySqlDbType.Float).Value = tb_Income.Text;
-            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
-
-            // Если _dateTime = null, значит мы находимся в редакторе дня а не в создании нового, и дата там уже установлена в lbDate 
+            DateTime date;
             if (_dateTime == null)
-                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text); 
+                date = DateTime.Parse(lbDate.Text);
             else
-                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
-
-            db.openConnection();
+                date = _dateTime.Value;
+            
             try
             {
+                command = SqlCommand.Create_NewDay(currentUserID, float.Parse(tb_Cash.Text), float.Parse(tb_Card.Text), float.Parse(tb_IOwe.Text), float.Parse(tb_OweMe.Text),
+                float.Parse(tb_Saved.Text), float.Parse(tb_Wasted.Text), tb_Wasted_Str.Text, float.Parse(tb_Income.Text), tb_In_Come_Str.Text, date, db.getConnection());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Поля предназначеные для чисел \n" +
+                        $"Не должны содержать других символов!\n" +
+                        $"{ex.Message}\nИспользуйте запятую для не целых чисел.", "Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            try
+            {
+                db.openConnection();
                 command.ExecuteNonQuery();
                 db.closeConnection();
             }
@@ -720,34 +735,20 @@ namespace LoginWFsql
                         $"{ex.Message}", "Ошибка 1062!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (ex.Number == 1265)
-                {
-                    MessageBox.Show($"Поля предназначеные для чисел \n" +
-                        $"Не должны содержать других символов кроме точки!\n" +
-                        $"{ex.Message}", "Ошибка 1265!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
                 else
                 {
-                    MessageBox.Show($"Неизвесная Ошибка \n {ex.Message}", $"Ошибка {ex.Number}!",
+                    MessageBox.Show($"Неизвесная Ошибка MySqlException\n {ex.Message}", $"Ошибка {ex.Number}!",
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", $"Ошибка!",
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             End_Edit();
-        }
-        private void btCreate_Click(object sender, EventArgs e)
-        {
-            command = new MySqlCommand(SqlCommand.Save_NewDay, db.getConnection());
-           
-            bt_create_save_Handler();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
@@ -896,8 +897,7 @@ namespace LoginWFsql
                 bt_Delete.Enabled = false;
             else if (cbMonth.SelectedIndex != -1)
             {
-                command = new MySqlCommand(SqlCommand.count_days, db.getConnection());
-                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                command = SqlCommand.Сount_Days(currentUserID, db.getConnection());
                 
                 db.openConnection();
                 {
