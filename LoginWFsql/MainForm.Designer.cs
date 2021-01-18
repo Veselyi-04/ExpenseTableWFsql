@@ -62,8 +62,6 @@ namespace LoginWFsql
             this.lbCash = new System.Windows.Forms.Label();
             this.lb_In_Come_Str = new System.Windows.Forms.Label();
             this.lb_Wasted_Str = new System.Windows.Forms.Label();
-            this.panel32 = new System.Windows.Forms.Panel();
-            this.panel29 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -72,12 +70,14 @@ namespace LoginWFsql
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.panel13 = new System.Windows.Forms.Panel();
             this.lbDate = new System.Windows.Forms.Label();
             this.lbNameDay = new System.Windows.Forms.Label();
             this.btEdit = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.bt_Delete = new System.Windows.Forms.Button();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
@@ -337,6 +337,10 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
+            this.mainContainer.Panel2.Controls.Add(this.bt_Delete);
+            this.mainContainer.Panel2.Controls.Add(this.panel3);
+            this.mainContainer.Panel2.Controls.Add(this.panel2);
+            this.mainContainer.Panel2.Controls.Add(this.panel1);
             this.mainContainer.Panel2.Controls.Add(this.lbIncome);
             this.mainContainer.Panel2.Controls.Add(this.lbWasted);
             this.mainContainer.Panel2.Controls.Add(this.lbSaved);
@@ -346,8 +350,6 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lbCash);
             this.mainContainer.Panel2.Controls.Add(this.lb_In_Come_Str);
             this.mainContainer.Panel2.Controls.Add(this.lb_Wasted_Str);
-            this.mainContainer.Panel2.Controls.Add(this.panel32);
-            this.mainContainer.Panel2.Controls.Add(this.panel29);
             this.mainContainer.Panel2.Controls.Add(this.label14);
             this.mainContainer.Panel2.Controls.Add(this.label11);
             this.mainContainer.Panel2.Controls.Add(this.label15);
@@ -356,8 +358,6 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.label5);
             this.mainContainer.Panel2.Controls.Add(this.label3);
             this.mainContainer.Panel2.Controls.Add(this.label2);
-            this.mainContainer.Panel2.Controls.Add(this.panel14);
-            this.mainContainer.Panel2.Controls.Add(this.panel13);
             this.mainContainer.Panel2.Controls.Add(this.lbDate);
             this.mainContainer.Panel2.Controls.Add(this.lbNameDay);
             this.mainContainer.Panel2.Controls.Add(this.btEdit);
@@ -442,11 +442,11 @@ namespace LoginWFsql
             this.lbIncome.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbIncome.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbIncome.ForeColor = System.Drawing.Color.White;
-            this.lbIncome.Location = new System.Drawing.Point(388, 238);
+            this.lbIncome.Location = new System.Drawing.Point(392, 183);
             this.lbIncome.Name = "lbIncome";
             this.lbIncome.Size = new System.Drawing.Size(70, 16);
             this.lbIncome.TabIndex = 25;
-            this.lbIncome.Text = "-370";
+            this.lbIncome.Text = "00000";
             this.lbIncome.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbWasted
@@ -454,11 +454,11 @@ namespace LoginWFsql
             this.lbWasted.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbWasted.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbWasted.ForeColor = System.Drawing.Color.White;
-            this.lbWasted.Location = new System.Drawing.Point(151, 238);
+            this.lbWasted.Location = new System.Drawing.Point(156, 183);
             this.lbWasted.Name = "lbWasted";
             this.lbWasted.Size = new System.Drawing.Size(70, 16);
             this.lbWasted.TabIndex = 23;
-            this.lbWasted.Text = "-370";
+            this.lbWasted.Text = "00000";
             this.lbWasted.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbSaved
@@ -466,23 +466,23 @@ namespace LoginWFsql
             this.lbSaved.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbSaved.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbSaved.ForeColor = System.Drawing.Color.White;
-            this.lbSaved.Location = new System.Drawing.Point(203, 176);
+            this.lbSaved.Location = new System.Drawing.Point(154, 121);
             this.lbSaved.Name = "lbSaved";
             this.lbSaved.Size = new System.Drawing.Size(70, 16);
             this.lbSaved.TabIndex = 20;
-            this.lbSaved.Text = "60";
-            this.lbSaved.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbSaved.Text = "00000";
+            this.lbSaved.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbIOwe
             // 
             this.lbIOwe.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbIOwe.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbIOwe.ForeColor = System.Drawing.Color.White;
-            this.lbIOwe.Location = new System.Drawing.Point(388, 121);
+            this.lbIOwe.Location = new System.Drawing.Point(390, 112);
             this.lbIOwe.Name = "lbIOwe";
             this.lbIOwe.Size = new System.Drawing.Size(70, 16);
             this.lbIOwe.TabIndex = 18;
-            this.lbIOwe.Text = "-370";
+            this.lbIOwe.Text = "00000";
             this.lbIOwe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbOweMe
@@ -490,11 +490,11 @@ namespace LoginWFsql
             this.lbOweMe.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbOweMe.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbOweMe.ForeColor = System.Drawing.Color.White;
-            this.lbOweMe.Location = new System.Drawing.Point(388, 82);
+            this.lbOweMe.Location = new System.Drawing.Point(390, 73);
             this.lbOweMe.Name = "lbOweMe";
             this.lbOweMe.Size = new System.Drawing.Size(70, 16);
             this.lbOweMe.TabIndex = 16;
-            this.lbOweMe.Text = "-370";
+            this.lbOweMe.Text = "00000";
             this.lbOweMe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbCard
@@ -502,11 +502,11 @@ namespace LoginWFsql
             this.lbCard.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCard.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCard.ForeColor = System.Drawing.Color.White;
-            this.lbCard.Location = new System.Drawing.Point(151, 121);
+            this.lbCard.Location = new System.Drawing.Point(105, 92);
             this.lbCard.Name = "lbCard";
             this.lbCard.Size = new System.Drawing.Size(70, 16);
             this.lbCard.TabIndex = 14;
-            this.lbCard.Text = "-370";
+            this.lbCard.Text = "00000";
             this.lbCard.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbCash
@@ -514,11 +514,11 @@ namespace LoginWFsql
             this.lbCash.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCash.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCash.ForeColor = System.Drawing.Color.White;
-            this.lbCash.Location = new System.Drawing.Point(151, 82);
+            this.lbCash.Location = new System.Drawing.Point(133, 62);
             this.lbCash.Name = "lbCash";
             this.lbCash.Size = new System.Drawing.Size(70, 16);
             this.lbCash.TabIndex = 12;
-            this.lbCash.Text = "956,50";
+            this.lbCash.Text = "00000";
             this.lbCash.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lb_In_Come_Str
@@ -527,11 +527,10 @@ namespace LoginWFsql
             this.lb_In_Come_Str.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_In_Come_Str.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lb_In_Come_Str.ForeColor = System.Drawing.Color.White;
-            this.lb_In_Come_Str.Location = new System.Drawing.Point(270, 276);
+            this.lb_In_Come_Str.Location = new System.Drawing.Point(270, 221);
             this.lb_In_Come_Str.Name = "lb_In_Come_Str";
             this.lb_In_Come_Str.Size = new System.Drawing.Size(170, 105);
             this.lb_In_Come_Str.TabIndex = 38;
-            this.lb_In_Come_Str.Text = "-370\r\nds\r\nasd\r\n";
             // 
             // lb_Wasted_Str
             // 
@@ -539,34 +538,17 @@ namespace LoginWFsql
             this.lb_Wasted_Str.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_Wasted_Str.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lb_Wasted_Str.ForeColor = System.Drawing.Color.White;
-            this.lb_Wasted_Str.Location = new System.Drawing.Point(33, 276);
+            this.lb_Wasted_Str.Location = new System.Drawing.Point(33, 221);
             this.lb_Wasted_Str.Name = "lb_Wasted_Str";
             this.lb_Wasted_Str.Size = new System.Drawing.Size(170, 105);
             this.lb_Wasted_Str.TabIndex = 37;
-            this.lb_Wasted_Str.Text = "-370\r\nds\r\nasd\r\n";
-            // 
-            // panel32
-            // 
-            this.panel32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.panel32.Location = new System.Drawing.Point(1, 138);
-            this.panel32.Name = "panel32";
-            this.panel32.Size = new System.Drawing.Size(475, 1);
-            this.panel32.TabIndex = 36;
-            // 
-            // panel29
-            // 
-            this.panel29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.panel29.Location = new System.Drawing.Point(1, 101);
-            this.panel29.Name = "panel29";
-            this.panel29.Size = new System.Drawing.Size(475, 1);
-            this.panel29.TabIndex = 32;
             // 
             // label14
             // 
             this.label14.Cursor = System.Windows.Forms.Cursors.Default;
             this.label14.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.ForeColor = System.Drawing.Color.Black;
-            this.label14.Location = new System.Drawing.Point(313, 231);
+            this.label14.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label14.Location = new System.Drawing.Point(313, 176);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(79, 23);
             this.label14.TabIndex = 24;
@@ -577,8 +559,8 @@ namespace LoginWFsql
             // 
             this.label11.Cursor = System.Windows.Forms.Cursors.Default;
             this.label11.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(32, 231);
+            this.label11.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label11.Location = new System.Drawing.Point(32, 176);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(124, 23);
             this.label11.TabIndex = 22;
@@ -589,8 +571,8 @@ namespace LoginWFsql
             // 
             this.label15.Cursor = System.Windows.Forms.Cursors.Default;
             this.label15.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(111, 253);
+            this.label15.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label15.Location = new System.Drawing.Point(111, 198);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(45, 23);
             this.label15.TabIndex = 26;
@@ -601,8 +583,8 @@ namespace LoginWFsql
             // 
             this.label9.Cursor = System.Windows.Forms.Cursors.Default;
             this.label9.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(176, 151);
+            this.label9.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label9.Location = new System.Drawing.Point(29, 115);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(124, 23);
             this.label9.TabIndex = 21;
@@ -613,8 +595,8 @@ namespace LoginWFsql
             // 
             this.label7.Cursor = System.Windows.Forms.Cursors.Default;
             this.label7.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(278, 114);
+            this.label7.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label7.Location = new System.Drawing.Point(276, 105);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(114, 23);
             this.label7.TabIndex = 19;
@@ -625,8 +607,8 @@ namespace LoginWFsql
             // 
             this.label5.Cursor = System.Windows.Forms.Cursors.Default;
             this.label5.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(246, 75);
+            this.label5.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label5.Location = new System.Drawing.Point(244, 66);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(146, 23);
             this.label5.TabIndex = 17;
@@ -637,8 +619,8 @@ namespace LoginWFsql
             // 
             this.label3.Cursor = System.Windows.Forms.Cursors.Default;
             this.label3.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(80, 114);
+            this.label3.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label3.Location = new System.Drawing.Point(29, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 23);
             this.label3.TabIndex = 15;
@@ -649,36 +631,20 @@ namespace LoginWFsql
             // 
             this.label2.Cursor = System.Windows.Forms.Cursors.Default;
             this.label2.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(52, 75);
+            this.label2.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label2.Location = new System.Drawing.Point(29, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 23);
             this.label2.TabIndex = 13;
             this.label2.Text = "Наличка:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // panel14
-            // 
-            this.panel14.BackColor = System.Drawing.Color.White;
-            this.panel14.Location = new System.Drawing.Point(278, 17);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(2, 30);
-            this.panel14.TabIndex = 11;
-            // 
-            // panel13
-            // 
-            this.panel13.BackColor = System.Drawing.Color.White;
-            this.panel13.Location = new System.Drawing.Point(32, 45);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(400, 2);
-            this.panel13.TabIndex = 10;
-            // 
             // lbDate
             // 
             this.lbDate.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbDate.Font = new System.Drawing.Font("a_LatinoNr", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbDate.ForeColor = System.Drawing.Color.Black;
-            this.lbDate.Location = new System.Drawing.Point(280, 21);
+            this.lbDate.ForeColor = System.Drawing.Color.Coral;
+            this.lbDate.Location = new System.Drawing.Point(268, 18);
             this.lbDate.Name = "lbDate";
             this.lbDate.Size = new System.Drawing.Size(125, 25);
             this.lbDate.TabIndex = 9;
@@ -688,12 +654,12 @@ namespace LoginWFsql
             // 
             this.lbNameDay.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbNameDay.Font = new System.Drawing.Font("a_LatinoNr", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbNameDay.ForeColor = System.Drawing.Color.Black;
-            this.lbNameDay.Location = new System.Drawing.Point(4, 4);
+            this.lbNameDay.ForeColor = System.Drawing.Color.Coral;
+            this.lbNameDay.Location = new System.Drawing.Point(51, 8);
             this.lbNameDay.Name = "lbNameDay";
-            this.lbNameDay.Size = new System.Drawing.Size(279, 49);
+            this.lbNameDay.Size = new System.Drawing.Size(188, 35);
             this.lbNameDay.TabIndex = 8;
-            this.lbNameDay.Text = "Понедельник";
+            this.lbNameDay.Text = "Create day!";
             this.lbNameDay.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btEdit
@@ -704,9 +670,9 @@ namespace LoginWFsql
             this.btEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btEdit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btEdit.ForeColor = System.Drawing.Color.White;
-            this.btEdit.Location = new System.Drawing.Point(6, 395);
+            this.btEdit.Location = new System.Drawing.Point(32, 344);
             this.btEdit.Name = "btEdit";
-            this.btEdit.Size = new System.Drawing.Size(452, 45);
+            this.btEdit.Size = new System.Drawing.Size(400, 45);
             this.btEdit.TabIndex = 7;
             this.btEdit.Text = "EDIT";
             this.btEdit.UseVisualStyleBackColor = true;
@@ -716,13 +682,53 @@ namespace LoginWFsql
             // 
             this.label16.Cursor = System.Windows.Forms.Cursors.Default;
             this.label16.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.ForeColor = System.Drawing.Color.Black;
-            this.label16.Location = new System.Drawing.Point(347, 253);
+            this.label16.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label16.Location = new System.Drawing.Point(347, 198);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(45, 23);
             this.label16.TabIndex = 27;
             this.label16.Text = "от:";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Location = new System.Drawing.Point(48, 42);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(370, 1);
+            this.panel1.TabIndex = 39;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Location = new System.Drawing.Point(48, -7);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1, 50);
+            this.panel2.TabIndex = 40;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Location = new System.Drawing.Point(418, -7);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1, 50);
+            this.panel3.TabIndex = 41;
+            // 
+            // bt_Delete
+            // 
+            this.bt_Delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.bt_Delete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.bt_Delete.FlatAppearance.BorderSize = 0;
+            this.bt_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_Delete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Delete.ForeColor = System.Drawing.Color.White;
+            this.bt_Delete.Location = new System.Drawing.Point(6, 398);
+            this.bt_Delete.Name = "bt_Delete";
+            this.bt_Delete.Size = new System.Drawing.Size(452, 45);
+            this.bt_Delete.TabIndex = 42;
+            this.bt_Delete.Text = "DELETE";
+            this.bt_Delete.UseVisualStyleBackColor = false;
+            this.bt_Delete.Click += new System.EventHandler(this.btDelete_Click);
             // 
             // MainForm
             // 
@@ -760,9 +766,7 @@ namespace LoginWFsql
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Button btEdit;
         private System.Windows.Forms.Label lbNameDay;
-        private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Label lbDate;
-        private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbCard;
         private System.Windows.Forms.Label label2;
@@ -792,8 +796,6 @@ namespace LoginWFsql
         private System.Windows.Forms.PictureBox pictureBox16;
         private System.Windows.Forms.PictureBox pictureBox17;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Panel panel29;
-        private System.Windows.Forms.Panel panel32;
         private System.Windows.Forms.ComboBox cbMonth;
         private System.Windows.Forms.Label lb_To_30;
         private System.Windows.Forms.Label lb_To_7;
@@ -802,5 +804,9 @@ namespace LoginWFsql
         private System.Windows.Forms.Label lb_In_Come_Str;
         public System.Windows.Forms.Label _lb_state_userlogin;
         private System.Windows.Forms.Label _lb_state_saved;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button bt_Delete;
     }
 }

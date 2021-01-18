@@ -62,6 +62,8 @@ namespace LoginWFsql
         private void Show_list_days(int count)
         {
             On_Of_btCrateNewDay(true);
+            Set_state_btDelete();
+
             for (int i = 0; i < count; i++)
             {
                 // Проверка на случай если будет меньше дней чем мы хочем вывести
@@ -81,6 +83,7 @@ namespace LoginWFsql
         private void Show_list_days_from_Select_Month()
         {
             On_Of_btCrateNewDay(false);
+            Set_state_btDelete();
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box();
@@ -151,7 +154,7 @@ namespace LoginWFsql
             int count_days;
             // берем количество существующих дней для создания масива нужного размера
             {
-                command = new MySqlCommand(SqlCommand.count_rows_from_main_command, db.getConnection());
+                command = new MySqlCommand(SqlCommand.count_days, db.getConnection());
                 command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
                 reader = command.ExecuteReader();
                 reader.Read();
@@ -430,33 +433,45 @@ namespace LoginWFsql
             command.Parameters.Add("@date", MySqlDbType.DateTime).Value = days[Id_selected_day].date;
 
             db.openConnection();
-
-            try
             {
-                command.ExecuteNonQuery();
-                db.openConnection();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Неизвесная ошибка\n {ex.Message}");
+                    return;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Неизвесная ошибка\n {ex.Message}");
-                return;
-            }
+            db.closeConnection();
 
             Clear_list_days();
             Fill_Top_Bar();
-            if (cbMonth.SelectedIndex == -1)
-            {
-                Fill_Array_Days();
-                Show_list_days(6);
-                Fill_ComboBox_Month();
-            }
-            else
-            {
-                Fill_Array_Days_from_Select_Month();
-                Show_list_days_from_Select_Month();
-            }
-        }
 
+            if (cbMonth.SelectedIndex != -1)
+            {
+                string temporary = cbMonth.Text;
+                Fill_ComboBox_Month();
+
+                for (int i = 0; i < cbMonth.Items.Count; i++)
+                {
+                    if (temporary == cbMonth.Items[i].ToString())
+                    {
+                        cbMonth.SelectedIndex = i;
+                        Fill_Array_Days_from_Select_Month();
+                        Show_list_days_from_Select_Month();
+                        Show_Selected_Day(0);
+                        return;
+                    }
+                }
+            }
+
+            Fill_ComboBox_Month();
+            Fill_Array_Days();
+            Show_list_days(6);
+            Show_Selected_Day(0);
+        }
 
         #region Кнопки закрыть/свернуть и движение окна [TopPanel]
         /*_________Кнопки закрыть/свернуть и движение окна________________*/
@@ -645,7 +660,7 @@ namespace LoginWFsql
         /*________________________________________________________________*/
         #endregion
 
-        #region Кнопки [Edit][Save][Create] [MainPanel]
+        #region Кнопки [Edit][Save][Create][Cancel][Delete] [MainPanel]
         private void btEdit_Click(object sender, EventArgs e)
         {
             Initialize_Text_Box();
@@ -686,10 +701,10 @@ namespace LoginWFsql
             command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = tb_In_Come_Str.Text;
 
             // Если _dateTime = null, значит мы находимся в редакторе дня а не в создании нового, и дата там уже установлена в lbDate 
-            if (_dateTime != null)
-                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
+            if (_dateTime == null)
+                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text); 
             else
-                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text);
+                command.Parameters.Add("@date", MySqlDbType.DateTime).Value = _dateTime.Value;
 
             db.openConnection();
             try
@@ -726,7 +741,6 @@ namespace LoginWFsql
                 return;
             }
 
-            
             End_Edit();
         }
         private void btCreate_Click(object sender, EventArgs e)
@@ -740,6 +754,17 @@ namespace LoginWFsql
         {
             preparation_main_panel();
             Show_Selected_Day(Id_selected_day);
+            bt_Delete.Enabled = true;
+        }
+
+        private void btDelete_Click(object sender, EventArgs e)
+        {
+           DialogResult result = MessageBox.Show("Вы действительно хотите удалить етот день?\n" +
+                $"{days[Id_selected_day].date.DayOfWeek} [{days[Id_selected_day].date.ToShortDateString()}]",
+                "Удаление дня...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            
+            if (result == DialogResult.OK)
+                Delete_Day();
         }
 
         /// <summary>
@@ -749,6 +774,7 @@ namespace LoginWFsql
         private void create_button_Chanel_Save(bool is_edit)
         {
             btEdit.Visible = false;
+            bt_Delete.Enabled = false;
             cancel = new Button
             {
                 Text = "CANCEL",
@@ -798,7 +824,10 @@ namespace LoginWFsql
         {
             state_edit = false;
             if (_dateTime != null)
+            {
                 mainContainer.Panel2.Controls.Remove(_dateTime);
+                _dateTime = null;
+            }
             mainContainer.Panel2.Controls.Remove(tb_Cash);
             mainContainer.Panel2.Controls.Remove(tb_Card);
             mainContainer.Panel2.Controls.Remove(tb_OweMe);
@@ -810,6 +839,19 @@ namespace LoginWFsql
             mainContainer.Panel2.Controls.Remove(tb_In_Come_Str);
             mainContainer.Panel2.Controls.Remove(cancel);
             mainContainer.Panel2.Controls.Remove(save_create);
+
+            tb_Cash = null;
+            tb_Card = null;
+            tb_OweMe = null;
+            tb_IOwe = null;
+            tb_Saved = null;
+            tb_Wasted = null;
+            tb_Income = null;
+            tb_Wasted_Str = null;
+            tb_Wasted_Str = null;
+            tb_In_Come_Str = null;
+            cancel = null;
+            save_create = null;
 
             btEdit.Visible = true;
             lbDate.Visible = true;
@@ -830,7 +872,7 @@ namespace LoginWFsql
         private void End_Edit()
         {
             preparation_main_panel();
-
+            
             Clear_list_days();
             Fill_Top_Bar();
             if (cbMonth.SelectedIndex == -1)
@@ -846,6 +888,33 @@ namespace LoginWFsql
             }
 
             Show_Selected_Day(Id_selected_day);
+        }
+
+        private void Set_state_btDelete()
+        {
+            if (cbMonth.SelectedIndex == -1 && days.Length == 1)
+                bt_Delete.Enabled = false;
+            else if (cbMonth.SelectedIndex != -1)
+            {
+                command = new MySqlCommand(SqlCommand.count_days, db.getConnection());
+                command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+                
+                db.openConnection();
+                {
+                    reader = command.ExecuteReader();
+                    reader.Read();
+
+                    if (reader.GetInt32(0) > 1)
+                        bt_Delete.Enabled = true;
+                    else
+                        bt_Delete.Enabled = false;
+
+                    reader.Close();
+                }
+                db.closeConnection();
+            }
+            else
+                bt_Delete.Enabled = true;
         }
 
         /// <summary>
@@ -1039,5 +1108,7 @@ namespace LoginWFsql
         TextBox tb_Income;
         TextBox tb_Wasted_Str;
         TextBox tb_In_Come_Str;
+
+
     }
 }
