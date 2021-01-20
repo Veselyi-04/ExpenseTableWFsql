@@ -63,6 +63,16 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap card6 {
+            get {
+                object obj = ResourceManager.GetObject("card6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eyeClose3 {
             get {
                 object obj = ResourceManager.GetObject("eyeClose3", resourceCulture);
@@ -83,9 +93,9 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap i_owe {
+        internal static System.Drawing.Bitmap i_owe2 {
             get {
-                object obj = ResourceManager.GetObject("i_owe", resourceCulture);
+                object obj = ResourceManager.GetObject("i_owe2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,6 +113,16 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap income4 {
+            get {
+                object obj = ResourceManager.GetObject("income4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap money {
             get {
                 object obj = ResourceManager.GetObject("money", resourceCulture);
@@ -111,52 +131,12 @@ namespace LoginWFsql.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
         /// </summary>
-        internal static System.Drawing.Bitmap money_Income {
+        internal static System.Drawing.Icon money1 {
             get {
-                object obj = ResourceManager.GetObject("money_Income", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap money_wasted {
-            get {
-                object obj = ResourceManager.GetObject("money_wasted", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap money_wasted2 {
-            get {
-                object obj = ResourceManager.GetObject("money_wasted2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap money_wasted3 {
-            get {
-                object obj = ResourceManager.GetObject("money_wasted3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap moneySaved {
-            get {
-                object obj = ResourceManager.GetObject("moneySaved", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("money1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -166,6 +146,16 @@ namespace LoginWFsql.Properties {
         internal static System.Drawing.Bitmap moneySaved2 {
             get {
                 object obj = ResourceManager.GetObject("moneySaved2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap owe_me2 {
+            get {
+                object obj = ResourceManager.GetObject("owe_me2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,26 +173,6 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap purse {
-            get {
-                object obj = ResourceManager.GetObject("purse", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap purse2 {
-            get {
-                object obj = ResourceManager.GetObject("purse2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap purse3 {
             get {
                 object obj = ResourceManager.GetObject("purse3", resourceCulture);
@@ -213,39 +183,9 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap state_income {
+        internal static System.Drawing.Bitmap transfer {
             get {
-                object obj = ResourceManager.GetObject("state_income", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap state_income2 {
-            get {
-                object obj = ResourceManager.GetObject("state_income2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap state_null {
-            get {
-                object obj = ResourceManager.GetObject("state_null", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap state_wasted {
-            get {
-                object obj = ResourceManager.GetObject("state_wasted", resourceCulture);
+                object obj = ResourceManager.GetObject("transfer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -256,6 +196,16 @@ namespace LoginWFsql.Properties {
         internal static System.Drawing.Bitmap user5 {
             get {
                 object obj = ResourceManager.GetObject("user5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wasted5 {
+            get {
+                object obj = ResourceManager.GetObject("wasted5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

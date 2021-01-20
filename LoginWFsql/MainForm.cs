@@ -27,16 +27,17 @@ namespace LoginWFsql
         /*Масив с таблице дней (которая слева)*/
         private Day[] days;
 
-        /// <summary>
-        /// Для проверки находимся ли мы сейчас в редакторе
-        /// </summary>
-        private bool state_edit;
-
         // Для того чтобы выводить ранее выбраный день полсе отмены редактирования
         /// <summary>
         /// Запоминает последний день который мы выводили в MainPanel
         /// </summary>
         private int Id_selected_day;
+
+        // Переменные для ля работы с даными из интерфейса
+        Buttons_Push buttons_Push = Buttons_Push.NULL;
+        CellState cellState1 = CellState.NULL;
+        CellState cellState2 = CellState.NULL;
+        CellState cellState3 = CellState.NULL;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -103,8 +104,8 @@ namespace LoginWFsql
             if (Check_state_edit())
                 return;
             // Тут определяем етот день пустой или нет
-            if (days[INDEX].is_empty) 
-                Create_New_Day_Handler(INDEX); // Да: ТОгда ето кнопка создания дня.
+            if (days[INDEX].is_empty)
+                return; //Create_New_Day_Handler(INDEX); // Да: ТОгда ето кнопка создания дня.
             else
                 Show_Selected_Day(INDEX); // Нет: тогда ето кнопка SHOW и мы показываем етот день
         }
@@ -372,55 +373,6 @@ namespace LoginWFsql
 
         }
 
-        /// <summary>
-        /// Обработчик нажатия кнопок для создания нового дня, (для основной кнопки и кнопки на пустом ГрупБоксе)
-        /// i= индекс выбраного дня(если ето кнопка груп бокса) иначе = -1 (ето основная кнопка)
-        /// </summary>
-        /// <param name="i"> При нажатии на ГрупБокс принимает индекс нужного дня</param>
-        private void Create_New_Day_Handler(int i = -1)
-        {
-            Initialize_Text_Box();
-            state_edit = true;
-
-            create_button_Chanel_Save(is_edit: false);
-
-            // Если -1  то ето основная кнопка
-            if (i == -1)
-            {
-                // В таком случае нам нужен DateTimePicker
-                _dateTime = new DateTimePicker
-                {
-                    Location = new Point(lbDate.Location.X, lbDate.Location.Y - 5),
-                    Value = DateTime.Parse(lbDate.Text),
-                    Width = 150,
-                    Format = DateTimePickerFormat.Short,
-                    MaxDate = DateTime.Now,
-                    Font = lbDate.Font
-                };
-                _dateTime.ValueChanged += _dateTime_ValueChanged;
-                mainContainer.Panel2.Controls.Add(_dateTime);
-                _dateTime.BringToFront();
-                lbDate.Visible = false;
-            }
-            else // Иначе ето нажата кнопка груп бокса и у нас есть индекс нужного дня
-            {
-                // DateTimePicker нам не нужен так как дата уже установлена
-                lbDate.Text = days[i].date.ToShortDateString();
-                lbNameDay.Text = days[i].date.DayOfWeek.ToString();
-            }
-
-            // Все поля устанавливаем по стандарту
-            tb_Cash.Text = "0";
-            tb_Card.Text = "0";
-            tb_OweMe.Text = "0";
-            tb_IOwe.Text = "0";
-            tb_Saved.Text = "0";
-            tb_Wasted.Text = "0";
-            tb_Income.Text = "0";
-            tb_Wasted.Text = "0";
-            tb_Income.Text = "0";
-        }
-
         private void Delete_Day()
         {
             command = SqlCommand.Delete_Day(currentUserID, date: days[Id_selected_day].date, db.getConnection()); ;
@@ -554,7 +506,7 @@ namespace LoginWFsql
         {
             if (Check_state_edit())
                 return;
-            Create_New_Day_Handler(-1);
+           //Create_New_Day_Handler(-1);
         }
 
         private void lb_To_7_Click(object sender, EventArgs e)
@@ -653,109 +605,250 @@ namespace LoginWFsql
         /*________________________________________________________________*/
         #endregion
 
-        #region Кнопки [Edit][Save][Create][Cancel][Delete] [MainPanel]
-        private void btEdit_Click(object sender, EventArgs e)
-        {
-            Initialize_Text_Box();
-            create_button_Chanel_Save(is_edit: true);
-            state_edit = true;
-            tb_Cash.Text = lbCash.Text;
-            tb_Card.Text = lbCard.Text;
-            tb_OweMe.Text = lbOweMe.Text;
-            tb_IOwe.Text = lbIOwe.Text;
-            tb_Saved.Text = lbSaved.Text;
-            tb_Wasted.Text = lbWasted.Text;
-            tb_Income.Text = lbIncome.Text;
-            tb_Wasted.Text = lbWasted.Text;
-            tb_Income.Text = lbIncome.Text;
-        }
+        #region Кнопки [Save][Delete][COMBO_BOX] [MainPanel]
 
         private void btSave_Click(object sender, EventArgs e)
         {
             DateTime date = DateTime.Parse(lbDate.Text);
 
-            try
-            {
-                command = SqlCommand.Update_Day(currentUserID, float.Parse(tb_Cash.Text), float.Parse(tb_Card.Text), float.Parse(tb_IOwe.Text), float.Parse(tb_OweMe.Text),
-               float.Parse(tb_Saved.Text), float.Parse(tb_Wasted.Text), tb_Wasted_Str.Text, float.Parse(tb_Income.Text), tb_In_Come_Str.Text, date, db.getConnection());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Поля предназначеные для чисел \n" +
-                        $"Не должны содержать других символов!\n" +
-                        $"{ex.Message}\nИспользуйте запятую для не целых чисел.", "Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (!check_valid_data())
                 return;
-            }
+
+            realization();
+
+            command = SqlCommand.Update_Day(currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
+           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), lb_Wasted_Str.Text, float.Parse(lbIncome.Text), lb_In_Come_Str.Text, date, db.getConnection());
+
 
             db.openConnection();
             command.ExecuteNonQuery();
             db.closeConnection();
 
+            cancel();
             End_Edit();
         }
 
-        /// <summary>
-        /// Обраотчик нажатия кнопок Create, Save
-        /// </summary>
-        private void btCreate_Click(object sender, EventArgs e)
+        private void realization()
         {
-            DateTime date;
-            if (_dateTime == null)
-                date = DateTime.Parse(lbDate.Text);
-            else
-                date = _dateTime.Value;
+            float quantity = float.Parse(tb_quantity.Text);
+            float cash = float.Parse(lbCash.Text);
+            float card = float.Parse(lbCard.Text);
+            float saved = float.Parse(lbSaved.Text);
+            float owe_me = float.Parse(lbOweMe.Text);
+            float i_owe = float.Parse(lbIOwe.Text);
+
+            switch (buttons_Push)
+            {
+                case Buttons_Push.WASTED:
+                    {
+                        if (cellState2 == CellState.Cash)
+                        {
+                            lbCash.Text = (cash - quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Card)
+                        {
+                            lbCard.Text = (card - quantity).ToString();
+                        }
+                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    }
+                    break;
+                case Buttons_Push.OWE_ME: // Дал в долг
+                    {
+                        if (cellState2 == CellState.Cash)
+                        {
+                            lbCash.Text = (cash - quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Card)
+                        {
+                            lbCard.Text = (card - quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Saved)
+                        {
+                            lbSaved.Text = (saved - quantity).ToString();
+                        }
+                        lbOweMe.Text = (owe_me + quantity).ToString();
+                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    }
+                    break;
+                case Buttons_Push.TRANSFER:
+                    {
+                        if (cellState1 == CellState.Cash && cellState3 == CellState.Card)
+                        {
+                            lbCash.Text = (cash - quantity).ToString();
+                            lbCard.Text = (card + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Cash && cellState3 == CellState.Saved)
+                        {
+                            lbCash.Text = (cash - quantity).ToString();
+                            lbSaved.Text = (saved + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Cash && cellState3 == CellState.I_OWE)
+                        {
+                            lbCash.Text = (cash - quantity).ToString();
+                            lbIOwe.Text = (i_owe - quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Card && cellState3 == CellState.Cash)
+                        {
+                            lbCard.Text = (card - quantity).ToString();
+                            lbCash.Text = (cash + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Card && cellState3 == CellState.Saved)
+                        {
+                            lbCard.Text = (card - quantity).ToString();
+                            lbSaved.Text = (saved + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Card && cellState3 == CellState.I_OWE)
+                        {
+                            lbCard.Text = (card - quantity).ToString();
+                            lbIOwe.Text = (i_owe - quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Saved && cellState3 == CellState.Cash)
+                        {
+                            lbSaved.Text = (saved - quantity).ToString();
+                            lbCash.Text = (cash + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Saved && cellState3 == CellState.Card)
+                        {
+                            lbSaved.Text = (saved - quantity).ToString();
+                            lbCard.Text = (card + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.Saved && cellState3 == CellState.I_OWE)
+                        {
+                            lbSaved.Text = (saved - quantity).ToString();
+                            lbIOwe.Text = (i_owe - quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.OWE_ME && cellState3 == CellState.Cash)
+                        {
+                            lbOweMe.Text = (owe_me - quantity).ToString();
+                            lbCash.Text = (cash + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.OWE_ME && cellState3 == CellState.Card)
+                        {
+                            lbOweMe.Text = (owe_me - quantity).ToString();
+                            lbCard.Text = (card + quantity).ToString();
+                        }
+                        else if (cellState1 == CellState.OWE_ME && cellState3 == CellState.Saved)
+                        {
+                            lbOweMe.Text = (owe_me - quantity).ToString();
+                            lbSaved.Text = (saved + quantity).ToString();
+                        }
+                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                        lb_In_Come_Str.Text += $"[+{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    }
+                    break;
+                case Buttons_Push.I_OWE:// Беру в долг
+                    { 
+                    if (cellState2 == CellState.Cash)
+                    {
+                        lbCash.Text = (cash + quantity).ToString();
+                    }
+                    else if(cellState2 == CellState.Card)
+                    {
+                        lbCard.Text = (card + quantity).ToString();
+                    }
+                    lbIOwe.Text =(i_owe + quantity).ToString();
+                    lb_In_Come_Str.Text += $"[+{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    }
+                    break;
+                case Buttons_Push.IN_COME:
+                    {
+                        if (cellState2 == CellState.Cash)
+                        {
+                            lbCash.Text = (cash + quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Card)
+                        {
+                            lbCard.Text = (card + quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Saved)
+                        {
+                            lbSaved.Text = (saved + quantity).ToString();
+                        }
+                        lb_In_Come_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    }
+                    break;
+            }
+        }
+
+        private bool check_valid_data()
+        {
+            float quantity = float.Parse(tb_quantity.Text);
+            float cash = float.Parse(lbCash.Text);
+            float saved = float.Parse(lbSaved.Text);
+            float i_owe = float.Parse(lbIOwe.Text);
+            float owe_me = float.Parse(lbOweMe.Text);
+
+            if (cellState2 == CellState.NULL)
+            {
+                MessageBox.Show("Выберите ячейку.");
+                return false;
+            }
             
-            try
+
+            if (quantity <= 0)
             {
-                command = SqlCommand.Create_NewDay(currentUserID, float.Parse(tb_Cash.Text), float.Parse(tb_Card.Text), float.Parse(tb_IOwe.Text), float.Parse(tb_OweMe.Text),
-                float.Parse(tb_Saved.Text), float.Parse(tb_Wasted.Text), tb_Wasted_Str.Text, float.Parse(tb_Income.Text), tb_In_Come_Str.Text, date, db.getConnection());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Поля предназначеные для чисел \n" +
-                        $"Не должны содержать других символов!\n" +
-                        $"{ex.Message}\nИспользуйте запятую для не целых чисел.", "Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                MessageBox.Show("Сумма не должна быть меньше или равна Нулю.");
+                return false;
             }
 
+            switch (buttons_Push)
+            {
+                case Buttons_Push.WASTED:
+                    {
+                        if (cellState2 == CellState.Cash && quantity > cash)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем есть в Наличке");
+                            return false;
+                        }
+                    }
+                    break;
+                case Buttons_Push.TRANSFER:
+                    {
+                        if (cellState1 == CellState.NULL || cellState3 == CellState.NULL)
+                        {
+                            MessageBox.Show("Выберите ячейку.");
+                            return false;
+                        }
 
-            try
-            {
-                db.openConnection();
-                command.ExecuteNonQuery();
-                db.closeConnection();
+                        if (cellState1 == CellState.Cash && quantity > cash)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем есть в Наличке");
+                            return false;
+                        }
+                        else if (cellState1 == CellState.Saved && quantity > saved)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем есть в Отложено");
+                            return false;
+                        }
+                        else if (cellState3 == CellState.I_OWE && quantity > i_owe)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем Я должен");
+                            return false;
+                        }
+                        else if (cellState1 == CellState.OWE_ME && quantity > owe_me)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем мне должны");
+                            return false;
+                        }
+                    }
+                    break;
+                case Buttons_Push.OWE_ME:
+                    {
+                        if (cellState1 == CellState.Cash && quantity > cash)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем есть в Наличке");
+                            return false;
+                        }
+                        else if (cellState1 == CellState.Saved && quantity > saved)
+                        {
+                            MessageBox.Show("Сумма не должна быть больше чем есть в Отложено");
+                            return false;
+                        }
+                    }
+                    break;
             }
-            catch (MySqlException ex)
-            {
-                if (ex.Number == 1062) // 1062 ошибка повторяющегося уникального ключа (в нашем случае ето дата)
-                {
-                    MessageBox.Show($"День с такой датой уже существует!\nВы можете отредактировать его!\n" +
-                        $"{ex.Message}", "Ошибка 1062!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Неизвесная Ошибка MySqlException\n {ex.Message}", $"Ошибка {ex.Number}!",
-                       MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                return;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", $"Ошибка!",
-                       MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            End_Edit();
-        }
 
-        private void btCancel_Click(object sender, EventArgs e)
-        {
-            preparation_main_panel();
-            Show_Selected_Day(Id_selected_day);
-            bt_Delete.Enabled = true;
+            return true;
         }
 
         private void btDelete_Click(object sender, EventArgs e)
@@ -769,111 +862,10 @@ namespace LoginWFsql
         }
 
         /// <summary>
-        /// Создает кнопку "Save" либо "Create"
-        /// </summary>
-        /// <param name="is_edit">True = Save; False = Create;</param>
-        private void create_button_Chanel_Save(bool is_edit)
-        {
-            btEdit.Visible = false;
-            bt_Delete.Enabled = false;
-            cancel = new Button
-            {
-                Text = "CANCEL",
-                Width = btEdit.Width / 2 - 2,
-                Height = btEdit.Height,
-                Location = btEdit.Location,
-                BackColor = btEdit.BackColor,
-                FlatStyle = btEdit.FlatStyle,
-                Font = btEdit.Font,
-                ForeColor = btEdit.ForeColor,
-                TextAlign = btEdit.TextAlign,
-            };
-            cancel.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
-            mainContainer.Panel2.Controls.Add(cancel);
-            cancel.Click += btCancel_Click;
-
-            save_create = new Button
-            {
-                Width = btEdit.Width / 2 - 2,
-                Height = btEdit.Height,
-                Location = new Point(cancel.Location.X + btEdit.Width / 2, cancel.Location.Y),
-                BackColor = btEdit.BackColor,
-                FlatStyle = btEdit.FlatStyle,
-                Font = btEdit.Font,
-                ForeColor = btEdit.ForeColor,
-                TextAlign = btEdit.TextAlign,
-            };
-            save_create.FlatAppearance.BorderSize = btEdit.FlatAppearance.BorderSize;
-            mainContainer.Panel2.Controls.Add(save_create);
-
-            if (is_edit)
-            {
-                save_create.Text = "SAVE";
-                save_create.Click += btSave_Click;
-            }
-            else
-            {
-                save_create.Text = "CREATE";
-                save_create.Click += btCreate_Click;
-            }
-        }
-
-        /// <summary>
-        /// Подготовка панели для заканчивания редагирования либо отмены редагирования
-        /// </summary>
-        private void preparation_main_panel()
-        {
-            state_edit = false;
-            if (_dateTime != null)
-            {
-                mainContainer.Panel2.Controls.Remove(_dateTime);
-                _dateTime = null;
-            }
-            mainContainer.Panel2.Controls.Remove(tb_Cash);
-            mainContainer.Panel2.Controls.Remove(tb_Card);
-            mainContainer.Panel2.Controls.Remove(tb_OweMe);
-            mainContainer.Panel2.Controls.Remove(tb_IOwe);
-            mainContainer.Panel2.Controls.Remove(tb_Saved);
-            mainContainer.Panel2.Controls.Remove(tb_Wasted);
-            mainContainer.Panel2.Controls.Remove(tb_Income);
-            mainContainer.Panel2.Controls.Remove(tb_Wasted_Str);
-            mainContainer.Panel2.Controls.Remove(tb_In_Come_Str);
-            mainContainer.Panel2.Controls.Remove(cancel);
-            mainContainer.Panel2.Controls.Remove(save_create);
-
-            tb_Cash = null;
-            tb_Card = null;
-            tb_OweMe = null;
-            tb_IOwe = null;
-            tb_Saved = null;
-            tb_Wasted = null;
-            tb_Income = null;
-            tb_Wasted_Str = null;
-            tb_Wasted_Str = null;
-            tb_In_Come_Str = null;
-            cancel = null;
-            save_create = null;
-
-            btEdit.Visible = true;
-            lbDate.Visible = true;
-            lbCash.Visible = true;
-            lbCard.Visible = true;
-            lbOweMe.Visible = true;
-            lbIOwe.Visible = true;
-            lbSaved.Visible = true;
-            lbWasted.Visible = true;
-            lbIncome.Visible = true;
-            lb_Wasted_Str.Visible = true;
-            lb_In_Come_Str.Visible = true;
-        }
-
-        /// <summary>
         /// Завершивание редактирования\создания дня
         /// </summary>
         private void End_Edit()
-        {
-            preparation_main_panel();
-            
+        {            
             Clear_list_days();
             Fill_Top_Bar();
             if (cbMonth.SelectedIndex == -1)
@@ -931,184 +923,212 @@ namespace LoginWFsql
         /// <returns>[True]-[False]</returns>
         private bool Check_state_edit()
         {
-            if (state_edit)
+            /*if (state_edit)
             {
                 MessageBox.Show("Завершите редактирование", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
-            }
+            }*/
             return false;
-        }
-
-        /// <summary>
-        /// Создает необходимые компоненты для редагирования\создания дней
-        /// </summary>
-        private void Initialize_Text_Box()
-        {
-            Color bColor = mainContainer.BackColor;
-            Color fColor = Color.Gray;
-
-            //
-            //lbCash
-            //
-            tb_Cash = new TextBox
-            {
-                Size = lbCash.Size,
-                Location = lbCash.Location
-            };
-            tb_Cash.BackColor = bColor;
-            tb_Cash.ForeColor = fColor;
-            tb_Cash.TextAlign = HorizontalAlignment.Center;
-            tb_Cash.BorderStyle = BorderStyle.None;
-            tb_Cash.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbCash.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Cash);
-            tb_Cash.BringToFront();
-            //
-            //lbCard
-            //
-            tb_Card = new TextBox
-            {
-                Size = lbCard.Size,
-                Location = lbCard.Location
-            };
-            tb_Card.BackColor = bColor;
-            tb_Card.ForeColor = fColor;
-            tb_Card.TextAlign = HorizontalAlignment.Center;
-            tb_Card.BorderStyle = BorderStyle.None;
-            tb_Card.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbCard.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Card);
-            tb_Card.BringToFront();
-            //
-            //lbOweMe
-            //
-            tb_OweMe = new TextBox
-            {
-                Size = lbOweMe.Size,
-                Location = lbOweMe.Location
-            };
-            tb_OweMe.BackColor = bColor;
-            tb_OweMe.ForeColor = fColor;
-            tb_OweMe.TextAlign = HorizontalAlignment.Center;
-            tb_OweMe.BorderStyle = BorderStyle.None;
-            tb_OweMe.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbOweMe.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_OweMe);
-            tb_OweMe.BringToFront();
-            //
-            //lbIOwe
-            //
-            tb_IOwe = new TextBox
-            {
-                Size = lbIOwe.Size,
-                Location = lbIOwe.Location
-            };
-            tb_IOwe.BackColor = bColor;
-            tb_IOwe.ForeColor = fColor;
-            tb_IOwe.TextAlign = HorizontalAlignment.Center;
-            tb_IOwe.BorderStyle = BorderStyle.None;
-            tb_IOwe.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbIOwe.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_IOwe);
-            tb_IOwe.BringToFront();
-            //
-            //lbSaved
-            //
-            tb_Saved = new TextBox
-            {
-                Size = lbSaved.Size,
-                Location = lbSaved.Location
-            };
-            tb_Saved.BackColor = bColor;
-            tb_Saved.ForeColor = fColor;
-            tb_Saved.TextAlign = HorizontalAlignment.Center;
-            tb_Saved.BorderStyle = BorderStyle.None;
-            tb_Saved.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbSaved.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Saved);
-            //
-            //lbWasted
-            //
-            tb_Wasted = new TextBox
-            {
-                Size = lbWasted.Size,
-                Location = lbWasted.Location
-            };
-            tb_Wasted.BackColor = bColor;
-            tb_Wasted.ForeColor = fColor;
-            tb_Wasted.TextAlign = HorizontalAlignment.Center;
-            tb_Wasted.BorderStyle = BorderStyle.None;
-            tb_Wasted.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbWasted.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Wasted);
-            //
-            //lbIncome
-            //
-            tb_Income = new TextBox
-            {
-                Size = lbIncome.Size,
-                Location = lbIncome.Location
-            };
-            tb_Income.BackColor = bColor;
-            tb_Income.ForeColor = fColor;
-            tb_Income.TextAlign = HorizontalAlignment.Center;
-            tb_Income.BorderStyle = BorderStyle.None;
-            tb_Income.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lbIncome.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Income);
-            //
-            //lb_Wasted_Str
-            //
-            tb_Wasted_Str = new TextBox
-            {
-                Size = lb_Wasted_Str.Size,
-                Location = lb_Wasted_Str.Location
-            };
-            tb_Wasted_Str.BackColor = Color.FromArgb(35, 35, 35);
-            tb_Wasted_Str.ForeColor = fColor;
-            tb_Wasted_Str.TextAlign = HorizontalAlignment.Left;
-            tb_Wasted_Str.BorderStyle = BorderStyle.None;
-            tb_Wasted_Str.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            tb_Wasted_Str.Multiline = true;
-            tb_Wasted_Str.ScrollBars = ScrollBars.Vertical;
-            lb_Wasted_Str.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_Wasted_Str);
-            //
-            //lb_In_Come_Str
-            //
-            tb_In_Come_Str = new TextBox
-            {
-                Size = lb_In_Come_Str.Size,
-                Location = lb_In_Come_Str.Location
-            };
-            tb_In_Come_Str.BackColor = Color.FromArgb(35, 35, 35);
-            tb_In_Come_Str.ForeColor = fColor;
-            tb_In_Come_Str.TextAlign = HorizontalAlignment.Left;
-            tb_In_Come_Str.BorderStyle = BorderStyle.None;
-            tb_In_Come_Str.Font = new Font("a_LatinoNr", 10f, FontStyle.Regular, GraphicsUnit.Point, 204);
-            tb_In_Come_Str.Multiline = true;
-            tb_In_Come_Str.ScrollBars = ScrollBars.Vertical;
-
-            lb_In_Come_Str.Visible = false;
-            mainContainer.Panel2.Controls.Add(tb_In_Come_Str);
-            //////////////////////////////////////////////////////////
         }
         #endregion
 
-
-        Button cancel;
-        Button save_create;
         DateTimePicker _dateTime;
-        TextBox tb_Cash;
-        TextBox tb_Card;
-        TextBox tb_OweMe;
-        TextBox tb_IOwe;
-        TextBox tb_Saved;
-        TextBox tb_Wasted;
-        TextBox tb_Income;
-        TextBox tb_Wasted_Str;
-        TextBox tb_In_Come_Str;
+        
+        private void bt_Wasted_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push == Buttons_Push.WASTED)
+            {
+                cancel();
+                return;
+            }
+            buttons_Push = Buttons_Push.WASTED;
+            bt_Owe_Me.Enabled = false;
+            bt_Transfer.Enabled = false;
+            bt_I_Owe.Enabled = false;
+            bt_In_Come.Enabled = false;
 
+            lbSavedText.Enabled = false;
+            lbIOweText.Enabled = false;
+            lbOweMeText.Enabled = false;
+
+            lbCashText.Cursor = Cursors.Hand;
+            lbCashText.Click += LbCashText_Click;
+            lbCardText.Cursor = Cursors.Hand;
+            lbCardText.Click += LbCardText_Click;
+
+            lbSymbol.Text = "-";
+            bt_Wasted.Text = "Отмена";
+            btSave.Enabled = true;
+
+            lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void bt_Owe_Me_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push == Buttons_Push.OWE_ME)
+            {
+                cancel();
+                return;
+            }
+
+            buttons_Push = Buttons_Push.OWE_ME;
+            bt_Wasted.Enabled = false;
+            bt_Transfer.Enabled = false;
+            bt_I_Owe.Enabled = false;
+            bt_In_Come.Enabled = false;
+
+            lbIOweText.Enabled = false;
+            lbOweMeText.Enabled = false;
+
+            lbCashText.Cursor = Cursors.Hand;
+            lbCashText.Click += LbCashText_Click;
+            lbCardText.Cursor = Cursors.Hand;
+            lbCardText.Click += LbCardText_Click;
+            lbSavedText.Cursor = Cursors.Hand;
+            lbSavedText.Click += lbSavedText_Click;
+
+            lbSymbol.Text = "-";
+            bt_Owe_Me.Text = "Отмена";
+            btSave.Enabled = true;
+
+            lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void bt_Transfer_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push == Buttons_Push.TRANSFER)
+            {
+                cancel();
+                return;
+            }
+
+            buttons_Push = Buttons_Push.TRANSFER;
+            bt_Wasted.Enabled = false;
+            bt_Owe_Me.Enabled = false;
+            bt_I_Owe.Enabled = false;
+            bt_In_Come.Enabled = false;
+
+            lbIOweText.Enabled = false;
+            lbOweMeText.Enabled = false;
+
+            lbCashText.Cursor = Cursors.Hand;
+            lbCashText.Click += LbCashText_Click;
+            lbCardText.Cursor = Cursors.Hand;
+            lbCardText.Click += LbCardText_Click;
+            lbSavedText.Cursor = Cursors.Hand;
+            lbSavedText.Click += lbSavedText_Click;
+
+            lbSymbol.Text = "-";
+            bt_Transfer.Text = "Отмена";
+            btSave.Enabled = true;
+
+            lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void cancel()
+        {
+            // Clear. End EDIT cancel
+            buttons_Push = Buttons_Push.NULL;
+            // Включаю все кнопки
+            bt_Wasted.Enabled = true;
+            bt_Owe_Me.Enabled = true;
+            bt_Transfer.Enabled = true;
+            bt_I_Owe.Enabled = true;
+            bt_In_Come.Enabled = true;
+            // Включаю все label
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = true;
+            lbIOweText.Enabled = true;
+            lbOweMeText.Enabled = true;
+
+            // Отключаю для label обработчик нажатия
+            lbCashText.Cursor = Cursors.Default;
+            lbCashText.Click -= LbCashText_Click;
+
+            lbCardText.Cursor = Cursors.Default;
+            lbCardText.Click -= LbCardText_Click;
+
+            lbSavedText.Cursor = Cursors.Default;
+            lbSavedText.Click -= lbSavedText_Click;
+
+            lbIOweText.Cursor = Cursors.Default;
+            //lbIOweText.Click -= ;
+
+            lbOweMeText.Cursor = Cursors.Default;
+            //lbOweMeText.Click -= ;
+
+            // Чищу выбраные ячейки
+            picture1.Image = null;
+            picture2.Image = null;
+            picture3.Image = null;
+            cellState1 = CellState.NULL;
+            cellState2 = CellState.NULL;
+            cellState3 = CellState.NULL;
+
+            // Удаляю все из текстовых полей
+            tb_comment.Text = "";
+            tb_quantity.Text = "";
+            lbSymbol.Text = "";
+
+            // Кнопкам возвращаю преведущее название
+            bt_Wasted.Text = "Потратил";
+            bt_Owe_Me.Text = "Дал в долг";
+
+            
+            btSave.Enabled = false;
+            //Делит должен ставиться в тру если чек делит позволяет
+            lb_select_cell.ForeColor = Color.Gainsboro;
+        }
+
+        private void lbSavedText_Click(object sender, EventArgs e)
+        {
+            picture2.Image = pbSaved.Image;
+            if (cellState2 != CellState.TRANSFER)
+                cellState2 = CellState.Saved;
+        }
+
+        private void LbCardText_Click(object sender, EventArgs e)
+        {
+            picture2.Image = pbCard.Image;
+            if(cellState2 != CellState.TRANSFER)
+                cellState2 = CellState.Card;
+        }
+
+        private void LbCashText_Click(object sender, EventArgs e)
+        {
+            picture2.Image = pbCash.Image;
+            if (cellState2 != CellState.TRANSFER)
+                cellState2 = CellState.Cash;
+        }
+
+        private enum Buttons_Push
+        { 
+            NULL,
+            WASTED,
+            I_OWE,// Беру в долг (Я должен)
+            TRANSFER,
+            OWE_ME,// Даю в долг (Мне должны)
+            IN_COME
+        }
+        private enum CellState
+        {
+            NULL,
+            Cash,
+            Card,
+            Saved,
+            I_OWE,
+            OWE_ME,
+            TRANSFER
+        }
+
+        private void tb_quantity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 44)
+            {
+                e.Handled = true;
+            }
+        }
 
     }
 }

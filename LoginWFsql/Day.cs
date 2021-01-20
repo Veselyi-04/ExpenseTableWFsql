@@ -136,26 +136,27 @@ namespace LoginWFsql
             //
             // pb_wasted
             //
-            pb_wasted.Image = Properties.Resources.money_wasted3;
-            pb_wasted.Location = new Point(76, 29);
+            pb_wasted.Image = Properties.Resources.wasted5;
+            pb_wasted.Location = new Point(73, 32); // 76 29
             pb_wasted.Name = "pictureBox20";
-            pb_wasted.Size = new Size(20, 20);
+            pb_wasted.Size = new Size(25, 25);
             pb_wasted.SizeMode = PictureBoxSizeMode.StretchImage;
+            pb_wasted.BringToFront();
             //
             // pb_cash
             //
             pb_cash.Image = Properties.Resources.purse3;
-            pb_cash.Location = new Point(3, 24);
+            pb_cash.Location = new Point(3, 27);
             pb_cash.Name = "pictureBox13";
-            pb_cash.Size = new Size(25, 25);
+            pb_cash.Size = new Size(28, 28);
             pb_cash.SizeMode = PictureBoxSizeMode.StretchImage;
             //
             // pb_income
             //
-            pb_income.Image = Properties.Resources.money_Income;
-            pb_income.Location = new Point(76, 8);
+            pb_income.Image = Properties.Resources.income4;
+            pb_income.Location = new Point(73, 11); // 76 8
             pb_income.Name = "pictureBox11";
-            pb_income.Size = new Size(20, 20);
+            pb_income.Size = new Size(25, 25);
             pb_income.SizeMode = PictureBoxSizeMode.StretchImage;
             //
             // line_income

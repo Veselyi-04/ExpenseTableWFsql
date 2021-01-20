@@ -106,33 +106,28 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="image\eyeClose3.png" />
-    <Content Include="image\eyeOpen3.png" />
-    <Content Include="image\idCardName.png" />
-    <None Include="image\i_owe.png" />
-    <Content Include="image\money.ico" />
-    <Content Include="image\money.png" />
-    <None Include="Resources\i_owe.png" />
-    <None Include="image\moneySaved.png" />
-    <Content Include="image\money_wasted3.png" />
-    <Content Include="image\password.png" />
-    <Content Include="image\purse.png" />
-    <Content Include="image\state_income2.png" />
-    <Content Include="image\state_null.png" />
-    <Content Include="image\state_wasted.png" />
-    <Content Include="image\user5.png" />
     <None Include="Resources\moneySaved2.png" />
-    <None Include="Resources\moneySaved.png" />
-    <None Include="Resources\state_income2.png" />
-    <None Include="Resources\state_wasted.png" />
-    <None Include="Resources\state_income.png" />
-    <None Include="Resources\state_null.png" />
-    <None Include="Resources\money_Income.png" />
-    <None Include="Resources\money_wasted3.png" />
-    <None Include="Resources\money_wasted2.png" />
-    <None Include="Resources\money_wasted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\owe_me2.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\purse3.png" />
-    <None Include="Resources\purse2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transfer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wasted5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\card6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i_owe2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\income4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
