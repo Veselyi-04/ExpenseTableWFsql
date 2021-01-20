@@ -34,7 +34,6 @@ namespace LoginWFsql
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.pictureBox17 = new System.Windows.Forms.PictureBox();
-            this._lb_state_saved = new System.Windows.Forms.Label();
             this.pictureBox16 = new System.Windows.Forms.PictureBox();
             this._lb_state_i_owe = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
@@ -48,12 +47,13 @@ namespace LoginWFsql
             this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this._lb_state_saved = new System.Windows.Forms.Label();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.btCrateNewDay = new System.Windows.Forms.Button();
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.pbOweMe = new System.Windows.Forms.PictureBox();
             this.lbIncome = new System.Windows.Forms.Label();
             this.lbWasted = new System.Windows.Forms.Label();
             this.lb_In_Come_Str = new System.Windows.Forms.Label();
@@ -72,7 +72,7 @@ namespace LoginWFsql
             this.lb_comment = new System.Windows.Forms.Label();
             this.tb_comment = new System.Windows.Forms.TextBox();
             this.tb_quantity = new System.Windows.Forms.TextBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pbIOwe = new System.Windows.Forms.PictureBox();
             this.bt_Delete = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -107,13 +107,13 @@ namespace LoginWFsql
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_wasted)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIOwe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).BeginInit();
@@ -178,17 +178,6 @@ namespace LoginWFsql
             this.pictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox17.TabIndex = 41;
             this.pictureBox17.TabStop = false;
-            // 
-            // _lb_state_saved
-            // 
-            this._lb_state_saved.AutoSize = true;
-            this._lb_state_saved.Font = new System.Drawing.Font("a_LatinoNr", 9F);
-            this._lb_state_saved.ForeColor = System.Drawing.Color.White;
-            this._lb_state_saved.Location = new System.Drawing.Point(456, 8);
-            this._lb_state_saved.Name = "_lb_state_saved";
-            this._lb_state_saved.Size = new System.Drawing.Size(66, 15);
-            this._lb_state_saved.TabIndex = 39;
-            this._lb_state_saved.Text = "2350грн";
             // 
             // pictureBox16
             // 
@@ -350,6 +339,17 @@ namespace LoginWFsql
             this.label13.Text = "/";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // _lb_state_saved
+            // 
+            this._lb_state_saved.AutoSize = true;
+            this._lb_state_saved.Font = new System.Drawing.Font("a_LatinoNr", 9F);
+            this._lb_state_saved.ForeColor = System.Drawing.Color.White;
+            this._lb_state_saved.Location = new System.Drawing.Point(456, 8);
+            this._lb_state_saved.Name = "_lb_state_saved";
+            this._lb_state_saved.Size = new System.Drawing.Size(66, 15);
+            this._lb_state_saved.TabIndex = 39;
+            this._lb_state_saved.Text = "2350грн";
+            // 
             // mainContainer
             // 
             this.mainContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -371,7 +371,7 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
-            this.mainContainer.Panel2.Controls.Add(this.pictureBox8);
+            this.mainContainer.Panel2.Controls.Add(this.pbOweMe);
             this.mainContainer.Panel2.Controls.Add(this.lbIncome);
             this.mainContainer.Panel2.Controls.Add(this.lbWasted);
             this.mainContainer.Panel2.Controls.Add(this.lb_In_Come_Str);
@@ -390,7 +390,7 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lb_comment);
             this.mainContainer.Panel2.Controls.Add(this.tb_comment);
             this.mainContainer.Panel2.Controls.Add(this.tb_quantity);
-            this.mainContainer.Panel2.Controls.Add(this.pictureBox3);
+            this.mainContainer.Panel2.Controls.Add(this.pbIOwe);
             this.mainContainer.Panel2.Controls.Add(this.bt_Delete);
             this.mainContainer.Panel2.Controls.Add(this.panel3);
             this.mainContainer.Panel2.Controls.Add(this.panel2);
@@ -490,16 +490,16 @@ namespace LoginWFsql
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
             // 
-            // pictureBox8
+            // pbOweMe
             // 
-            this.pictureBox8.Enabled = false;
-            this.pictureBox8.Image = global::LoginWFsql.Properties.Resources.owe_me2;
-            this.pictureBox8.Location = new System.Drawing.Point(271, 73);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox8.TabIndex = 48;
-            this.pictureBox8.TabStop = false;
+            this.pbOweMe.Enabled = false;
+            this.pbOweMe.Image = global::LoginWFsql.Properties.Resources.owe_me2;
+            this.pbOweMe.Location = new System.Drawing.Point(271, 73);
+            this.pbOweMe.Name = "pbOweMe";
+            this.pbOweMe.Size = new System.Drawing.Size(25, 25);
+            this.pbOweMe.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbOweMe.TabIndex = 48;
+            this.pbOweMe.TabStop = false;
             // 
             // lbIncome
             // 
@@ -529,7 +529,7 @@ namespace LoginWFsql
             // 
             this.lb_In_Come_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lb_In_Come_Str.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lb_In_Come_Str.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_In_Come_Str.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_In_Come_Str.ForeColor = System.Drawing.Color.White;
             this.lb_In_Come_Str.Location = new System.Drawing.Point(256, 271);
             this.lb_In_Come_Str.Name = "lb_In_Come_Str";
@@ -540,7 +540,7 @@ namespace LoginWFsql
             // 
             this.lb_Wasted_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lb_Wasted_Str.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lb_Wasted_Str.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Wasted_Str.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_Wasted_Str.ForeColor = System.Drawing.Color.White;
             this.lb_Wasted_Str.Location = new System.Drawing.Point(19, 271);
             this.lb_Wasted_Str.Name = "lb_Wasted_Str";
@@ -704,7 +704,7 @@ namespace LoginWFsql
             // 
             this.tb_comment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_comment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_comment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F);
+            this.tb_comment.Font = new System.Drawing.Font("Century", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_comment.Location = new System.Drawing.Point(12, 172);
             this.tb_comment.Multiline = true;
             this.tb_comment.Name = "tb_comment";
@@ -717,6 +717,7 @@ namespace LoginWFsql
             this.tb_quantity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_quantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_quantity.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F);
+            this.tb_quantity.ForeColor = System.Drawing.Color.White;
             this.tb_quantity.Location = new System.Drawing.Point(181, 139);
             this.tb_quantity.Name = "tb_quantity";
             this.tb_quantity.Size = new System.Drawing.Size(100, 23);
@@ -724,16 +725,16 @@ namespace LoginWFsql
             this.tb_quantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_quantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_quantity_KeyPress);
             // 
-            // pictureBox3
+            // pbIOwe
             // 
-            this.pictureBox3.Enabled = false;
-            this.pictureBox3.Image = global::LoginWFsql.Properties.Resources.i_owe2;
-            this.pictureBox3.Location = new System.Drawing.Point(271, 100);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 45;
-            this.pictureBox3.TabStop = false;
+            this.pbIOwe.Enabled = false;
+            this.pbIOwe.Image = global::LoginWFsql.Properties.Resources.i_owe2;
+            this.pbIOwe.Location = new System.Drawing.Point(271, 100);
+            this.pbIOwe.Name = "pbIOwe";
+            this.pbIOwe.Size = new System.Drawing.Size(25, 25);
+            this.pbIOwe.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbIOwe.TabIndex = 45;
+            this.pbIOwe.TabStop = false;
             // 
             // bt_Delete
             // 
@@ -1053,13 +1054,13 @@ namespace LoginWFsql
             this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_wasted)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIOwe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).EndInit();
@@ -1118,10 +1119,10 @@ namespace LoginWFsql
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pb_income;
         private System.Windows.Forms.PictureBox pb_wasted;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pbIOwe;
         private System.Windows.Forms.PictureBox pbSaved;
         private System.Windows.Forms.PictureBox pbCard;
-        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.PictureBox pbOweMe;
         private System.Windows.Forms.TextBox tb_quantity;
         private System.Windows.Forms.Label lb_comment;
         private System.Windows.Forms.TextBox tb_comment;

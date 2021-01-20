@@ -203,6 +203,16 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap wait1 {
+            get {
+                object obj = ResourceManager.GetObject("wait1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap wasted5 {
             get {
                 object obj = ResourceManager.GetObject("wasted5", resourceCulture);

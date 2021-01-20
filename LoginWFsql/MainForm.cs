@@ -34,10 +34,11 @@ namespace LoginWFsql
         private int Id_selected_day;
 
         // Переменные для ля работы с даными из интерфейса
-        Buttons_Push buttons_Push = Buttons_Push.NULL;
-        CellState cellState1 = CellState.NULL;
-        CellState cellState2 = CellState.NULL;
-        CellState cellState3 = CellState.NULL;
+        private Buttons_Push buttons_Push = Buttons_Push.NULL;
+        private CellState cellState1 = CellState.NULL;
+        private CellState cellState2 = CellState.NULL;
+        private CellState cellState3 = CellState.NULL;
+        private bool picture_select = true;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -731,7 +732,7 @@ namespace LoginWFsql
                         {
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
-                        }
+                        }   
                         lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
                         lb_In_Come_Str.Text += $"[+{tb_quantity.Text}]   -{tb_comment.Text}\n";
                     }
@@ -1003,13 +1004,27 @@ namespace LoginWFsql
             }
 
             buttons_Push = Buttons_Push.TRANSFER;
+            cellState2 = CellState.TRANSFER;
             bt_Wasted.Enabled = false;
             bt_Owe_Me.Enabled = false;
             bt_I_Owe.Enabled = false;
             bt_In_Come.Enabled = false;
 
             lbIOweText.Enabled = false;
-            lbOweMeText.Enabled = false;
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = true;
+            lbOweMeText.Enabled = true;
+
+            picture1.Image = Properties.Resources.wait1;
+            picture1.Cursor = Cursors.Hand;
+            picture1.Click += Picture1_Click;
+
+            picture2.Image = Properties.Resources.transfer;
+
+            picture3.Image = Properties.Resources.wait1;
+            picture3.Cursor = Cursors.Hand;
+            picture3.Click += Picture3_Click;
 
             lbCashText.Cursor = Cursors.Hand;
             lbCashText.Click += LbCashText_Click;
@@ -1017,12 +1032,149 @@ namespace LoginWFsql
             lbCardText.Click += LbCardText_Click;
             lbSavedText.Cursor = Cursors.Hand;
             lbSavedText.Click += lbSavedText_Click;
+            lbOweMeText.Cursor = Cursors.Hand;
+            lbOweMeText.Click += LbOweMeText_Click;
+            lbIOweText.Cursor = Cursors.Hand;
+            lbIOweText.Click += LbIOweText_Click;
 
-            lbSymbol.Text = "-";
+            lbSymbol.Text = "=";
             bt_Transfer.Text = "Отмена";
             btSave.Enabled = true;
 
             lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void Picture3_Click(object sender, EventArgs e)
+        {
+            picture_select = false;
+
+            lbIOweText.Enabled = true;
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = true;
+            lbOweMeText.Enabled = false;
+        }
+
+        private void Picture1_Click(object sender, EventArgs e)
+        {
+            picture_select = true;
+
+            lbIOweText.Enabled = false;
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = true;
+            lbOweMeText.Enabled = true;
+        }
+
+        private void LbIOweText_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push != Buttons_Push.TRANSFER)
+            {
+                cellState2 = CellState.I_OWE;
+                picture2.Image = pbIOwe.Image;
+            }
+            else
+            {
+                if (picture_select)
+                {
+                    cellState1 = CellState.I_OWE;
+                    picture1.Image = pbIOwe.Image;
+                }
+                else
+                {
+                    cellState3 = CellState.I_OWE;
+                    picture3.Image = pbIOwe.Image;
+                }
+            }
+        }
+
+        private void LbOweMeText_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push != Buttons_Push.TRANSFER)
+            {
+                cellState2 = CellState.OWE_ME;
+                picture2.Image = pbOweMe.Image;
+            }
+            else
+            {
+                if(picture_select)
+                {
+                    cellState1 = CellState.OWE_ME;
+                    picture1.Image = pbOweMe.Image;
+                }
+                else
+                {
+                    cellState3 = CellState.OWE_ME;
+                    picture3.Image = pbOweMe.Image;
+                }
+            }
+        }
+
+        private void lbSavedText_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push != Buttons_Push.TRANSFER)
+            {
+                cellState2 = CellState.Saved;
+                picture2.Image = pbSaved.Image;
+            }
+            else
+            {
+                if (picture_select)
+                {
+                    cellState1 = CellState.Saved;
+                    picture1.Image = pbSaved.Image;
+                }
+                else
+                {
+                    cellState3 = CellState.Saved;
+                    picture3.Image = pbSaved.Image;
+                }
+            }
+        }
+
+        private void LbCardText_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push != Buttons_Push.TRANSFER)
+            {
+                cellState2 = CellState.Card;
+                picture2.Image = pbCard.Image;
+            }
+            else
+            {
+                if (picture_select)
+                {
+                    cellState1 = CellState.Card;
+                    picture1.Image = pbCard.Image;
+                }
+                else
+                {
+                    cellState3 = CellState.Card;
+                    picture3.Image = pbCard.Image;
+                }
+            }
+        }
+
+        private void LbCashText_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push != Buttons_Push.TRANSFER)
+            {
+                cellState2 = CellState.Cash;
+                picture2.Image = pbCash.Image;
+
+            }
+            else
+            {
+                if (picture_select)
+                {
+                    cellState1 = CellState.Cash;
+                    picture1.Image = pbCash.Image;
+                }
+                else
+                {
+                    cellState3 = CellState.Cash;
+                    picture3.Image = pbCash.Image;
+                }
+            }
         }
 
         private void cancel()
@@ -1045,23 +1197,25 @@ namespace LoginWFsql
             // Отключаю для label обработчик нажатия
             lbCashText.Cursor = Cursors.Default;
             lbCashText.Click -= LbCashText_Click;
-
             lbCardText.Cursor = Cursors.Default;
             lbCardText.Click -= LbCardText_Click;
-
             lbSavedText.Cursor = Cursors.Default;
             lbSavedText.Click -= lbSavedText_Click;
-
             lbIOweText.Cursor = Cursors.Default;
-            //lbIOweText.Click -= ;
-
+            lbIOweText.Click -= LbIOweText_Click;
             lbOweMeText.Cursor = Cursors.Default;
-            //lbOweMeText.Click -= ;
+            lbOweMeText.Click -= LbOweMeText_Click;
 
             // Чищу выбраные ячейки
             picture1.Image = null;
+            picture1.Cursor = Cursors.Default;
+            picture1.Click -= Picture1_Click;
+
             picture2.Image = null;
+
             picture3.Image = null;
+            picture3.Cursor = Cursors.Default;
+            picture3.Click -= Picture3_Click;
             cellState1 = CellState.NULL;
             cellState2 = CellState.NULL;
             cellState3 = CellState.NULL;
@@ -1074,34 +1228,12 @@ namespace LoginWFsql
             // Кнопкам возвращаю преведущее название
             bt_Wasted.Text = "Потратил";
             bt_Owe_Me.Text = "Дал в долг";
+            bt_Transfer.Text = "Перевод";
 
-            
             btSave.Enabled = false;
             //Делит должен ставиться в тру если чек делит позволяет
             lb_select_cell.ForeColor = Color.Gainsboro;
         }
-
-        private void lbSavedText_Click(object sender, EventArgs e)
-        {
-            picture2.Image = pbSaved.Image;
-            if (cellState2 != CellState.TRANSFER)
-                cellState2 = CellState.Saved;
-        }
-
-        private void LbCardText_Click(object sender, EventArgs e)
-        {
-            picture2.Image = pbCard.Image;
-            if(cellState2 != CellState.TRANSFER)
-                cellState2 = CellState.Card;
-        }
-
-        private void LbCashText_Click(object sender, EventArgs e)
-        {
-            picture2.Image = pbCash.Image;
-            if (cellState2 != CellState.TRANSFER)
-                cellState2 = CellState.Cash;
-        }
-
         private enum Buttons_Push
         { 
             NULL,
