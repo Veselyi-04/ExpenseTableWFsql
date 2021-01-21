@@ -39,7 +39,10 @@ namespace LoginWFsql
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
         private bool picture_select = true;
-        DateTimePicker _dateTime;
+
+        private DateTimePicker _dateTime = null;
+        private Button bt_Create = null;
+        private Button bt_Cancel = null;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -74,7 +77,7 @@ namespace LoginWFsql
                     return;
 
                 days[i].Create_New_Group_Box();
-                days[i].Click_Button += new DayEventHandler (btShow_click_Handler);
+                days[i].Click_Button += new DayEventHandler (btDay_click_Handler);
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
@@ -90,7 +93,7 @@ namespace LoginWFsql
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box();
-                days[i].Click_Button += new DayEventHandler(btShow_click_Handler);
+                days[i].Click_Button += new DayEventHandler(btDay_click_Handler);
                 days[i].GroupBox.Location = new Point(2, (65 * i + 25));
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
@@ -101,19 +104,25 @@ namespace LoginWFsql
         /// Обработчик нажатия кнопки SHOW\/Принимает индекс дня
         /// </summary>
         /// <param name="INDEX">Индекс дня, на котором мы нажали кнопку</param>
-        private void btShow_click_Handler(int INDEX)
+        private void btDay_click_Handler(int INDEX)
         {
-            if (Check_state_edit())
-                return;
+            /*if (Check_state_edit())
+                return;*/
             // Тут определяем етот день пустой или нет
-            if (days[INDEX].is_empty)
-                return; //Create_New_Day_Handler(INDEX); // Да: ТОгда ето кнопка создания дня.
-            else
-                Show_Selected_Day(INDEX); // Нет: тогда ето кнопка SHOW и мы показываем етот день
+            if (days[INDEX].is_empty)// Да: ТОгда ето кнопка создания дня.
+            {
+                Show_Selected_Day(INDEX);
+                Create_New_Day();
+            }
+            else// Нет: тогда ето кнопка SHOW и мы показываем етот день
+            {
+                End_Create();
+                Show_Selected_Day(INDEX);
+            }
         }
 
         /// <summary>
-        /// Включает или отключаест видимость, верхнего GroupBox(кнопка для создания нового дня)
+        /// Включает или отключаест видимость, кнопки CreateNewDay над списком дней
         /// </summary>
         /// <param name="On_Off"> true = on, false = off.</param>
         private void On_Of_btCrateNewDay(bool On_Off)
@@ -420,6 +429,133 @@ namespace LoginWFsql
             Show_Selected_Day(0);
         }
 
+        /// <summary>
+        /// Используется для завершения или отмены создания нового дня.
+        /// Удаляет временные кнопки и включает все ранее выключеные кнопки.
+        /// </summary>
+        private void End_Create()
+        {
+            this.Controls.Remove(_dateTime);
+            this.Controls.Remove(bt_Create);
+            this.Controls.Remove(bt_Cancel);
+            _dateTime = null;
+            bt_Create = null;
+            bt_Cancel = null;
+
+            btSave.Visible = true;
+            bt_Delete.Visible = true;
+
+            mainContainer.Panel2.Enabled = true;
+            tb_quantity.Enabled = true;
+            tb_comment.Enabled = true;
+            bt_Wasted.Enabled = true;
+            bt_Owe_Me.Enabled = true;
+            bt_I_Owe.Enabled = true;
+            bt_In_Come.Enabled = true;
+            bt_Transfer.Enabled = true;
+        }
+
+        /// <summary>
+        /// Обновляет даные
+        /// </summary>
+        private void Refresh_Data()
+        {
+            Clear_list_days();
+            Fill_Top_Bar();
+            if (cbMonth.SelectedIndex == -1)
+            {
+                Fill_Array_Days();
+                Show_list_days(6);
+                Fill_ComboBox_Month();
+            }
+            else
+            {
+                Fill_Array_Days_from_Select_Month();
+                Show_list_days_from_Select_Month();
+            }
+
+            Show_Selected_Day(Id_selected_day);
+        }
+
+        private void Create_New_Day()
+        {
+            End_Create();
+
+            bt_Create = new Button
+            {
+                Location = new Point(btSave.Location.X + 232, btSave.Location.Y + 40),
+                Size = btSave.Size,
+                Text = "Create",
+                Font = btSave.Font,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = btSave.ForeColor,
+                BackColor = Color.DarkGreen
+            };
+            btSave.Visible = false;
+            bt_Create.FlatAppearance.BorderSize = 0;
+            bt_Create.Click += Bt_Create_Click;
+            this.Controls.Add(bt_Create);
+            bt_Create.BringToFront();
+
+            bt_Cancel = new Button
+            {
+                Location = new Point(bt_Delete.Location.X + 232, bt_Delete.Location.Y + 40),
+                Size = bt_Delete.Size,
+                Text = "Cancel",
+                Font = bt_Delete.Font,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = bt_Delete.ForeColor,
+                BackColor = Color.DarkRed
+            };
+            bt_Delete.Visible = false;
+            bt_Cancel.FlatAppearance.BorderSize = 0;
+            bt_Cancel.Click += Bt_Cancel_Click;
+            this.Controls.Add(bt_Cancel);
+            bt_Cancel.BringToFront();
+
+            mainContainer.Panel2.Enabled = false;
+            tb_quantity.Enabled = false;
+            tb_comment.Enabled = false;
+            bt_Wasted.Enabled = false;
+            bt_Owe_Me.Enabled = false;
+            bt_I_Owe.Enabled = false;
+            bt_In_Come.Enabled = false;
+            bt_Transfer.Enabled = false;
+
+            DateTime currentDate;
+            currentDate = DateTime.Parse(lbDate.Text);
+
+            command = SqlCommand.Select_LastDay(currentUserID, currentDate, db.getConnection());
+            db.openConnection();
+            {
+                reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    lbCash.Text = reader.GetString(0);
+                    lbCard.Text = reader.GetString(1);
+                    lbIOwe.Text = reader.GetString(2);
+                    lbOweMe.Text = reader.GetString(3);
+                    lbSaved.Text = reader.GetString(4);
+                }
+                else
+                {
+                    lbCash.Text = "0";
+                    lbCard.Text = "0";
+                    lbIOwe.Text = "0";
+                    lbOweMe.Text = "0";
+                    lbSaved.Text = "0";
+                }
+                
+                lbIncome.Text = "0";
+                tb_In_Come_Str.Text = "";
+                lbWasted.Text = "0";
+                tb_Wasted_Str.Text = "";
+                reader.Close();
+            }
+            db.closeConnection();
+        }
+
         #region Кнопки закрыть/свернуть и движение окна [TopPanel]
         /*_________Кнопки закрыть/свернуть и движение окна________________*/
         private void btClose_Click(object sender, EventArgs e)
@@ -506,9 +642,51 @@ namespace LoginWFsql
         /// </summary>
         private void btCrateNewDay_Click(object sender, EventArgs e)
         {
-            if (Check_state_edit())
+            _dateTime = new DateTimePicker
+            {
+                Location = new Point(lbDate.Location.X - 4+232, lbDate.Location.Y - 6+40), // х232, у40 - позиция панель2 в глобальном пространстве
+                Size = new Size(150,25),
+                Font = lbDate.Font,
+                Value = DateTime.Now,
+                Format = DateTimePickerFormat.Short,
+                MaxDate = DateTime.Now
+            };
+            lbDate.Text = DateTime.Now.ToShortTimeString();
+            this.Controls.Add(_dateTime);
+
+            _dateTime.ValueChanged += _dateTime_ValueChanged;
+            _dateTime.BringToFront();
+
+            Create_New_Day();
+        }
+
+        private void Bt_Cancel_Click(object sender, EventArgs e)
+        {
+            End_Create();
+            Show_Selected_Day(Id_selected_day);
+        }
+
+        private void Bt_Create_Click(object sender, EventArgs e)
+        {
+            command = SqlCommand.Create_NewDay(currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
+           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, DateTime.Parse(lbDate.Text), db.getConnection());
+            
+            db.openConnection();
+
+            try
+            {
+                command.ExecuteNonQuery();
+                db.closeConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвесная ошибка при сохранение даных!\n{ex.Message}","Eror!", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-           //Create_New_Day_Handler(-1);
+            }
+
+            End_Create();
+            Refresh_Data();
         }
 
         private void lb_To_7_Click(object sender, EventArgs e)
@@ -608,7 +786,6 @@ namespace LoginWFsql
         #endregion
 
         #region Кнопки [Save][Delete][COMBO_BOX] [MainPanel]
-
         private void btSave_Click(object sender, EventArgs e)
         {
             DateTime date = DateTime.Parse(lbDate.Text);
@@ -627,7 +804,7 @@ namespace LoginWFsql
             db.closeConnection();
 
             cancel();
-            End_Edit();
+            Refresh_Data();
         }
 
         private void realization()
@@ -865,27 +1042,8 @@ namespace LoginWFsql
         }
 
         /// <summary>
-        /// Завершивание редактирования\создания дня
+        /// Проверяет общее колво дней в БД и включает или отключает кнопку. Чтобы мы не могли удалить последний день.
         /// </summary>
-        private void End_Edit()
-        {            
-            Clear_list_days();
-            Fill_Top_Bar();
-            if (cbMonth.SelectedIndex == -1)
-            {
-                Fill_Array_Days();
-                Show_list_days(6);
-                Fill_ComboBox_Month();
-            }
-            else
-            {
-                Fill_Array_Days_from_Select_Month();
-                Show_list_days_from_Select_Month();
-            }
-
-            Show_Selected_Day(Id_selected_day);
-        }
-
         private void Set_state_btDelete()
         {
             if (cbMonth.SelectedIndex == -1 && days.Length == 1)
@@ -918,23 +1076,48 @@ namespace LoginWFsql
         private void _dateTime_ValueChanged(object sender, EventArgs e)
         {
             lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
+            lbDate.Text = _dateTime.Value.ToShortDateString();
+
+            DateTime currentDate = DateTime.Parse(lbDate.Text);
+
+            command = SqlCommand.Select_LastDay(currentUserID, currentDate, db.getConnection());
+            db.openConnection();
+            {
+                reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    lbCash.Text = reader.GetString(0);
+                    lbCard.Text = reader.GetString(1);
+                    lbIOwe.Text = reader.GetString(2);
+                    lbOweMe.Text = reader.GetString(3);
+                    lbSaved.Text = reader.GetString(4);
+                }
+                else
+                {
+                    lbCash.Text = "0";
+                    lbCard.Text = "0";
+                    lbIOwe.Text = "0";
+                    lbOweMe.Text = "0";
+                    lbSaved.Text = "0";
+                }
+
+                lbIncome.Text = "0";
+                tb_In_Come_Str.Text = "";
+                lbWasted.Text = "0";
+                tb_Wasted_Str.Text = "";
+                reader.Close();
+            }
+            db.closeConnection();
         }
 
         /// <summary>
         /// Проверка находимся ли мы сейчас в состояние редагирования\создания или нет.
         /// </summary>
         /// <returns>[True]-[False]</returns>
-        private bool Check_state_edit()
-        {
-            /*if (state_edit)
-            {
-                MessageBox.Show("Завершите редактирование", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
-            }*/
-            return false;
-        }
         #endregion
         
+        #region Кнопки [Кнопки Манипуляции Даными] [MainPanel]
         private void bt_Wasted_Click(object sender, EventArgs e)
         {
             if (buttons_Push == Buttons_Push.WASTED)
@@ -1037,7 +1220,7 @@ namespace LoginWFsql
             lbIOweText.Cursor = Cursors.Hand;
             lbIOweText.Click += LbIOweText_Click;
 
-            lbSymbol.Text = "=";
+            lbSymbol.Text = "±";
             bt_Transfer.Text = "Отмена";
             btSave.Enabled = true;
 
@@ -1116,6 +1299,7 @@ namespace LoginWFsql
             lb_select_cell.ForeColor = Color.IndianRed;
         }
 
+
         private void Picture3_Click(object sender, EventArgs e)
         {
             picture_select = false;
@@ -1137,6 +1321,7 @@ namespace LoginWFsql
             lbSavedText.Enabled = true;
             lbOweMeText.Enabled = true;
         }
+
 
         private void LbIOweText_Click(object sender, EventArgs e)
         {
@@ -1249,6 +1434,20 @@ namespace LoginWFsql
             }
         }
 
+        /// <summary>
+        /// Не разрешает в поле для сумы записать лишних символов
+        /// </summary>
+        private void tb_quantity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 44)
+            {
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Прекращает редагирование
+        /// </summary>
         private void cancel()
         {
             // Clear. End EDIT cancel
@@ -1308,6 +1507,7 @@ namespace LoginWFsql
             //Делит должен ставиться в тру если чек делит позволяет
             lb_select_cell.ForeColor = Color.Gainsboro;
         }
+
         private enum Buttons_Push
         { 
             NULL,
@@ -1327,14 +1527,7 @@ namespace LoginWFsql
             OWE_ME,
             TRANSFER
         }
-
-        private void tb_quantity_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 44)
-            {
-                e.Handled = true;
-            }
-        }
+        #endregion
 
     }
 }

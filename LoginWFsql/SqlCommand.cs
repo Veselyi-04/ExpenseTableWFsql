@@ -125,7 +125,16 @@ namespace LoginWFsql
             return command;
         }
 
-
+        /// <summary>
+        /// Возвращает последний актуальный день для создания на его основе следущего дня
+        /// </summary>
+        public static MySqlCommand Select_LastDay(int currentUserID, DateTime SelectDate,  MySqlConnection connection)
+        {
+            command = new MySqlCommand(select_PrevDay, connection);
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            command.Parameters.Add("@SelectDate", MySqlDbType.DateTime).Value = SelectDate;
+            return command;
+        }
 
         private static readonly string main_command = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
             "FROM days WHERE days.id_user = @currentUserID " +
@@ -154,6 +163,9 @@ namespace LoginWFsql
             "WHERE days.date = @date AND days.id_user = @currentUserID";
 
         private static readonly string delete_day = "DELETE FROM `days` WHERE `days`.`date` = @date AND days.id_user = @currentUserID";
+
+        private static readonly string select_PrevDay = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, date " +
+            "FROM days WHERE(date <= @SelectDate) AND id_user = @currentUserID ORDER BY date DESC";
 
     }
 }

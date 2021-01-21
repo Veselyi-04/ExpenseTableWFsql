@@ -768,7 +768,7 @@ namespace LoginWFsql
             this.bt_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bt_Delete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_Delete.ForeColor = System.Drawing.Color.White;
-            this.bt_Delete.Location = new System.Drawing.Point(6, 398);
+            this.bt_Delete.Location = new System.Drawing.Point(5, 398);
             this.bt_Delete.Name = "bt_Delete";
             this.bt_Delete.Size = new System.Drawing.Size(452, 45);
             this.bt_Delete.TabIndex = 42;
@@ -973,9 +973,9 @@ namespace LoginWFsql
             this.btSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btSave.Font = new System.Drawing.Font("Arial Rounded MT Bold", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btSave.ForeColor = System.Drawing.Color.White;
-            this.btSave.Location = new System.Drawing.Point(32, 344);
+            this.btSave.Location = new System.Drawing.Point(5, 344);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(400, 45);
+            this.btSave.Size = new System.Drawing.Size(452, 45);
             this.btSave.TabIndex = 7;
             this.btSave.Text = "Save";
             this.btSave.UseVisualStyleBackColor = true;
@@ -1000,7 +1000,7 @@ namespace LoginWFsql
             this.lbSymbol.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbSymbol.Font = new System.Drawing.Font("Constantia", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbSymbol.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lbSymbol.Location = new System.Drawing.Point(159, 133);
+            this.lbSymbol.Location = new System.Drawing.Point(157, 132);
             this.lbSymbol.Name = "lbSymbol";
             this.lbSymbol.Size = new System.Drawing.Size(30, 33);
             this.lbSymbol.TabIndex = 67;
