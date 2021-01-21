@@ -39,6 +39,7 @@ namespace LoginWFsql
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
         private bool picture_select = true;
+        DateTimePicker _dateTime;
 
         public MainForm(LoginForm lf, int id)
         {
@@ -141,9 +142,9 @@ namespace LoginWFsql
             lbOweMe.Text = days[i].owe_me.ToString();
             lbSaved.Text = days[i].saved.ToString();
             lbWasted.Text = days[i].wasted.ToString();
-            lb_Wasted_Str.Text = days[i].str_wasted;
+            tb_Wasted_Str.Text = days[i].str_wasted;
             lbIncome.Text = days[i].in_come.ToString();
-            lb_In_Come_Str.Text = days[i].str_income;
+            tb_In_Come_Str.Text = days[i].str_income;
             Id_selected_day = i;
         }
 
@@ -618,7 +619,7 @@ namespace LoginWFsql
             realization();
 
             command = SqlCommand.Update_Day(currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
-           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), lb_Wasted_Str.Text, float.Parse(lbIncome.Text), lb_In_Come_Str.Text, date, db.getConnection());
+           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, date, db.getConnection());
 
 
             db.openConnection();
@@ -650,7 +651,7 @@ namespace LoginWFsql
                         {
                             lbCard.Text = (card - quantity).ToString();
                         }
-                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.OWE_ME: // Дал в долг
@@ -668,7 +669,7 @@ namespace LoginWFsql
                             lbSaved.Text = (saved - quantity).ToString();
                         }
                         lbOweMe.Text = (owe_me + quantity).ToString();
-                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.TRANSFER:
@@ -733,8 +734,9 @@ namespace LoginWFsql
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
                         }   
-                        lb_Wasted_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
-                        lb_In_Come_Str.Text += $"[+{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                        if (cellState3 != CellState.I_OWE)
+                            tb_In_Come_Str.Text += $"[+{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.I_OWE:// Беру в долг
@@ -748,7 +750,7 @@ namespace LoginWFsql
                         lbCard.Text = (card + quantity).ToString();
                     }
                     lbIOwe.Text =(i_owe + quantity).ToString();
-                    lb_In_Come_Str.Text += $"[+{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                    tb_In_Come_Str.Text += $"[+{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.IN_COME:
@@ -765,7 +767,7 @@ namespace LoginWFsql
                         {
                             lbSaved.Text = (saved + quantity).ToString();
                         }
-                        lb_In_Come_Str.Text += $"[-{tb_quantity.Text}]   -{tb_comment.Text}\n";
+                        tb_In_Come_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
             }
@@ -932,8 +934,6 @@ namespace LoginWFsql
             return false;
         }
         #endregion
-
-        DateTimePicker _dateTime;
         
         private void bt_Wasted_Click(object sender, EventArgs e)
         {
@@ -1039,6 +1039,78 @@ namespace LoginWFsql
 
             lbSymbol.Text = "=";
             bt_Transfer.Text = "Отмена";
+            btSave.Enabled = true;
+
+            lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void bt_I_Owe_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push == Buttons_Push.I_OWE)
+            {
+                cancel();
+                return;
+            }
+
+            buttons_Push = Buttons_Push.I_OWE;
+            bt_Wasted.Enabled = false;
+            bt_Owe_Me.Enabled = false;
+            bt_I_Owe.Enabled = true;
+            bt_In_Come.Enabled = false;
+            bt_Transfer.Enabled = false;
+
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = false;
+            lbIOweText.Enabled = false;
+            lbOweMeText.Enabled = false;
+
+            picture2.Image = Properties.Resources.wait1;
+
+            lbCashText.Cursor = Cursors.Hand;
+            lbCashText.Click += LbCashText_Click;
+            lbCardText.Cursor = Cursors.Hand;
+            lbCardText.Click += LbCardText_Click;
+
+            lbSymbol.Text = "+";
+            bt_I_Owe.Text = "Отмена";
+            btSave.Enabled = true;
+
+            lb_select_cell.ForeColor = Color.IndianRed;
+        }
+
+        private void bt_In_Come_Click(object sender, EventArgs e)
+        {
+            if (buttons_Push == Buttons_Push.IN_COME)
+            {
+                cancel();
+                return;
+            }
+
+            buttons_Push = Buttons_Push.IN_COME;
+            bt_Wasted.Enabled = false;
+            bt_Owe_Me.Enabled = false;
+            bt_I_Owe.Enabled = false;
+            bt_In_Come.Enabled = true;
+            bt_Transfer.Enabled = false;
+
+            lbCashText.Enabled = true;
+            lbCardText.Enabled = true;
+            lbSavedText.Enabled = true;
+            lbIOweText.Enabled = false;
+            lbOweMeText.Enabled = false;
+
+            picture2.Image = Properties.Resources.wait1;
+
+            lbCashText.Cursor = Cursors.Hand;
+            lbCashText.Click += LbCashText_Click;
+            lbCardText.Cursor = Cursors.Hand;
+            lbCardText.Click += LbCardText_Click;
+            lbSavedText.Cursor = Cursors.Hand;
+            lbSavedText.Click += lbSavedText_Click;
+
+            lbSymbol.Text = "+";
+            bt_In_Come.Text = "Отмена";
             btSave.Enabled = true;
 
             lb_select_cell.ForeColor = Color.IndianRed;
@@ -1229,6 +1301,8 @@ namespace LoginWFsql
             bt_Wasted.Text = "Потратил";
             bt_Owe_Me.Text = "Дал в долг";
             bt_Transfer.Text = "Перевод";
+            bt_I_Owe.Text = "Взял в долг";
+            bt_In_Come.Text = "Доход";
 
             btSave.Enabled = false;
             //Делит должен ставиться в тру если чек делит позволяет
