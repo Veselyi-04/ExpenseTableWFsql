@@ -229,7 +229,7 @@ namespace LoginWFsql
             this.btMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btMinimize.Font = new System.Drawing.Font("Crosterian", 18F, System.Drawing.FontStyle.Bold);
             this.btMinimize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.btMinimize.Location = new System.Drawing.Point(619, -8);
+            this.btMinimize.Location = new System.Drawing.Point(620, -2);
             this.btMinimize.Name = "btMinimize";
             this.btMinimize.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btMinimize.Size = new System.Drawing.Size(33, 31);
@@ -246,7 +246,7 @@ namespace LoginWFsql
             this.btClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btClose.Font = new System.Drawing.Font("Crosterian", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.btClose.Location = new System.Drawing.Point(662, 3);
+            this.btClose.Location = new System.Drawing.Point(663, 4);
             this.btClose.Name = "btClose";
             this.btClose.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btClose.Size = new System.Drawing.Size(29, 25);
@@ -647,6 +647,7 @@ namespace LoginWFsql
             this.lb_select_cell.TabIndex = 64;
             this.lb_select_cell.Text = "Выберите ячейку";
             this.lb_select_cell.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_select_cell.Visible = false;
             // 
             // picture2
             // 
@@ -1002,9 +1003,8 @@ namespace LoginWFsql
             this.lbSymbol.ForeColor = System.Drawing.Color.Gainsboro;
             this.lbSymbol.Location = new System.Drawing.Point(157, 132);
             this.lbSymbol.Name = "lbSymbol";
-            this.lbSymbol.Size = new System.Drawing.Size(30, 33);
+            this.lbSymbol.Size = new System.Drawing.Size(0, 33);
             this.lbSymbol.TabIndex = 67;
-            this.lbSymbol.Text = "=";
             this.lbSymbol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pbCash

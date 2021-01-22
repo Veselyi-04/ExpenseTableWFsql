@@ -38,7 +38,7 @@ namespace LoginWFsql
         private CellState cellState1 = CellState.NULL;
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
-        private bool picture_select = true;
+        private bool picture_select;
 
         private DateTimePicker _dateTime = null;
         private Button bt_Create = null;
@@ -112,6 +112,7 @@ namespace LoginWFsql
             if (days[INDEX].is_empty)// Да: ТОгда ето кнопка создания дня.
             {
                 Show_Selected_Day(INDEX);
+                End_Create();
                 Create_New_Day();
             }
             else// Нет: тогда ето кнопка SHOW и мы показываем етот день
@@ -479,8 +480,6 @@ namespace LoginWFsql
 
         private void Create_New_Day()
         {
-            End_Create();
-
             bt_Create = new Button
             {
                 Location = new Point(btSave.Location.X + 232, btSave.Location.Y + 40),
@@ -556,7 +555,49 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
-        #region Кнопки закрыть/свернуть и движение окна [TopPanel]
+        /// <summary>
+        /// При создании дня - lbNameDay будет менятся в зависиости от выбраного дня в DateTimePicker
+        /// </summary>
+        private void _dateTime_ValueChanged(object sender, EventArgs e)
+        {
+            lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
+            lbDate.Text = _dateTime.Value.ToShortDateString();
+
+            DateTime currentDate = DateTime.Parse(lbDate.Text);
+
+            command = SqlCommand.Select_LastDay(currentUserID, currentDate, db.getConnection());
+            db.openConnection();
+            {
+                reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    lbCash.Text = reader.GetString(0);
+                    lbCard.Text = reader.GetString(1);
+                    lbIOwe.Text = reader.GetString(2);
+                    lbOweMe.Text = reader.GetString(3);
+                    lbSaved.Text = reader.GetString(4);
+                }
+                else
+                {
+                    lbCash.Text = "0";
+                    lbCard.Text = "0";
+                    lbIOwe.Text = "0";
+                    lbOweMe.Text = "0";
+                    lbSaved.Text = "0";
+                }
+
+                lbIncome.Text = "0";
+                tb_In_Come_Str.Text = "";
+                lbWasted.Text = "0";
+                tb_Wasted_Str.Text = "";
+                reader.Close();
+            }
+            db.closeConnection();
+        }
+
+
+        #region Кнопки [закрыть]/[свернуть] и движение окна [TopPanel]
         /*_________Кнопки закрыть/свернуть и движение окна________________*/
         private void btClose_Click(object sender, EventArgs e)
         {
@@ -590,35 +631,35 @@ namespace LoginWFsql
 
         private void btClose_MouseEnter(object sender, EventArgs e)
         {
-            this.btClose.Font = new Font("Crosterian", 17F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
-            this.btClose.Location = new Point(658, 1);
-            this.btClose.BackColor = Color.FromArgb(38, 56, 89);
+            btClose.Font = new Font("Crosterian", 17F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
+            btClose.Location = new Point(btClose.Location.X - 3, btClose.Location.Y - 3);
+            btClose.BackColor = Lighting_Color(btClose.BackColor);
         }
 
         private void btClose_MouseLeave(object sender, EventArgs e)
         {
-            this.btClose.Font = new Font("Crosterian", 14.25F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
-            this.btClose.Location = new Point(662, 3);
-            this.btClose.BackColor = Color.FromArgb(23, 34, 59);
+            btClose.Font = new Font("Crosterian", 14.25F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
+            btClose.Location = new Point(btClose.Location.X + 3, btClose.Location.Y + 3);
+            btClose.BackColor = Blackout_Color(btClose.BackColor);
         }
 
         private void btMinimize_MouseEnter(object sender, EventArgs e)
         {
-            this.btMinimize.Font = new Font("Crosterian", 22F, FontStyle.Bold);
-            this.btMinimize.Location = new Point(615, -13);
-            this.btMinimize.BackColor = Color.FromArgb(38, 56, 89);
+            btMinimize.Font = new Font("Crosterian", 22F, FontStyle.Bold);
+            btMinimize.Location = new Point(btMinimize.Location.X - 4, btMinimize.Location.Y - 5); //619, -8  -- //615, -13
+            btMinimize.BackColor = Lighting_Color(btMinimize.BackColor);
         }
 
         private void btMinimize_MouseLeave(object sender, EventArgs e)
         {
             this.btMinimize.Font = new Font("Crosterian", 18F, FontStyle.Bold);
-            this.btMinimize.Location = new Point(619, -8);
-            this.btMinimize.BackColor = Color.FromArgb(23, 34,59);
+            this.btMinimize.Location = new Point(btMinimize.Location.X + 4, btMinimize.Location.Y + 5);
+            this.btMinimize.BackColor = Blackout_Color(btMinimize.BackColor);
         }
         /*________________________________________________________________*/
         #endregion
 
-        #region Кнопки <7 - <30, ComboBoxMonth, CrateNewDay -[LeftPanel]
+        #region Кнопки [<7][<30], [ComboBoxMonth], [CrateNewDay] -[LeftPanel]
         /*______________Кнопки <7 - <30, ComboBoxMonth, CrateNewDay___________________*/
         private void cbMonth_SelectionChangeCommited(object sender, EventArgs e)
         {
@@ -642,6 +683,7 @@ namespace LoginWFsql
         /// </summary>
         private void btCrateNewDay_Click(object sender, EventArgs e)
         {
+            End_Create();
             _dateTime = new DateTimePicker
             {
                 Location = new Point(lbDate.Location.X - 4+232, lbDate.Location.Y - 6+40), // х232, у40 - позиция панель2 в глобальном пространстве
@@ -722,70 +764,48 @@ namespace LoginWFsql
 
         private void lb_To_30_MouseEnter(object sender, EventArgs e)
         {
-            Lighting_lb(lb_To_30);
+           lb_To_30.BackColor = Lighting_Color(lb_To_30.BackColor);
         }
 
         private void lb_To_30_MouseLeave(object sender, EventArgs e)
         {
-            Blackout_lb(lb_To_30);
+            lb_To_30.BackColor = Blackout_Color(lb_To_30.BackColor);
         }
 
         private void lb_To_30_MouseDown(object sender, MouseEventArgs e)
         {
-            Blackout_lb(lb_To_30);
+            lb_To_30.BackColor = Blackout_Color(lb_To_30.BackColor);
         }
 
         private void lb_To_30_MouseUp(object sender, MouseEventArgs e)
         {
-            Lighting_lb(lb_To_30);
+            lb_To_30.BackColor = Lighting_Color(lb_To_30.BackColor);
         }
 
         private void lb_To_7_MouseEnter(object sender, EventArgs e)
         {
-            Lighting_lb(lb_To_7);
+            lb_To_7.BackColor = Lighting_Color(lb_To_7.BackColor);
         }
 
         private void lb_To_7_MouseLeave(object sender, EventArgs e)
         {
-            Blackout_lb(lb_To_7);
+            lb_To_7.BackColor = Blackout_Color(lb_To_7.BackColor);
         }
 
         private void lb_To_7_MouseDown(object sender, MouseEventArgs e)
         {
-            Blackout_lb(lb_To_7);
+            lb_To_7.BackColor = Blackout_Color(lb_To_7.BackColor);
         }
 
         private void lb_To_7_MouseUp(object sender, MouseEventArgs e)
         {
-            Lighting_lb(lb_To_7);
+            lb_To_7.BackColor = Lighting_Color(lb_To_7.BackColor);
         }
-        
-        /// <summary>
-        /// Затемняет кнопку(в нашем случае кнопка ето лейбл)
-        /// </summary>
-        private void Blackout_lb (Label button)
-        {
-            int r = button.BackColor.R - 10;
-            int g = button.BackColor.G - 10;
-            int b = button.BackColor.B - 10;
-            button.BackColor = Color.FromArgb(r, g, b);
-        }
-
-        /// <summary>
-        /// Осветляет кнопку(в нашем случае кнопка ето лейбл)
-        /// </summary>
-        /// <param name="button"></param>
-        private void Lighting_lb(Label button)
-        {
-            int r = button.BackColor.R + 10;
-            int g = button.BackColor.G + 10;
-            int b = button.BackColor.B + 10;
-            button.BackColor = Color.FromArgb(r, g, b);
-        }
+      
         /*________________________________________________________________*/
         #endregion
 
-        #region Кнопки [Save][Delete][COMBO_BOX] [MainPanel]
+        #region Кнопки [Save][Delete] -[MainPanel]
         private void btSave_Click(object sender, EventArgs e)
         {
             DateTime date = DateTime.Parse(lbDate.Text);
@@ -952,6 +972,12 @@ namespace LoginWFsql
 
         private bool check_valid_data()
         {
+            if (tb_quantity.Text == "")
+            {
+                MessageBox.Show("В поле сума нужно записать знаение");
+                return false;
+            }
+
             float quantity = float.Parse(tb_quantity.Text);
             float cash = float.Parse(lbCash.Text);
             float saved = float.Parse(lbSaved.Text);
@@ -1070,51 +1096,6 @@ namespace LoginWFsql
                 bt_Delete.Enabled = true;
         }
 
-        /// <summary>
-        /// При создании дня - lbNameDay будет менятся в зависиости от выбраного дня в DateTimePicker
-        /// </summary>
-        private void _dateTime_ValueChanged(object sender, EventArgs e)
-        {
-            lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
-            lbDate.Text = _dateTime.Value.ToShortDateString();
-
-            DateTime currentDate = DateTime.Parse(lbDate.Text);
-
-            command = SqlCommand.Select_LastDay(currentUserID, currentDate, db.getConnection());
-            db.openConnection();
-            {
-                reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    lbCash.Text = reader.GetString(0);
-                    lbCard.Text = reader.GetString(1);
-                    lbIOwe.Text = reader.GetString(2);
-                    lbOweMe.Text = reader.GetString(3);
-                    lbSaved.Text = reader.GetString(4);
-                }
-                else
-                {
-                    lbCash.Text = "0";
-                    lbCard.Text = "0";
-                    lbIOwe.Text = "0";
-                    lbOweMe.Text = "0";
-                    lbSaved.Text = "0";
-                }
-
-                lbIncome.Text = "0";
-                tb_In_Come_Str.Text = "";
-                lbWasted.Text = "0";
-                tb_Wasted_Str.Text = "";
-                reader.Close();
-            }
-            db.closeConnection();
-        }
-
-        /// <summary>
-        /// Проверка находимся ли мы сейчас в состояние редагирования\создания или нет.
-        /// </summary>
-        /// <returns>[True]-[False]</returns>
         #endregion
         
         #region Кнопки [Кнопки Манипуляции Даными] [MainPanel]
@@ -1134,6 +1115,9 @@ namespace LoginWFsql
             lbSavedText.Enabled = false;
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
+
+            picture2.Image = Properties.Resources.wait1;
+            lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
             lbCashText.Click += LbCashText_Click;
@@ -1163,6 +1147,9 @@ namespace LoginWFsql
 
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
+
+            picture2.Image = Properties.Resources.wait1;
+            lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
             lbCashText.Click += LbCashText_Click;
@@ -1199,11 +1186,14 @@ namespace LoginWFsql
             lbSavedText.Enabled = true;
             lbOweMeText.Enabled = true;
 
+            picture_select = true;
             picture1.Image = Properties.Resources.wait1;
             picture1.Cursor = Cursors.Hand;
             picture1.Click += Picture1_Click;
 
             picture2.Image = Properties.Resources.transfer;
+            lb_select_cell.Visible = true;
+
 
             picture3.Image = Properties.Resources.wait1;
             picture3.Cursor = Cursors.Hand;
@@ -1249,6 +1239,7 @@ namespace LoginWFsql
             lbOweMeText.Enabled = false;
 
             picture2.Image = Properties.Resources.wait1;
+            lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
             lbCashText.Click += LbCashText_Click;
@@ -1284,6 +1275,7 @@ namespace LoginWFsql
             lbOweMeText.Enabled = false;
 
             picture2.Image = Properties.Resources.wait1;
+            lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
             lbCashText.Click += LbCashText_Click;
@@ -1458,6 +1450,7 @@ namespace LoginWFsql
             bt_Transfer.Enabled = true;
             bt_I_Owe.Enabled = true;
             bt_In_Come.Enabled = true;
+
             // Включаю все label
             lbCashText.Enabled = true;
             lbCardText.Enabled = true;
@@ -1481,6 +1474,8 @@ namespace LoginWFsql
             picture1.Image = null;
             picture1.Cursor = Cursors.Default;
             picture1.Click -= Picture1_Click;
+
+            lb_select_cell.Visible = false;
 
             picture2.Image = null;
 
@@ -1528,6 +1523,30 @@ namespace LoginWFsql
             TRANSFER
         }
         #endregion
+
+
+        /// <summary>
+        /// Возвращает цвет немного темнее чем тот что сюда передали
+        /// </summary>
+        private Color Blackout_Color(Color current)
+        {
+            int r = current.R - 10;
+            int g = current.G - 10;
+            int b = current.B - 10;
+            return Color.FromArgb(r, g, b);
+        }
+
+        /// <summary>
+        /// Возвращает цвет немного светлее чем тот что сюда передали
+        /// </summary>
+        /// <param name="button"></param>
+        private Color Lighting_Color(Color current)
+        {
+            int r = current.R + 10;
+            int g = current.G + 10;
+            int b = current.B + 10;
+            return Color.FromArgb(r, g, b);
+        }
 
     }
 }
