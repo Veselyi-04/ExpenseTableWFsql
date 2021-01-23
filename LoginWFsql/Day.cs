@@ -9,18 +9,28 @@ using System.Windows.Forms;
 namespace LoginWFsql
 {
     public delegate void DayEventHandler(int INDEX);
-    public class Day
+
+    public class Purse
     {
-        
-        private readonly int index;
         public float cash;
         public float card;
         public float i_owe;
         public float owe_me;
         public float saved;
         public float wasted;
-        public string str_wasted;
         public float in_come;
+    }
+
+
+    public class Day
+    {
+        
+        private readonly int index;
+
+        public Purse purse_uah;
+        public Purse purse_eur;
+
+        public string str_wasted;
         public string str_income;
         public DateTime date;
 
@@ -95,7 +105,7 @@ namespace LoginWFsql
             lb_in_come.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_in_come.Location = new Point(96, 15);
             lb_in_come.Size = new Size(42, 15);
-            lb_in_come.Text = in_come.ToString();
+            lb_in_come.Text = purse_uah.in_come.ToString();
             //
             // lb_wasted
             //
@@ -103,7 +113,7 @@ namespace LoginWFsql
             lb_wasted.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_wasted.Location = new Point(96, 36);
             lb_wasted.Size = new Size(42, 15);
-            lb_wasted.Text = wasted.ToString();
+            lb_wasted.Text = purse_uah.wasted.ToString();
             //
             // lb_cash
             //
@@ -111,7 +121,7 @@ namespace LoginWFsql
             lb_cash.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_cash.Location = new Point(25, 36);
             lb_cash.Size = new Size(40, 15);
-            lb_cash.Text = cash.ToString();
+            lb_cash.Text = purse_uah.cash.ToString();
             //
             // lb_date
             //
@@ -254,7 +264,6 @@ namespace LoginWFsql
         private Panel line_income;
         private Panel line_wasted;
         private Panel line_cash;
-
     }
 
 }

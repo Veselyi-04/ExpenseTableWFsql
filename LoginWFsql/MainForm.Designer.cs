@@ -97,6 +97,7 @@ namespace LoginWFsql
             this.pbSaved = new System.Windows.Forms.PictureBox();
             this.pbCard = new System.Windows.Forms.PictureBox();
             this.lbCardText = new System.Windows.Forms.Label();
+            this.pb_currency = new System.Windows.Forms.PictureBox();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
@@ -117,6 +118,7 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopStats
@@ -371,6 +373,7 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
+            this.mainContainer.Panel2.Controls.Add(this.pb_currency);
             this.mainContainer.Panel2.Controls.Add(this.tb_In_Come_Str);
             this.mainContainer.Panel2.Controls.Add(this.tb_Wasted_Str);
             this.mainContainer.Panel2.Controls.Add(this.pbOweMe);
@@ -1053,6 +1056,18 @@ namespace LoginWFsql
             this.lbCardText.Text = "Карта:";
             this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // pb_currency
+            // 
+            this.pb_currency.Enabled = false;
+            this.pb_currency.Image = ((System.Drawing.Image)(resources.GetObject("pb_currency.Image")));
+            this.pb_currency.Location = new System.Drawing.Point(424, 2);
+            this.pb_currency.Name = "pb_currency";
+            this.pb_currency.Size = new System.Drawing.Size(35, 35);
+            this.pb_currency.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_currency.TabIndex = 48;
+            this.pb_currency.TabStop = false;
+            this.pb_currency.Click += new System.EventHandler(this.pb_currency_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1088,6 +1103,7 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1161,5 +1177,6 @@ namespace LoginWFsql
         private System.Windows.Forms.Label lbSymbol;
         private System.Windows.Forms.TextBox tb_In_Come_Str;
         private System.Windows.Forms.TextBox tb_Wasted_Str;
+        private System.Windows.Forms.PictureBox pb_currency;
     }
 }
