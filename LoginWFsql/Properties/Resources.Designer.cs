@@ -73,6 +73,26 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap eur0 {
+            get {
+                object obj = ResourceManager.GetObject("eur0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EUR1 {
+            get {
+                object obj = ResourceManager.GetObject("EUR1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eyeClose3 {
             get {
                 object obj = ResourceManager.GetObject("eyeClose3", resourceCulture);
@@ -183,6 +203,26 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap selected_wait0 {
+            get {
+                object obj = ResourceManager.GetObject("selected_wait0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap selected_wait1 {
+            get {
+                object obj = ResourceManager.GetObject("selected_wait1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap transfer {
             get {
                 object obj = ResourceManager.GetObject("transfer", resourceCulture);
@@ -193,9 +233,9 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap user5 {
+        internal static System.Drawing.Bitmap uah0 {
             get {
-                object obj = ResourceManager.GetObject("user5", resourceCulture);
+                object obj = ResourceManager.GetObject("uah0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +243,19 @@ namespace LoginWFsql.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap wait1 {
+        internal static System.Drawing.Bitmap UAH1 {
             get {
-                object obj = ResourceManager.GetObject("wait1", resourceCulture);
+                object obj = ResourceManager.GetObject("UAH1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap user5 {
+            get {
+                object obj = ResourceManager.GetObject("user5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

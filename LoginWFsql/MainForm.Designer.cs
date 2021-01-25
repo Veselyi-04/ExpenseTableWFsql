@@ -53,6 +53,7 @@ namespace LoginWFsql
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
+            this.pb_currency = new System.Windows.Forms.PictureBox();
             this.tb_In_Come_Str = new System.Windows.Forms.TextBox();
             this.tb_Wasted_Str = new System.Windows.Forms.TextBox();
             this.pbOweMe = new System.Windows.Forms.PictureBox();
@@ -97,7 +98,6 @@ namespace LoginWFsql
             this.pbSaved = new System.Windows.Forms.PictureBox();
             this.pbCard = new System.Windows.Forms.PictureBox();
             this.lbCardText = new System.Windows.Forms.Label();
-            this.pb_currency = new System.Windows.Forms.PictureBox();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
@@ -108,6 +108,7 @@ namespace LoginWFsql
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_wasted)).BeginInit();
@@ -118,7 +119,6 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopStats
@@ -195,13 +195,13 @@ namespace LoginWFsql
             // _lb_state_i_owe
             // 
             this._lb_state_i_owe.AutoSize = true;
-            this._lb_state_i_owe.Font = new System.Drawing.Font("a_LatinoNr", 9F);
+            this._lb_state_i_owe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._lb_state_i_owe.ForeColor = System.Drawing.Color.White;
-            this._lb_state_i_owe.Location = new System.Drawing.Point(339, 8);
+            this._lb_state_i_owe.Location = new System.Drawing.Point(334, 8);
             this._lb_state_i_owe.Name = "_lb_state_i_owe";
-            this._lb_state_i_owe.Size = new System.Drawing.Size(70, 15);
+            this._lb_state_i_owe.Size = new System.Drawing.Size(36, 19);
             this._lb_state_i_owe.TabIndex = 36;
-            this._lb_state_i_owe.Text = "-3058грн";
+            this._lb_state_i_owe.Text = "000";
             // 
             // pictureBox15
             // 
@@ -217,13 +217,14 @@ namespace LoginWFsql
             // _lb_state_cash
             // 
             this._lb_state_cash.AutoSize = true;
-            this._lb_state_cash.Font = new System.Drawing.Font("a_LatinoNr", 9F);
+            this._lb_state_cash.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._lb_state_cash.ForeColor = System.Drawing.Color.White;
-            this._lb_state_cash.Location = new System.Drawing.Point(212, 8);
+            this._lb_state_cash.Location = new System.Drawing.Point(207, 8);
+            this._lb_state_cash.Margin = new System.Windows.Forms.Padding(0);
             this._lb_state_cash.Name = "_lb_state_cash";
-            this._lb_state_cash.Size = new System.Drawing.Size(66, 15);
+            this._lb_state_cash.Size = new System.Drawing.Size(36, 19);
             this._lb_state_cash.TabIndex = 8;
-            this._lb_state_cash.Text = "4300грн";
+            this._lb_state_cash.Text = "000";
             // 
             // btMinimize
             // 
@@ -333,7 +334,7 @@ namespace LoginWFsql
             this.label13.Cursor = System.Windows.Forms.Cursors.Default;
             this.label13.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.label13.Location = new System.Drawing.Point(511, 5);
+            this.label13.Location = new System.Drawing.Point(521, 5);
             this.label13.Name = "label13";
             this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label13.Size = new System.Drawing.Size(25, 35);
@@ -344,13 +345,13 @@ namespace LoginWFsql
             // _lb_state_saved
             // 
             this._lb_state_saved.AutoSize = true;
-            this._lb_state_saved.Font = new System.Drawing.Font("a_LatinoNr", 9F);
+            this._lb_state_saved.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._lb_state_saved.ForeColor = System.Drawing.Color.White;
-            this._lb_state_saved.Location = new System.Drawing.Point(456, 8);
+            this._lb_state_saved.Location = new System.Drawing.Point(451, 8);
             this._lb_state_saved.Name = "_lb_state_saved";
-            this._lb_state_saved.Size = new System.Drawing.Size(66, 15);
+            this._lb_state_saved.Size = new System.Drawing.Size(36, 19);
             this._lb_state_saved.TabIndex = 39;
-            this._lb_state_saved.Text = "2350грн";
+            this._lb_state_saved.Text = "000";
             // 
             // mainContainer
             // 
@@ -493,6 +494,20 @@ namespace LoginWFsql
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
             // 
+            // pb_currency
+            // 
+            this.pb_currency.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_currency.Image = ((System.Drawing.Image)(resources.GetObject("pb_currency.Image")));
+            this.pb_currency.Location = new System.Drawing.Point(7, 4);
+            this.pb_currency.Name = "pb_currency";
+            this.pb_currency.Size = new System.Drawing.Size(35, 35);
+            this.pb_currency.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_currency.TabIndex = 48;
+            this.pb_currency.TabStop = false;
+            this.pb_currency.Click += new System.EventHandler(this.pb_currency_Click);
+            this.pb_currency.MouseEnter += new System.EventHandler(this.pb_currency_MouseEnter);
+            this.pb_currency.MouseLeave += new System.EventHandler(this.pb_currency_MouseLeave);
+            // 
             // tb_In_Come_Str
             // 
             this.tb_In_Come_Str.AutoCompleteCustomSource.AddRange(new string[] {
@@ -502,7 +517,7 @@ namespace LoginWFsql
             "yfyfyf"});
             this.tb_In_Come_Str.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_In_Come_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_In_Come_Str.Font = new System.Drawing.Font("Constantia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tb_In_Come_Str.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_In_Come_Str.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_In_Come_Str.Location = new System.Drawing.Point(256, 268);
             this.tb_In_Come_Str.Multiline = true;
@@ -521,7 +536,7 @@ namespace LoginWFsql
             "yfyfyf"});
             this.tb_Wasted_Str.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_Wasted_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_Wasted_Str.Font = new System.Drawing.Font("Constantia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tb_Wasted_Str.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_Wasted_Str.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_Wasted_Str.Location = new System.Drawing.Point(19, 268);
             this.tb_Wasted_Str.Multiline = true;
@@ -544,26 +559,28 @@ namespace LoginWFsql
             // 
             // lbIncome
             // 
+            this.lbIncome.AutoSize = true;
             this.lbIncome.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbIncome.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbIncome.Font = new System.Drawing.Font("Consolas", 12F);
             this.lbIncome.ForeColor = System.Drawing.Color.White;
-            this.lbIncome.Location = new System.Drawing.Point(355, 252);
+            this.lbIncome.Location = new System.Drawing.Point(352, 249);
             this.lbIncome.Name = "lbIncome";
-            this.lbIncome.Size = new System.Drawing.Size(70, 16);
+            this.lbIncome.Size = new System.Drawing.Size(36, 19);
             this.lbIncome.TabIndex = 25;
-            this.lbIncome.Text = "00000";
+            this.lbIncome.Text = "000";
             this.lbIncome.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbWasted
             // 
+            this.lbWasted.AutoSize = true;
             this.lbWasted.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbWasted.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbWasted.Font = new System.Drawing.Font("Consolas", 12F);
             this.lbWasted.ForeColor = System.Drawing.Color.White;
-            this.lbWasted.Location = new System.Drawing.Point(153, 252);
+            this.lbWasted.Location = new System.Drawing.Point(150, 249);
             this.lbWasted.Name = "lbWasted";
-            this.lbWasted.Size = new System.Drawing.Size(70, 16);
+            this.lbWasted.Size = new System.Drawing.Size(36, 19);
             this.lbWasted.TabIndex = 23;
-            this.lbWasted.Text = "00000";
+            this.lbWasted.Text = "000";
             this.lbWasted.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // bt_Wasted
@@ -714,7 +731,7 @@ namespace LoginWFsql
             this.lb_comment.AutoSize = true;
             this.lb_comment.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_comment.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_comment.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lb_comment.ForeColor = System.Drawing.Color.Moccasin;
             this.lb_comment.Location = new System.Drawing.Point(12, 152);
             this.lb_comment.Name = "lb_comment";
             this.lb_comment.Size = new System.Drawing.Size(105, 17);
@@ -731,7 +748,7 @@ namespace LoginWFsql
             "yfyfyf"});
             this.tb_comment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_comment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_comment.Font = new System.Drawing.Font("Constantia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tb_comment.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_comment.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_comment.Location = new System.Drawing.Point(12, 172);
             this.tb_comment.Multiline = true;
@@ -744,11 +761,11 @@ namespace LoginWFsql
             // 
             this.tb_quantity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_quantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_quantity.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F);
+            this.tb_quantity.Font = new System.Drawing.Font("Consolas", 12F);
             this.tb_quantity.ForeColor = System.Drawing.Color.White;
             this.tb_quantity.Location = new System.Drawing.Point(181, 139);
             this.tb_quantity.Name = "tb_quantity";
-            this.tb_quantity.Size = new System.Drawing.Size(100, 23);
+            this.tb_quantity.Size = new System.Drawing.Size(100, 26);
             this.tb_quantity.TabIndex = 52;
             this.tb_quantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_quantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_quantity_KeyPress);
@@ -808,63 +825,65 @@ namespace LoginWFsql
             // 
             this.lbSaved.AutoSize = true;
             this.lbSaved.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbSaved.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbSaved.Font = new System.Drawing.Font("Consolas", 9.75F);
             this.lbSaved.ForeColor = System.Drawing.Color.White;
-            this.lbSaved.Location = new System.Drawing.Point(130, 82);
+            this.lbSaved.Location = new System.Drawing.Point(124, 80);
             this.lbSaved.Name = "lbSaved";
-            this.lbSaved.Size = new System.Drawing.Size(52, 14);
+            this.lbSaved.Size = new System.Drawing.Size(28, 15);
             this.lbSaved.TabIndex = 20;
-            this.lbSaved.Text = "00000";
+            this.lbSaved.Text = "000";
             this.lbSaved.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbIOwe
             // 
             this.lbIOwe.AutoSize = true;
             this.lbIOwe.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbIOwe.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbIOwe.Font = new System.Drawing.Font("Consolas", 9.75F);
             this.lbIOwe.ForeColor = System.Drawing.Color.White;
-            this.lbIOwe.Location = new System.Drawing.Point(373, 108);
+            this.lbIOwe.Location = new System.Drawing.Point(369, 106);
             this.lbIOwe.Name = "lbIOwe";
-            this.lbIOwe.Size = new System.Drawing.Size(52, 14);
+            this.lbIOwe.Size = new System.Drawing.Size(28, 15);
             this.lbIOwe.TabIndex = 18;
-            this.lbIOwe.Text = "00000";
+            this.lbIOwe.Text = "000";
             this.lbIOwe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbOweMe
             // 
             this.lbOweMe.AutoSize = true;
             this.lbOweMe.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbOweMe.Font = new System.Drawing.Font("a_LatinoNr", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbOweMe.Font = new System.Drawing.Font("Consolas", 9.75F);
             this.lbOweMe.ForeColor = System.Drawing.Color.White;
-            this.lbOweMe.Location = new System.Drawing.Point(400, 81);
+            this.lbOweMe.Location = new System.Drawing.Point(392, 79);
             this.lbOweMe.Name = "lbOweMe";
-            this.lbOweMe.Size = new System.Drawing.Size(52, 14);
+            this.lbOweMe.Size = new System.Drawing.Size(28, 15);
             this.lbOweMe.TabIndex = 16;
-            this.lbOweMe.Text = "00000";
+            this.lbOweMe.Text = "000";
             this.lbOweMe.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbCard
             // 
+            this.lbCard.AutoSize = true;
             this.lbCard.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbCard.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbCard.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCard.ForeColor = System.Drawing.Color.White;
-            this.lbCard.Location = new System.Drawing.Point(368, 56);
+            this.lbCard.Location = new System.Drawing.Point(361, 52);
             this.lbCard.Name = "lbCard";
-            this.lbCard.Size = new System.Drawing.Size(70, 16);
+            this.lbCard.Size = new System.Drawing.Size(36, 19);
             this.lbCard.TabIndex = 14;
-            this.lbCard.Text = "00000";
+            this.lbCard.Text = "000";
             this.lbCard.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lbCash
             // 
+            this.lbCash.AutoSize = true;
             this.lbCash.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbCash.Font = new System.Drawing.Font("a_LatinoNr", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbCash.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCash.ForeColor = System.Drawing.Color.White;
-            this.lbCash.Location = new System.Drawing.Point(142, 56);
+            this.lbCash.Location = new System.Drawing.Point(135, 52);
             this.lbCash.Name = "lbCash";
-            this.lbCash.Size = new System.Drawing.Size(70, 16);
+            this.lbCash.Size = new System.Drawing.Size(36, 19);
             this.lbCash.TabIndex = 12;
-            this.lbCash.Text = "00000";
+            this.lbCash.Text = "000";
             this.lbCash.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // label14
@@ -872,7 +891,7 @@ namespace LoginWFsql
             this.label14.AutoSize = true;
             this.label14.Cursor = System.Windows.Forms.Cursors.Default;
             this.label14.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label14.ForeColor = System.Drawing.Color.Moccasin;
             this.label14.Location = new System.Drawing.Point(283, 245);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 24);
@@ -885,7 +904,7 @@ namespace LoginWFsql
             this.label11.AutoSize = true;
             this.label11.Cursor = System.Windows.Forms.Cursors.Default;
             this.label11.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label11.ForeColor = System.Drawing.Color.Moccasin;
             this.label11.Location = new System.Drawing.Point(45, 245);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(112, 24);
@@ -898,7 +917,7 @@ namespace LoginWFsql
             this.lbSavedText.AutoSize = true;
             this.lbSavedText.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbSavedText.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbSavedText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbSavedText.ForeColor = System.Drawing.Color.Moccasin;
             this.lbSavedText.Location = new System.Drawing.Point(45, 79);
             this.lbSavedText.Name = "lbSavedText";
             this.lbSavedText.Size = new System.Drawing.Size(83, 17);
@@ -911,7 +930,7 @@ namespace LoginWFsql
             this.lbIOweText.AutoSize = true;
             this.lbIOweText.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbIOweText.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbIOweText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbIOweText.ForeColor = System.Drawing.Color.Moccasin;
             this.lbIOweText.Location = new System.Drawing.Point(296, 105);
             this.lbIOweText.Name = "lbIOweText";
             this.lbIOweText.Size = new System.Drawing.Size(77, 17);
@@ -924,7 +943,7 @@ namespace LoginWFsql
             this.lbOweMeText.AutoSize = true;
             this.lbOweMeText.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbOweMeText.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbOweMeText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbOweMeText.ForeColor = System.Drawing.Color.Moccasin;
             this.lbOweMeText.Location = new System.Drawing.Point(296, 78);
             this.lbOweMeText.Name = "lbOweMeText";
             this.lbOweMeText.Size = new System.Drawing.Size(100, 17);
@@ -937,7 +956,7 @@ namespace LoginWFsql
             this.lbCashText.AutoSize = true;
             this.lbCashText.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCashText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbCashText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbCashText.ForeColor = System.Drawing.Color.Moccasin;
             this.lbCashText.Location = new System.Drawing.Point(38, 49);
             this.lbCashText.Name = "lbCashText";
             this.lbCashText.Size = new System.Drawing.Size(104, 24);
@@ -949,7 +968,7 @@ namespace LoginWFsql
             // 
             this.lbDate.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbDate.Font = new System.Drawing.Font("a_LatinoNr", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbDate.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbDate.ForeColor = System.Drawing.Color.Moccasin;
             this.lbDate.Location = new System.Drawing.Point(268, 18);
             this.lbDate.Name = "lbDate";
             this.lbDate.Size = new System.Drawing.Size(125, 25);
@@ -960,7 +979,7 @@ namespace LoginWFsql
             // 
             this.lbNameDay.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbNameDay.Font = new System.Drawing.Font("a_LatinoNr", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbNameDay.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbNameDay.ForeColor = System.Drawing.Color.Moccasin;
             this.lbNameDay.Location = new System.Drawing.Point(51, 8);
             this.lbNameDay.Name = "lbNameDay";
             this.lbNameDay.Size = new System.Drawing.Size(188, 35);
@@ -990,7 +1009,7 @@ namespace LoginWFsql
             this.label4.AutoSize = true;
             this.label4.Cursor = System.Windows.Forms.Cursors.Default;
             this.label4.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label4.ForeColor = System.Drawing.Color.Moccasin;
             this.label4.Location = new System.Drawing.Point(180, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 17);
@@ -1048,25 +1067,13 @@ namespace LoginWFsql
             this.lbCardText.AutoSize = true;
             this.lbCardText.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCardText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbCardText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lbCardText.ForeColor = System.Drawing.Color.Moccasin;
             this.lbCardText.Location = new System.Drawing.Point(292, 49);
             this.lbCardText.Name = "lbCardText";
             this.lbCardText.Size = new System.Drawing.Size(75, 24);
             this.lbCardText.TabIndex = 15;
             this.lbCardText.Text = "Карта:";
             this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pb_currency
-            // 
-            this.pb_currency.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_currency.Image = ((System.Drawing.Image)(resources.GetObject("pb_currency.Image")));
-            this.pb_currency.Location = new System.Drawing.Point(7, 3);
-            this.pb_currency.Name = "pb_currency";
-            this.pb_currency.Size = new System.Drawing.Size(35, 35);
-            this.pb_currency.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb_currency.TabIndex = 48;
-            this.pb_currency.TabStop = false;
-            this.pb_currency.Click += new System.EventHandler(this.pb_currency_Click);
             // 
             // MainForm
             // 
@@ -1093,6 +1100,7 @@ namespace LoginWFsql
             this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_wasted)).EndInit();
@@ -1103,7 +1111,6 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.pbCash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).EndInit();
             this.ResumeLayout(false);
 
         }

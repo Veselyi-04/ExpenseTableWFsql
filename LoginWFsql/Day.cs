@@ -70,6 +70,7 @@ namespace LoginWFsql
             lb_wasted = new Label();
             lb_cash = new Label();
             lb_date = new Label();
+            lb_currency = new Label();
             bt_show = new Button();
             pb_wasted = new PictureBox();
             pb_cash = new PictureBox();
@@ -85,6 +86,7 @@ namespace LoginWFsql
             GroupBox.Controls.Add(lb_wasted);
             GroupBox.Controls.Add(lb_cash);
             GroupBox.Controls.Add(lb_date);
+            GroupBox.Controls.Add(lb_currency);
             GroupBox.Controls.Add(bt_show);
             GroupBox.Controls.Add(pb_wasted);
             GroupBox.Controls.Add(pb_cash);
@@ -119,6 +121,12 @@ namespace LoginWFsql
             lb_cash.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_cash.Location = new Point(25, 36);
             lb_cash.Size = new Size(40, 15);
+            //
+            // lb_currency
+            //
+            lb_currency.Font = new Font("Consolas", 15F);
+            lb_currency.Location = new Point(50, 14);
+            lb_currency.AutoSize = true;
             switch (currency)
             {
                 case Currency.UAH:
@@ -126,6 +134,7 @@ namespace LoginWFsql
                         lb_in_come.Text = purse_uah.in_come.ToString();
                         lb_wasted.Text = purse_uah.wasted.ToString();
                         lb_cash.Text = purse_uah.cash.ToString();
+                        lb_currency.Text = "₴";
                     }
                     break;
                 case Currency.EUR:
@@ -133,6 +142,7 @@ namespace LoginWFsql
                         lb_in_come.Text = purse_eur.in_come.ToString();
                         lb_wasted.Text = purse_eur.wasted.ToString();
                         lb_cash.Text = purse_eur.cash.ToString();
+                        lb_currency.Text = "€";
                     }
                     break;
             }
@@ -271,6 +281,7 @@ namespace LoginWFsql
         private Label lb_wasted;
         private Label lb_cash;
         private Label lb_date;
+        private Label lb_currency;
         public Button bt_show { get; set; }
         private PictureBox pb_wasted;
         private PictureBox pb_cash;

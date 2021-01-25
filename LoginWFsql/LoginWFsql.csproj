@@ -132,5 +132,29 @@
   <ItemGroup>
     <None Include="Resources\wait1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\uah0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eur0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UAH1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EUR1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EUR11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UAH11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selected_wait0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selected_wait1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

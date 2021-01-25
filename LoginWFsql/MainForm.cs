@@ -27,21 +27,26 @@ namespace LoginWFsql
         /*Масив с таблице дней (которая слева)*/
         private Day[] days;
 
-        // Для того чтобы выводить ранее выбраный день полсе отмены редактирования
+        // Для того чтобы выводить ранее выбраный день полсе отмены редактирования.
         /// <summary>
         /// Запоминает последний день который мы выводили в MainPanel
         /// </summary>
         private int Id_selected_day;
 
-        // Переменные для ля работы с даными из интерфейса
+        // Переменные для ля работы с даными из интерфейса.
         private Buttons_Push buttons_Push = Buttons_Push.NULL;
         private CellState cellState1 = CellState.NULL;
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
         private bool picture_select;
 
+        // Валюта.
         Currency currency = Currency.UAH;
+        string str_currency = "₴";
 
+        Label[] labels_currency = new Label[10];
+
+        // Кнопки для создания нового дня.
         private DateTimePicker _dateTime = null;
         private Button bt_Create = null;
         private Button bt_Cancel = null;
@@ -62,8 +67,117 @@ namespace LoginWFsql
             Fill_Array_Days();
             Show_list_days(30);
             Show_Selected_Day(0);
+            Create_Currency_Labels();
         }
 
+        private void Create_Currency_Labels()
+        {
+            labels_currency[0] = new Label 
+            { 
+                Text = str_currency,
+                Location = new Point(_lb_state_cash.Location.X + _lb_state_cash.Width, _lb_state_cash.Location.Y),
+                Font = _lb_state_cash.Font,
+                ForeColor = _lb_state_cash.ForeColor
+            };
+            panelTopStats.Controls.Add(labels_currency[0]);
+
+            labels_currency[1] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(_lb_state_i_owe.Location.X + _lb_state_i_owe.Width, _lb_state_i_owe.Location.Y),
+                Font = _lb_state_i_owe.Font,
+                ForeColor = _lb_state_i_owe.ForeColor
+            };
+            panelTopStats.Controls.Add(labels_currency[1]);
+
+            labels_currency[2] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(_lb_state_saved.Location.X + _lb_state_saved.Width, _lb_state_saved.Location.Y),
+                Font = _lb_state_saved.Font,
+                ForeColor = _lb_state_saved.ForeColor
+            };
+            panelTopStats.Controls.Add(labels_currency[2]);
+
+            labels_currency[3] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbCash.Location.X + lbCash.Width, lbCash.Location.Y),
+                Font = lbCash.Font,
+                ForeColor = lbCash.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[3]);
+
+            labels_currency[4] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbCard.Location.X + lbCard.Width, lbCard.Location.Y),
+                Font = lbCard.Font,
+                ForeColor = lbCard.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[4]);
+
+            labels_currency[5] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbIOwe.Location.X + lbIOwe.Width, lbIOwe.Location.Y),
+                Font = lbIOwe.Font,
+                ForeColor = lbIOwe.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[5]);
+
+            labels_currency[6] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbOweMe.Location.X + lbOweMe.Width, lbOweMe.Location.Y),
+                Font = lbOweMe.Font,
+                ForeColor = lbOweMe.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[6]);
+
+            labels_currency[7] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbSaved.Location.X + lbSaved.Width, lbSaved.Location.Y),
+                Font = lbSaved.Font,
+                ForeColor = lbSaved.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[7]);
+
+            labels_currency[8] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbWasted.Location.X + lbWasted.Width, lbWasted.Location.Y),
+                Font = lbWasted.Font,
+                ForeColor = lbWasted.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[8]);
+
+            labels_currency[9] = new Label
+            {
+                Text = str_currency,
+                Location = new Point(lbIncome.Location.X + lbIncome.Width, lbIncome.Location.Y),
+                Font = lbIncome.Font,
+                ForeColor = lbIncome.ForeColor
+            };
+            mainContainer.Panel2.Controls.Add(labels_currency[9]);
+        }
+
+        private void Clear_Currency_Labels()
+        {
+            for (int i = 0; i < labels_currency.Length; i++)
+            {
+                if(i <= 2)
+                {
+                    panelTopStats.Controls.Remove(labels_currency[i]);
+                }
+                else
+                {
+                    mainContainer.Panel2.Controls.Remove(labels_currency[i]);
+                }
+                labels_currency[i] = null;
+            }
+        }
 
         /// <summary>
         /// Выводит список дней в лист (который слева) Принимает колво дней которое надо вывести
@@ -905,7 +1019,7 @@ namespace LoginWFsql
                         {
                             lbCard.Text = (card - quantity).ToString();
                         }
-                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.OWE_ME: // Дал в долг
@@ -923,7 +1037,7 @@ namespace LoginWFsql
                             lbSaved.Text = (saved - quantity).ToString();
                         }
                         lbOweMe.Text = (owe_me + quantity).ToString();
-                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.TRANSFER:
@@ -988,9 +1102,9 @@ namespace LoginWFsql
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
                         }   
-                        tb_Wasted_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                        tb_Wasted_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                         if (cellState3 != CellState.I_OWE)
-                            tb_In_Come_Str.Text += $"[+{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                            tb_In_Come_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.I_OWE:// Беру в долг
@@ -1004,7 +1118,7 @@ namespace LoginWFsql
                         lbCard.Text = (card + quantity).ToString();
                     }
                     lbIOwe.Text =(i_owe + quantity).ToString();
-                    tb_In_Come_Str.Text += $"[+{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                    tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.IN_COME:
@@ -1021,7 +1135,7 @@ namespace LoginWFsql
                         {
                             lbSaved.Text = (saved + quantity).ToString();
                         }
-                        tb_In_Come_Str.Text += $"[-{tb_quantity.Text}]>{tb_comment.Text}" + Environment.NewLine;
+                        tb_In_Come_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
             }
@@ -1154,8 +1268,8 @@ namespace LoginWFsql
         }
 
         #endregion
-        
-        #region Кнопки [Кнопки Манипуляции Даными] [MainPanel]
+
+        #region Кнопки [Кнопки Манипуляции Даными] [CURRENCY] [MainPanel]
         private void bt_Wasted_Click(object sender, EventArgs e)
         {
             if (buttons_Push == Buttons_Push.WASTED)
@@ -1169,11 +1283,22 @@ namespace LoginWFsql
             bt_I_Owe.Enabled = false;
             bt_In_Come.Enabled = false;
 
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
             lbSavedText.Enabled = false;
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
 
-            picture2.Image = Properties.Resources.wait1;
+            picture2.Image = Properties.Resources.selected_wait1;
             lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
@@ -1202,10 +1327,21 @@ namespace LoginWFsql
             bt_I_Owe.Enabled = false;
             bt_In_Come.Enabled = false;
 
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
 
-            picture2.Image = Properties.Resources.wait1;
+            picture2.Image = Properties.Resources.selected_wait1;
             lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
@@ -1237,6 +1373,17 @@ namespace LoginWFsql
             bt_I_Owe.Enabled = false;
             bt_In_Come.Enabled = false;
 
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
             lbIOweText.Enabled = false;
             lbCashText.Enabled = true;
             lbCardText.Enabled = true;
@@ -1244,7 +1391,7 @@ namespace LoginWFsql
             lbOweMeText.Enabled = true;
 
             picture_select = true;
-            picture1.Image = Properties.Resources.wait1;
+            picture1.Image = Properties.Resources.selected_wait1;
             picture1.Cursor = Cursors.Hand;
             picture1.Click += Picture1_Click;
 
@@ -1252,7 +1399,7 @@ namespace LoginWFsql
             lb_select_cell.Visible = true;
 
 
-            picture3.Image = Properties.Resources.wait1;
+            picture3.Image = Properties.Resources.selected_wait0;
             picture3.Cursor = Cursors.Hand;
             picture3.Click += Picture3_Click;
 
@@ -1267,7 +1414,7 @@ namespace LoginWFsql
             lbIOweText.Cursor = Cursors.Hand;
             lbIOweText.Click += LbIOweText_Click;
 
-            lbSymbol.Text = "±";
+            lbSymbol.Text = "~";
             bt_Transfer.Text = "Отмена";
             btSave.Enabled = true;
 
@@ -1289,13 +1436,24 @@ namespace LoginWFsql
             bt_In_Come.Enabled = false;
             bt_Transfer.Enabled = false;
 
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
             lbCashText.Enabled = true;
             lbCardText.Enabled = true;
             lbSavedText.Enabled = false;
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
 
-            picture2.Image = Properties.Resources.wait1;
+            picture2.Image = Properties.Resources.selected_wait1;
             lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
@@ -1325,13 +1483,24 @@ namespace LoginWFsql
             bt_In_Come.Enabled = true;
             bt_Transfer.Enabled = false;
 
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
             lbCashText.Enabled = true;
             lbCardText.Enabled = true;
             lbSavedText.Enabled = true;
             lbIOweText.Enabled = false;
             lbOweMeText.Enabled = false;
 
-            picture2.Image = Properties.Resources.wait1;
+            picture2.Image = Properties.Resources.selected_wait1;
             lb_select_cell.Visible = true;
 
             lbCashText.Cursor = Cursors.Hand;
@@ -1351,6 +1520,11 @@ namespace LoginWFsql
 
         private void Picture3_Click(object sender, EventArgs e)
         {
+            picture3.Image = Properties.Resources.selected_wait1;
+            cellState3 = CellState.NULL;
+            if (cellState1 == CellState.NULL)
+                picture1.Image = Properties.Resources.selected_wait0;
+
             picture_select = false;
 
             lbIOweText.Enabled = true;
@@ -1362,6 +1536,11 @@ namespace LoginWFsql
 
         private void Picture1_Click(object sender, EventArgs e)
         {
+            picture1.Image = Properties.Resources.selected_wait1;
+            cellState1 = CellState.NULL;
+            if (cellState3 == CellState.NULL)
+                picture3.Image = Properties.Resources.selected_wait0;
+
             picture_select = true;
 
             lbIOweText.Enabled = false;
@@ -1508,6 +1687,17 @@ namespace LoginWFsql
             bt_I_Owe.Enabled = true;
             bt_In_Come.Enabled = true;
 
+            pb_currency.Enabled = true;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.UAH1;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.EUR1;
+                    break;
+            }
+
             // Включаю все label
             lbCashText.Enabled = true;
             lbCardText.Enabled = true;
@@ -1560,6 +1750,43 @@ namespace LoginWFsql
             lb_select_cell.ForeColor = Color.Gainsboro;
         }
 
+        private void pb_currency_Click(object sender, EventArgs e)
+        {
+            switch (currency)
+            {
+                case Currency.UAH:
+                    currency = Currency.EUR;
+                    pb_currency.Image = Properties.Resources.EUR1;
+                    str_currency = "€";
+                    break;
+                case Currency.EUR:
+                    currency = Currency.UAH;
+                    pb_currency.Image = Properties.Resources.UAH1;
+                    str_currency = "₴";
+                    break;
+            }
+
+            Show_Selected_Day(Id_selected_day);
+            Clear_list_days();
+            Show_list_days(6);
+            Fill_Top_Bar();
+
+            Clear_Currency_Labels();
+            Create_Currency_Labels();
+        }
+
+        private void pb_currency_MouseEnter(object sender, EventArgs e)
+        {
+            pb_currency.Size = new Size(pb_currency.Width + 5, pb_currency.Height + 5);
+            pb_currency.Location = new Point(pb_currency.Location.X - 2, pb_currency.Location.Y - 2);
+        }
+
+        private void pb_currency_MouseLeave(object sender, EventArgs e)
+        {
+            pb_currency.Size = new Size(pb_currency.Width - 5, pb_currency.Height - 5);
+            pb_currency.Location = new Point(pb_currency.Location.X + 2, pb_currency.Location.Y + 2);
+        }
+
         private enum Buttons_Push
         { 
             NULL,
@@ -1579,6 +1806,7 @@ namespace LoginWFsql
             OWE_ME,
             TRANSFER
         }
+
         #endregion
 
 
@@ -1603,24 +1831,6 @@ namespace LoginWFsql
             int g = current.G + 10;
             int b = current.B + 10;
             return Color.FromArgb(r, g, b);
-        }
-
-        private void pb_currency_Click(object sender, EventArgs e)
-        {
-            switch (currency)
-            {
-                case Currency.UAH:
-                    currency = Currency.EUR;
-                    break;
-                case Currency.EUR:
-                    currency = Currency.UAH;
-                    break;
-            }
-
-            Show_Selected_Day(Id_selected_day);
-            Clear_list_days();
-            Show_list_days(6);
-            Fill_Top_Bar();
         }
 
     }
