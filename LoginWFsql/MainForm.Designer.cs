@@ -98,6 +98,7 @@ namespace LoginWFsql
             this.pbSaved = new System.Windows.Forms.PictureBox();
             this.pbCard = new System.Windows.Forms.PictureBox();
             this.lbCardText = new System.Windows.Forms.Label();
+            this.bt_Transfer_Currency = new System.Windows.Forms.Button();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
@@ -374,6 +375,7 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
+            this.mainContainer.Panel2.Controls.Add(this.bt_Transfer_Currency);
             this.mainContainer.Panel2.Controls.Add(this.pb_currency);
             this.mainContainer.Panel2.Controls.Add(this.tb_In_Come_Str);
             this.mainContainer.Panel2.Controls.Add(this.tb_Wasted_Str);
@@ -1075,6 +1077,23 @@ namespace LoginWFsql
             this.lbCardText.Text = "Карта:";
             this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // bt_Transfer_Currency
+            // 
+            this.bt_Transfer_Currency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.bt_Transfer_Currency.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.bt_Transfer_Currency.FlatAppearance.BorderSize = 0;
+            this.bt_Transfer_Currency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_Transfer_Currency.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Transfer_Currency.ForeColor = System.Drawing.Color.White;
+            this.bt_Transfer_Currency.Location = new System.Drawing.Point(287, 143);
+            this.bt_Transfer_Currency.Name = "bt_Transfer_Currency";
+            this.bt_Transfer_Currency.Size = new System.Drawing.Size(148, 22);
+            this.bt_Transfer_Currency.TabIndex = 70;
+            this.bt_Transfer_Currency.Text = "Перевод валют";
+            this.bt_Transfer_Currency.UseVisualStyleBackColor = false;
+            this.bt_Transfer_Currency.Visible = false;
+            this.bt_Transfer_Currency.Click += new System.EventHandler(this.bt_Transfer_Currency_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1185,5 +1204,6 @@ namespace LoginWFsql
         private System.Windows.Forms.TextBox tb_In_Come_Str;
         private System.Windows.Forms.TextBox tb_Wasted_Str;
         private System.Windows.Forms.PictureBox pb_currency;
+        private System.Windows.Forms.Button bt_Transfer_Currency;
     }
 }

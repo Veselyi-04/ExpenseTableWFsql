@@ -72,11 +72,12 @@ namespace LoginWFsql
 
         private void Create_Currency_Labels()
         {
-            labels_currency[0] = new Label 
-            { 
+            labels_currency[0] = new Label
+            {
                 Text = str_currency,
                 Location = new Point(_lb_state_cash.Location.X + _lb_state_cash.Width, _lb_state_cash.Location.Y),
-                Font = _lb_state_cash.Font,
+                Font = new Font("Consolas;", 12f),
+                AutoSize = true,
                 ForeColor = _lb_state_cash.ForeColor
             };
             panelTopStats.Controls.Add(labels_currency[0]);
@@ -85,7 +86,8 @@ namespace LoginWFsql
             {
                 Text = str_currency,
                 Location = new Point(_lb_state_i_owe.Location.X + _lb_state_i_owe.Width, _lb_state_i_owe.Location.Y),
-                Font = _lb_state_i_owe.Font,
+                Font = new Font("Consolas;", 12f),
+                AutoSize = true,
                 ForeColor = _lb_state_i_owe.ForeColor
             };
             panelTopStats.Controls.Add(labels_currency[1]);
@@ -94,7 +96,8 @@ namespace LoginWFsql
             {
                 Text = str_currency,
                 Location = new Point(_lb_state_saved.Location.X + _lb_state_saved.Width, _lb_state_saved.Location.Y),
-                Font = _lb_state_saved.Font,
+                Font = new Font("Consolas;", 12f),
+                AutoSize = true,
                 ForeColor = _lb_state_saved.ForeColor
             };
             panelTopStats.Controls.Add(labels_currency[2]);
@@ -1372,6 +1375,7 @@ namespace LoginWFsql
             bt_Owe_Me.Enabled = false;
             bt_I_Owe.Enabled = false;
             bt_In_Come.Enabled = false;
+            bt_Transfer_Currency.Visible = true;
 
             pb_currency.Enabled = false;
             switch (currency)
@@ -1686,6 +1690,7 @@ namespace LoginWFsql
             bt_Transfer.Enabled = true;
             bt_I_Owe.Enabled = true;
             bt_In_Come.Enabled = true;
+            bt_Transfer_Currency.Visible = false;
 
             pb_currency.Enabled = true;
             switch (currency)
@@ -1833,6 +1838,10 @@ namespace LoginWFsql
             return Color.FromArgb(r, g, b);
         }
 
+        private void bt_Transfer_Currency_Click(object sender, EventArgs e)
+        {
+
+        }
     }
     public enum Currency
     {
