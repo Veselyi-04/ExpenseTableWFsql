@@ -1058,9 +1058,9 @@ namespace LoginWFsql
             // 
             // pb_currency
             // 
-            this.pb_currency.Enabled = false;
+            this.pb_currency.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_currency.Image = ((System.Drawing.Image)(resources.GetObject("pb_currency.Image")));
-            this.pb_currency.Location = new System.Drawing.Point(424, 2);
+            this.pb_currency.Location = new System.Drawing.Point(7, 3);
             this.pb_currency.Name = "pb_currency";
             this.pb_currency.Size = new System.Drawing.Size(35, 35);
             this.pb_currency.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

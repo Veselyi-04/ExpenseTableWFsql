@@ -56,12 +56,14 @@ namespace LoginWFsql
         private void StartForm()
         {
             InitializeComponent();
+            Select_Login();
             Fill_Top_Bar();
             Fill_ComboBox_Month();
             Fill_Array_Days();
             Show_list_days(30);
             Show_Selected_Day(0);
         }
+
 
         /// <summary>
         /// Выводит список дней в лист (который слева) Принимает колво дней которое надо вывести
@@ -78,7 +80,7 @@ namespace LoginWFsql
                 if (days.Length == i)
                     return;
 
-                days[i].Create_New_Group_Box();
+                days[i].Create_New_Group_Box(currency);
                 days[i].Click_Button += new DayEventHandler (btDay_click_Handler);
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
@@ -148,17 +150,37 @@ namespace LoginWFsql
         {
             lbNameDay.Text = days[i].date.DayOfWeek.ToString();
             lbDate.Text = days[i].date.ToShortDateString();
-            lbCash.Text = days[i].purse_uah.cash.ToString();
-            lbCard.Text = days[i].purse_uah.card.ToString();
-            lbIOwe.Text = days[i].purse_uah.i_owe.ToString();
-            lbOweMe.Text = days[i].purse_uah.owe_me.ToString();
-            lbSaved.Text = days[i].purse_uah.saved.ToString();
-            lbWasted.Text = days[i].purse_uah.wasted.ToString();
             tb_Wasted_Str.Text = days[i].str_wasted;
-            lbIncome.Text = days[i].purse_uah.in_come.ToString();
             tb_In_Come_Str.Text = days[i].str_income;
+
+            switch (currency)
+            {
+                case Currency.UAH:
+                    {
+                        lbCash.Text = days[i].purse_uah.cash.ToString();
+                        lbCard.Text = days[i].purse_uah.card.ToString();
+                        lbIOwe.Text = days[i].purse_uah.i_owe.ToString();
+                        lbOweMe.Text = days[i].purse_uah.owe_me.ToString();
+                        lbSaved.Text = days[i].purse_uah.saved.ToString();
+                        lbWasted.Text = days[i].purse_uah.wasted.ToString();
+                        lbIncome.Text = days[i].purse_uah.in_come.ToString();
+                    }
+                    break;
+                case Currency.EUR:
+                    {
+                        lbCash.Text = days[i].purse_eur.cash.ToString();
+                        lbCard.Text = days[i].purse_eur.card.ToString();
+                        lbIOwe.Text = days[i].purse_eur.i_owe.ToString();
+                        lbOweMe.Text = days[i].purse_eur.owe_me.ToString();
+                        lbSaved.Text = days[i].purse_eur.saved.ToString();
+                        lbWasted.Text = days[i].purse_eur.wasted.ToString();
+                        lbIncome.Text = days[i].purse_eur.in_come.ToString();
+                    }
+                    break;
+            }
+
             Id_selected_day = i;
-        }// purse_uah
+        }
 
         /// <summary>
         /// Заполнение масива дней с Базы Даных
@@ -181,6 +203,7 @@ namespace LoginWFsql
             reader = command.ExecuteReader();
             
             // Ограничиваем считывание дней небольше 30
+            // Можно будет сделать в запросе sql
             if (count_days > 30)
                 count_days = 30;
 
@@ -292,17 +315,27 @@ namespace LoginWFsql
         private void Get_day_from_base(int i)
         {
             days[i] = new Day(i);
+            days[i].str_wasted = reader.GetString(0);
+            days[i].str_income = reader.GetString(1);
+            days[i].date = reader.GetDateTime(2);
+
             days[i].purse_uah = new Purse();
-            days[i].purse_uah.cash = reader.GetFloat(0);
-            days[i].purse_uah.card = reader.GetFloat(1);
-            days[i].purse_uah.i_owe = reader.GetFloat(2);
-            days[i].purse_uah.owe_me = reader.GetFloat(3);
-            days[i].purse_uah.saved = reader.GetFloat(4);
-            days[i].purse_uah.wasted = reader.GetFloat(5);
-            days[i].str_wasted = reader.GetString(6);
-            days[i].purse_uah.in_come = reader.GetFloat(7);
-            days[i].str_income = reader.GetString(8);
-            days[i].date = reader.GetDateTime(9);
+            days[i].purse_uah.cash = reader.GetFloat(3);
+            days[i].purse_uah.card = reader.GetFloat(4);
+            days[i].purse_uah.i_owe = reader.GetFloat(5);
+            days[i].purse_uah.owe_me = reader.GetFloat(6);
+            days[i].purse_uah.saved = reader.GetFloat(7);
+            days[i].purse_uah.wasted = reader.GetFloat(8);
+            days[i].purse_uah.in_come = reader.GetFloat(9);
+
+            days[i].purse_eur = new Purse();
+            days[i].purse_eur.cash = reader.GetFloat(10);
+            days[i].purse_eur.card = reader.GetFloat(11);
+            days[i].purse_eur.i_owe = reader.GetFloat(12);
+            days[i].purse_eur.owe_me = reader.GetFloat(13);
+            days[i].purse_eur.saved = reader.GetFloat(14);
+            days[i].purse_eur.wasted = reader.GetFloat(15);
+            days[i].purse_eur.in_come = reader.GetFloat(16);
         }// purse_uah
 
         /// <summary>
@@ -311,6 +344,9 @@ namespace LoginWFsql
         private void Get_empty_day(int i, DateTime date)
         {
             days[i] = new Day(i);
+            days[i].str_wasted = "";
+            days[i].str_income = "";
+            days[i].date = date;
             days[i].purse_uah = new Purse();
             days[i].purse_uah.cash = 0.0f;
             days[i].purse_uah.card = 0.0f;
@@ -318,10 +354,17 @@ namespace LoginWFsql
             days[i].purse_uah.owe_me = 0.0f;
             days[i].purse_uah.saved = 0.0f;
             days[i].purse_uah.wasted = 0.0f;
-            days[i].str_wasted = "";
             days[i].purse_uah.in_come = 0.0f;
-            days[i].str_income = "";
-            days[i].date = date;
+
+            days[i].purse_eur = new Purse();
+            days[i].purse_eur.cash = 0.0f;
+            days[i].purse_eur.card = 0.0f;
+            days[i].purse_eur.i_owe = 0.0f;
+            days[i].purse_eur.owe_me = 0.0f;
+            days[i].purse_eur.saved = 0.0f;
+            days[i].purse_eur.wasted = 0.0f;
+            days[i].purse_eur.in_come = 0.0f;
+
             days[i].is_empty = true;
         }// purse_uah
 
@@ -360,34 +403,43 @@ namespace LoginWFsql
         /// </summary>
         private void Fill_Top_Bar()
         {
-            return;
-            string userlogin;
             int cash;
             int i_owe;
             int saved;
             db.openConnection();
             {
-                //command = SqlCommand.Fill_TopBar(currentUserID, db.getConnection());
+                command = SqlCommand.Fill_TopBar(currency, currentUserID, db.getConnection());
 
                 reader = command.ExecuteReader();
 
                 reader.Read();
                 {
-                    userlogin = reader.GetString(0);
-                    cash = reader.GetInt32(1);
-                    i_owe = reader.GetInt32(2);
-                    saved = reader.GetInt32(3);
+                    cash = reader.GetInt32(0);
+                    i_owe = reader.GetInt32(1);
+                    saved = reader.GetInt32(2);
                 }
                 reader.Close();
 
             }
             db.closeConnection();
 
-            _lb_state_userlogin.Text = userlogin;
             _lb_state_cash.Text = cash.ToString();
             _lb_state_i_owe.Text = i_owe.ToString();
             _lb_state_saved.Text = saved.ToString();
 
+        }
+        private void Select_Login()
+        {
+            command = SqlCommand.Select_Login(currentUserID, db.getConnection());
+
+            db.openConnection();
+            {
+                reader = command.ExecuteReader();
+                reader.Read();
+                _lb_state_userlogin.Text = reader.GetString(0);
+                reader.Close();
+            }
+            db.closeConnection();
         }
 
         private void Delete_Day()
@@ -529,7 +581,7 @@ namespace LoginWFsql
             DateTime currentDate;
             currentDate = DateTime.Parse(lbDate.Text);
 
-            command = SqlCommand.Select_PrevDay(currentUserID, currentDate, db.getConnection());
+            command = SqlCommand.Select_PrevDay(currency, currentUserID, currentDate, db.getConnection());
             db.openConnection();
             {
                 reader = command.ExecuteReader();
@@ -570,7 +622,7 @@ namespace LoginWFsql
 
             DateTime currentDate = DateTime.Parse(lbDate.Text);
 
-            command = SqlCommand.Select_PrevDay(currentUserID, currentDate, db.getConnection());
+            command = SqlCommand.Select_PrevDay(currency, currentUserID, currentDate, db.getConnection());
             db.openConnection();
             {
                 reader = command.ExecuteReader();
@@ -698,7 +750,7 @@ namespace LoginWFsql
                 Format = DateTimePickerFormat.Short,
                 MaxDate = DateTime.Now
             };
-            lbDate.Text = DateTime.Now.ToShortTimeString();
+            lbDate.Text = DateTime.Now.ToShortDateString();
             this.Controls.Add(_dateTime);
 
             _dateTime.ValueChanged += _dateTime_ValueChanged;
@@ -1555,12 +1607,26 @@ namespace LoginWFsql
 
         private void pb_currency_Click(object sender, EventArgs e)
         {
+            switch (currency)
+            {
+                case Currency.UAH:
+                    currency = Currency.EUR;
+                    break;
+                case Currency.EUR:
+                    currency = Currency.UAH;
+                    break;
+            }
 
+            Show_Selected_Day(Id_selected_day);
+            Clear_list_days();
+            Show_list_days(6);
+            Fill_Top_Bar();
         }
 
     }
-    enum Currency
+    public enum Currency
     {
+        NULL,
         UAH,
         EUR
     }

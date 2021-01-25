@@ -49,18 +49,18 @@ namespace LoginWFsql
         /// Создает новый GroupBox(), для дальнейшего его вывода в Лист с днями.
         /// Сам определяет пустой ето день или заполненый.
         /// </summary>
-        public void Create_New_Group_Box()
+        public void Create_New_Group_Box(Currency currency = Currency.NULL)
         {
             if (is_empty)
                 Create_Empty_Group_Box();
             else
-                Create_Filled_Group_Box();
+                Create_Filled_Group_Box(currency);
         }
 
         /// <summary>
         /// Создает груп бокс существующего дня.
         /// </summary>
-        private void Create_Filled_Group_Box()
+        private void Create_Filled_Group_Box(Currency currency)
         {
             //
             // InitializeComponent
@@ -105,7 +105,6 @@ namespace LoginWFsql
             lb_in_come.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_in_come.Location = new Point(96, 15);
             lb_in_come.Size = new Size(42, 15);
-            lb_in_come.Text = purse_uah.in_come.ToString();
             //
             // lb_wasted
             //
@@ -113,7 +112,6 @@ namespace LoginWFsql
             lb_wasted.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_wasted.Location = new Point(96, 36);
             lb_wasted.Size = new Size(42, 15);
-            lb_wasted.Text = purse_uah.wasted.ToString();
             //
             // lb_cash
             //
@@ -121,7 +119,23 @@ namespace LoginWFsql
             lb_cash.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             lb_cash.Location = new Point(25, 36);
             lb_cash.Size = new Size(40, 15);
-            lb_cash.Text = purse_uah.cash.ToString();
+            switch (currency)
+            {
+                case Currency.UAH:
+                    {
+                        lb_in_come.Text = purse_uah.in_come.ToString();
+                        lb_wasted.Text = purse_uah.wasted.ToString();
+                        lb_cash.Text = purse_uah.cash.ToString();
+                    }
+                    break;
+                case Currency.EUR:
+                    {
+                        lb_in_come.Text = purse_eur.in_come.ToString();
+                        lb_wasted.Text = purse_eur.wasted.ToString();
+                        lb_cash.Text = purse_eur.cash.ToString();
+                    }
+                    break;
+            }
             //
             // lb_date
             //

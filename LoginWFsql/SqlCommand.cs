@@ -57,12 +57,22 @@ namespace LoginWFsql
         /// Запрос возвращает последние актуальные даные для заполнения TopBar. Принимает только ID текущего пользователя и коннект.
         /// </summary>
         /// /// <returns>Возвращает 4 столбца</returns>
-        /*public static MySqlCommand Fill_TopBar(int currentUserID, MySqlConnection connection)
+        public static MySqlCommand Fill_TopBar(Currency currency ,int currentUserID, MySqlConnection connection)
         {
-            command = new MySqlCommand(fill_topBar, connection);
+            string purse = fill_topBar_UAH;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    purse = fill_topBar_UAH;
+                    break;
+                case Currency.EUR:
+                    purse = fill_topBar_EUR;
+                    break;
+            }
+            command = new MySqlCommand(purse, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             return command;
-        }*/
+        }
 
         /// <summary>
         /// Запрос возвращает существующие месяца(без повторений). Принимает только ID текущего пользователя и коннект.
@@ -99,14 +109,14 @@ namespace LoginWFsql
 
         public static MySqlCommand Update_Day(Currency currency, int currentUserID, float cash, float card, float i_owe, float owe_me, float saved, float wasted, string str_wasted, float in_come, string str_in_come, DateTime date, MySqlConnection connection)
         {
-            string purse = purse_UAH;
+            string purse = upd_purse_UAH;
             switch (currency)
             {
                 case Currency.UAH:
-                    purse = purse_UAH;
+                    purse = upd_purse_UAH;
                     break;
                 case Currency.EUR:
-                    purse = purse_UAH;
+                    purse = upd_purse_EUR;
                     break;
             }
 
@@ -141,76 +151,93 @@ namespace LoginWFsql
         /// <summary>
         /// Возвращает последний актуальный день для создания на его основе следущего дня
         /// </summary>
-        public static MySqlCommand Select_PrevDay(int currentUserID, DateTime SelectDate,  MySqlConnection connection)
+        public static MySqlCommand Select_PrevDay(Currency currency, int currentUserID, DateTime SelectDate,  MySqlConnection connection)
         {
-            command = new MySqlCommand(select_PrevDay, connection);
+            string purse = select_PrevDay_UAH;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    purse = select_PrevDay_UAH;
+                    break;
+                case Currency.EUR:
+                    purse = select_PrevDay_EUR;
+                    break;
+            }
+
+            command = new MySqlCommand(purse, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             command.Parameters.Add("@SelectDate", MySqlDbType.DateTime).Value = SelectDate;
             return command;
         }
 
-        private static readonly string main_command1 = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
-            "FROM days WHERE days.id_user = @currentUserID " +
-            "ORDER BY date DESC";
-        private static readonly string main_command = "SELECT purse_uah.cash, purse_uah.card, purse_uah.i_owe, purse_uah.owe_me, " +
-                "purse_uah.saved, purse_uah.wasted, day.str_wasted, purse_uah.in_come, day.str_in_come, day.date " +
-            "FROM `day` " +
-            "LEFT JOIN `purse_uah` ON `purse_uah`.`id_day` = `day`.`id_day` " +
-            "WHERE day.id_user = @currentUserID " +
-            "ORDER BY day.date DESC";
+        public static MySqlCommand Select_Login(int currentUserID, MySqlConnection connection)
+        {
+            command = new MySqlCommand(select_login, connection);
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            return command;
+        }
 
-        private static readonly string count_days1 = "SELECT COUNT(*) FROM days WHERE days.id_user = @currentUserID";
+        private static readonly string main_command = "SELECT day.str_wasted, day.str_in_come, day.date, " +
+            "UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, UAH.wasted, UAH.in_come, " +
+            "EUR.cash, EUR.card, EUR.i_owe, EUR.owe_me, EUR.saved, EUR.wasted, EUR.in_come " +
+            "FROM day " +
+            "INNER JOIN purse_uah AS UAH ON UAH.id_day = day.id_day " +
+            "INNER JOIN purse_eur AS EUR ON EUR.id_day = day.id_day " +
+            "WHERE day.id_user = @currentUserID ORDER BY day.date DESC";
+        // переделать запись в масив дней
         private static readonly string count_days = "SELECT COUNT(*) FROM day WHERE day.id_user = @currentUserID";
 
-        private static readonly string select_month1 = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date` " +
-            "FROM days WHERE days.id_user = @currentUserID " +
-            "AND (date >= @first_day_month AND date <= @last_day_month) " +
-            "ORDER BY date DESC";
+        private static readonly string select_month = "SELECT day.str_wasted, day.str_in_come, day.date, " +
+            "UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, UAH.wasted, UAH.in_come, " +
+            "EUR.cash, EUR.card, EUR.i_owe, EUR.owe_me, EUR.saved, EUR.wasted, EUR.in_come " +
+            "FROM day " +
+            "INNER JOIN purse_uah AS UAH ON UAH.id_day = day.id_day " +
+            "INNER JOIN purse_eur AS EUR ON EUR.id_day = day.id_day " +
+            "WHERE day.id_user = @currentUserID AND (date BETWEEN @first_day_month AND @last_day_month) ORDER BY date DESC";
 
-        private static readonly string select_month = "SELECT purse_uah.cash, purse_uah.card, purse_uah.i_owe, purse_uah.owe_me, " +
-                "purse_uah.saved, purse_uah.wasted, day.str_wasted, purse_uah.in_come, day.str_in_come, day.date " +
-            "FROM day LEFT JOIN purse_uah ON purse_uah.id_day = day.id_day " +
-            "WHERE day.id_user = @currentUserID AND (date BETWEEN @first_day_month AND @last_day_month) " +
-            "ORDER BY date DESC";
+        private static readonly string fill_topBar_UAH = "SELECT purse_uah.cash, purse_uah.i_owe, purse_uah.saved " +
+            "FROM purse_uah " +
+            "WHERE purse_uah.id_day = (SELECT day.id_day FROM day WHERE day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
 
-       /* private static readonly string fill_topBar = "SELECT users.login, days.cash, days.i_owe, days.saved, days.date " +
-            "FROM users INNER JOIN days ON days.id_user = users.id " +
-            "WHERE users.id = @currentUserID " +
-            "ORDER BY date DESC";*/ // Переработать, логин брать отдельно, даные брать с последнего дня.
+        private static readonly string fill_topBar_EUR = "SELECT purse_eur.cash, purse_eur.i_owe, purse_eur.saved " +
+            "FROM purse_eur " +
+            "WHERE purse_eur.id_day = (SELECT day.id_day FROM day WHERE day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
 
-        private static readonly string fill_comboBox_Month1 = "SELECT DISTINCT YEAR(date), MONTH(date) " +
-            "FROM days WHERE days.id_user = @currentUserID";
+        private static readonly string select_login = "SELECT users.login " +
+            "FROM users WHERE users.id = @currentUserID";
+
         private static readonly string fill_comboBox_Month = "SELECT DISTINCT YEAR(date), MONTH(date) " +
             "FROM day WHERE day.id_user = @currentUserID";
-
-        private static readonly string create_newDay1 = "INSERT INTO `days` (`id_user`, `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `str_wasted`, `in_come`, `str_in_come`, `date`) " +
-            "VALUES (@currentUserID, @cash, @card, @i_owe, @owe_me, @saved, @wasted, @str_wasted, @in_come, @str_in_come, @date)";
 
         private static readonly string create_newDay = "INSERT INTO day (id_user, date, str_wasted, str_in_come) " +
             "VALUES (@currentUserID, @date, @str_wasted, @str_in_come);" +
             "INSERT INTO `purse_uah` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `in_come`) " +
-            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash, @card, @i_owe, @owe_me, @saved, @wasted, @in_come)";
-
-        private static readonly string update_day1 = "UPDATE `days` SET `cash` = @cash, `card` = @card, `i_owe` = @i_owe, `owe_me` = @owe_me, " +
-            "`saved` = @saved, `wasted` = @wasted, `str_wasted` = @str_wasted, `in_come` = @in_come, `str_in_come` = @str_in_come " +
-            "WHERE days.date = @date AND days.id_user = @currentUserID";
+            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash, @card, @i_owe, @owe_me, @saved, @wasted, @in_come);" +
+            "INSERT INTO `purse_eur` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `in_come`) " +
+            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash, @card, @i_owe, @owe_me, @saved, @wasted, @in_come);";
 
         private static readonly string update_day = "UPDATE day SET day.str_wasted = @str_wasted, day.str_in_come = @str_in_come " +
             "WHERE day.date = @date AND day.id_user = @currentUserID; ";
             
-        private static readonly string purse_UAH = "UPDATE purse_uah SET purse_uah.cash = @cash, purse_uah.card = @card, purse_uah.i_owe = @i_owe, purse_uah.owe_me = @owe_me, " +
-                "purse_uah.saved = @saved, purse_uah.wasted = @wasted, purse_uah.in_come = @in_come " +
-            "WHERE purse_uah.id_day = (SELECT id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID)";
+        private static readonly string upd_purse_UAH = "UPDATE purse_uah AS UAH SET UAH.cash = @cash, UAH.card = @card, UAH.i_owe = @i_owe, " +
+            "UAH.owe_me = @owe_me, UAH.saved = @saved, UAH.wasted = @wasted, UAH.in_come = @in_come WHERE UAH.id_day = (SELECT id_day FROM day " +
+            "WHERE day.date = @date AND day.id_user = @currentUserID);";
 
-        private static readonly string delete_day1 = "DELETE FROM `days` WHERE `days`.`date` = @date AND days.id_user = @currentUserID";
+        private static readonly string upd_purse_EUR = "UPDATE purse_eur AS EUR SET EUR.cash = @cash, EUR.card = @card, EUR.i_owe = @i_owe, " +
+            "EUR.owe_me = @owe_me, EUR.saved = @saved, EUR.wasted = @wasted, EUR.in_come = @in_come WHERE EUR.id_day = (SELECT id_day FROM day " +
+            "WHERE day.date = @date AND day.id_user = @currentUserID);";
 
         private static readonly string delete_day = "DELETE FROM day WHERE day.date = @date AND day.id_user = @currentUserID";
 
-        private static readonly string select_PrevDay1 = "SELECT `cash`, `card`, `i_owe`, `owe_me`, `saved`, date " +
-            "FROM days WHERE(date <= @SelectDate) AND id_user = @currentUserID ORDER BY date DESC";
+        // Переделал, надо интегрировать
+        private static readonly string select_PrevDay_UAH = "SELECT cash, card, i_owe, owe_me, saved " +
+            "FROM purse_uah " +
+            "WHERE purse_uah.id_day = " +
+            "(SELECT day.id_day FROM day WHERE day.date < @SelectDate AND day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
 
-        private static readonly string select_PrevDay = "SELECT cash, card, i_owe, owe_me, saved " +
-            "FROM purse_uah WHERE purse_uah.id_day = " +
-            "(SELECT day.id_day FROM day WHERE day.date < @SelectDate AND day.id_user = 1 ORDER BY date DESC LIMIT 1)";
+        private static readonly string select_PrevDay_EUR = "SELECT cash, card, i_owe, owe_me, saved " +
+            "FROM purse_eur " +
+            "WHERE purse_eur.id_day = " +
+            "(SELECT day.id_day FROM day WHERE day.date < @SelectDate AND day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
     }
 }
