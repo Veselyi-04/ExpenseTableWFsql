@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
 namespace LoginWFsql
 {
+    public enum Currency
+    {
+        NULL,
+        UAH,
+        EUR
+    }
+
     public partial class MainForm : Form
     {
         // Для работы с бд
@@ -38,13 +39,16 @@ namespace LoginWFsql
         private CellState cellState1 = CellState.NULL;
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
+        /// <summary>
+        /// true = puctire1 | false = picture3
+        /// </summary>
         private bool picture_select;
 
         // Валюта.
         Currency currency = Currency.UAH;
-        string str_currency = "₴";
+        string str_currency = "₴"; // €  ₴
 
-        Label[] labels_currency = new Label[10];
+        Label[] labels_currency = new Label[11];
 
         // Кнопки для создания нового дня.
         private DateTimePicker _dateTime = null;
@@ -105,65 +109,73 @@ namespace LoginWFsql
             labels_currency[3] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbCash.Location.X + lbCash.Width, lbCash.Location.Y),
-                Font = lbCash.Font,
-                ForeColor = lbCash.ForeColor
+                Location = new Point(lbWasted.Location.X + lbWasted.Width, lbWasted.Location.Y),
+                Font = lbWasted.Font,
+                AutoSize = true,
+                ForeColor = lbWasted.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[3]);
 
             labels_currency[4] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbCard.Location.X + lbCard.Width, lbCard.Location.Y),
-                Font = lbCard.Font,
-                ForeColor = lbCard.ForeColor
+                Location = new Point(lbIncome.Location.X + lbIncome.Width, lbIncome.Location.Y),
+                Font = lbIncome.Font,
+                AutoSize = true,
+                ForeColor = lbIncome.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[4]);
 
             labels_currency[5] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbIOwe.Location.X + lbIOwe.Width, lbIOwe.Location.Y),
-                Font = lbIOwe.Font,
-                ForeColor = lbIOwe.ForeColor
+                Location = new Point(lbCash.Location.X + lbCash.Width, lbCash.Location.Y),
+                Font = lbCash.Font,
+                AutoSize = true,
+                ForeColor = lbCash.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[5]);
 
             labels_currency[6] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbOweMe.Location.X + lbOweMe.Width, lbOweMe.Location.Y),
-                Font = lbOweMe.Font,
-                ForeColor = lbOweMe.ForeColor
+                Location = new Point(lbCard.Location.X + lbCard.Width, lbCard.Location.Y),
+                Font = lbCard.Font,
+                AutoSize = true,
+                ForeColor = lbCard.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[6]);
 
             labels_currency[7] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbSaved.Location.X + lbSaved.Width, lbSaved.Location.Y),
-                Font = lbSaved.Font,
-                ForeColor = lbSaved.ForeColor
+                Location = new Point(lbIOwe.Location.X + lbIOwe.Width, lbIOwe.Location.Y),
+                Font = lbIOwe.Font,
+                AutoSize = true,
+                ForeColor = lbIOwe.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[7]);
 
             labels_currency[8] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbWasted.Location.X + lbWasted.Width, lbWasted.Location.Y),
-                Font = lbWasted.Font,
-                ForeColor = lbWasted.ForeColor
+                Location = new Point(lbOweMe.Location.X + lbOweMe.Width, lbOweMe.Location.Y),
+                Font = lbOweMe.Font,
+                AutoSize = true,
+                ForeColor = lbOweMe.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[8]);
 
             labels_currency[9] = new Label
             {
                 Text = str_currency,
-                Location = new Point(lbIncome.Location.X + lbIncome.Width, lbIncome.Location.Y),
-                Font = lbIncome.Font,
-                ForeColor = lbIncome.ForeColor
+                Location = new Point(lbSaved.Location.X + lbSaved.Width, lbSaved.Location.Y),
+                Font = lbSaved.Font,
+                AutoSize = true,
+                ForeColor = lbSaved.ForeColor
             };
             mainContainer.Panel2.Controls.Add(labels_currency[9]);
+
         }
 
         private void Clear_Currency_Labels()
@@ -1521,149 +1533,195 @@ namespace LoginWFsql
             lb_select_cell.ForeColor = Color.IndianRed;
         }
 
-
-        private void Picture3_Click(object sender, EventArgs e)
-        {
-            picture3.Image = Properties.Resources.selected_wait1;
-            cellState3 = CellState.NULL;
-            if (cellState1 == CellState.NULL)
-                picture1.Image = Properties.Resources.selected_wait0;
-
-            picture_select = false;
-
-            lbIOweText.Enabled = true;
-            lbCashText.Enabled = true;
-            lbCardText.Enabled = true;
-            lbSavedText.Enabled = true;
-            lbOweMeText.Enabled = false;
-        }
-
         private void Picture1_Click(object sender, EventArgs e)
         {
-            picture1.Image = Properties.Resources.selected_wait1;
-            cellState1 = CellState.NULL;
-            if (cellState3 == CellState.NULL)
-                picture3.Image = Properties.Resources.selected_wait0;
+            _picture_select_halder(true);
 
-            picture_select = true;
-
-            lbIOweText.Enabled = false;
-            lbCashText.Enabled = true;
-            lbCardText.Enabled = true;
-            lbSavedText.Enabled = true;
-            lbOweMeText.Enabled = true;
-        }
-
-
-        private void LbIOweText_Click(object sender, EventArgs e)
-        {
-            if (buttons_Push != Buttons_Push.TRANSFER)
+            if (buttons_Push != Buttons_Push.TRANSFER_CURRENCY)
             {
-                cellState2 = CellState.I_OWE;
-                picture2.Image = pbIOwe.Image;
+                lbIOweText.Enabled = false;
+                lbCashText.Enabled = true;
+                lbCardText.Enabled = true;
+                lbSavedText.Enabled = true;
+                lbOweMeText.Enabled = true;
+            }
+        }
+        private void Picture3_Click(object sender, EventArgs e)
+        {
+            _picture_select_halder(false);
+
+            if (buttons_Push != Buttons_Push.TRANSFER_CURRENCY)
+            {
+                lbIOweText.Enabled = true;
+                lbCashText.Enabled = true;
+                lbCardText.Enabled = true;
+                lbSavedText.Enabled = true;
+                lbOweMeText.Enabled = false;
+            }
+
+        }
+        private void _picture_select_halder(bool true_false)
+        {
+            if (true_false)
+            {
+                picture1.Image = Properties.Resources.selected_wait1;
+                cellState1 = CellState.NULL;
+                if (cellState3 == CellState.NULL)
+                    picture3.Image = Properties.Resources.selected_wait0;
+
+                picture_select = true;
             }
             else
             {
-                if (picture_select)
-                {
-                    cellState1 = CellState.I_OWE;
-                    picture1.Image = pbIOwe.Image;
-                }
-                else
-                {
-                    cellState3 = CellState.I_OWE;
-                    picture3.Image = pbIOwe.Image;
-                }
+                picture3.Image = Properties.Resources.selected_wait1;
+                cellState3 = CellState.NULL;
+                if (cellState1 == CellState.NULL)
+                    picture1.Image = Properties.Resources.selected_wait0;
+
+                picture_select = false;
             }
+
+        }
+
+        private void LbIOweText_Click(object sender, EventArgs e)
+        {
+            Set_Cell_Halder(CellState.I_OWE);
         }
 
         private void LbOweMeText_Click(object sender, EventArgs e)
         {
-            if (buttons_Push != Buttons_Push.TRANSFER)
-            {
-                cellState2 = CellState.OWE_ME;
-                picture2.Image = pbOweMe.Image;
-            }
-            else
-            {
-                if(picture_select)
-                {
-                    cellState1 = CellState.OWE_ME;
-                    picture1.Image = pbOweMe.Image;
-                }
-                else
-                {
-                    cellState3 = CellState.OWE_ME;
-                    picture3.Image = pbOweMe.Image;
-                }
-            }
+            Set_Cell_Halder(CellState.OWE_ME);
         }
 
         private void lbSavedText_Click(object sender, EventArgs e)
         {
-            if (buttons_Push != Buttons_Push.TRANSFER)
-            {
-                cellState2 = CellState.Saved;
-                picture2.Image = pbSaved.Image;
-            }
-            else
-            {
-                if (picture_select)
-                {
-                    cellState1 = CellState.Saved;
-                    picture1.Image = pbSaved.Image;
-                }
-                else
-                {
-                    cellState3 = CellState.Saved;
-                    picture3.Image = pbSaved.Image;
-                }
-            }
+            Set_Cell_Halder(CellState.Saved);
         }
 
         private void LbCardText_Click(object sender, EventArgs e)
         {
-            if (buttons_Push != Buttons_Push.TRANSFER)
-            {
-                cellState2 = CellState.Card;
-                picture2.Image = pbCard.Image;
-            }
-            else
-            {
-                if (picture_select)
-                {
-                    cellState1 = CellState.Card;
-                    picture1.Image = pbCard.Image;
-                }
-                else
-                {
-                    cellState3 = CellState.Card;
-                    picture3.Image = pbCard.Image;
-                }
-            }
+            Set_Cell_Halder(CellState.Card);
         }
 
         private void LbCashText_Click(object sender, EventArgs e)
         {
-            if (buttons_Push != Buttons_Push.TRANSFER)
-            {
-                cellState2 = CellState.Cash;
-                picture2.Image = pbCash.Image;
+            Set_Cell_Halder(CellState.Cash);
+        }
 
+        private void Set_Cell_Halder(CellState pressed_lb)
+        {
+            if (buttons_Push == Buttons_Push.TRANSFER || buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
+            {
+                switch (pressed_lb)
+                {
+                    case CellState.Cash:
+                        {
+                            if (picture_select)
+                            {
+                                cellState1 = CellState.Cash;
+                                picture1.Image = pbCash.Image;
+                            }
+                            else
+                            {
+                                cellState3 = CellState.Cash;
+                                picture3.Image = pbCash.Image;
+                            }
+                        }
+                        break;
+                    case CellState.Card:
+                        {
+                            if (picture_select)
+                            {
+                                cellState1 = CellState.Card;
+                                picture1.Image = pbCard.Image;
+                            }
+                            else
+                            {
+                                cellState3 = CellState.Card;
+                                picture3.Image = pbCard.Image;
+                            }
+                        }
+                        break;
+                    case CellState.Saved:
+                        {
+                            if (picture_select)
+                            {
+                                cellState1 = CellState.Saved;
+                                picture1.Image = pbSaved.Image;
+                            }
+                            else
+                            {
+                                cellState3 = CellState.Saved;
+                                picture3.Image = pbSaved.Image;
+                            }
+                        }
+                        break;
+                    case CellState.I_OWE:
+                        {
+                            if (picture_select)
+                            {
+                                cellState1 = CellState.I_OWE;
+                                picture1.Image = pbIOwe.Image;
+                            }
+                            else
+                            {
+                                cellState3 = CellState.I_OWE;
+                                picture3.Image = pbIOwe.Image;
+                            }
+                        }
+                        break;
+                    case CellState.OWE_ME:
+                        {
+                            if (picture_select)
+                            {
+                                cellState1 = CellState.OWE_ME;
+                                picture1.Image = pbOweMe.Image;
+                            }
+                            else
+                            {
+                                cellState3 = CellState.OWE_ME;
+                                picture3.Image = pbOweMe.Image;
+                            }
+                        }
+                        break;
+                }
             }
             else
             {
-                if (picture_select)
+                switch (pressed_lb)
                 {
-                    cellState1 = CellState.Cash;
-                    picture1.Image = pbCash.Image;
+                    case CellState.Cash:
+                        {
+                            cellState2 = CellState.Cash;
+                            picture2.Image = pbCash.Image;
+                        }
+                        break;
+                    case CellState.Card:
+                        {
+                            cellState2 = CellState.Card;
+                            picture2.Image = pbCard.Image;
+                        }
+                        break;
+                    case CellState.Saved:
+                        {
+                            cellState2 = CellState.Saved;
+                            picture2.Image = pbSaved.Image;
+                        }
+                        break;
+                    case CellState.I_OWE:
+                        {
+                            cellState2 = CellState.I_OWE;
+                            picture2.Image = pbIOwe.Image;
+                        }
+                        break;
+                    case CellState.OWE_ME:
+                        {
+                            cellState2 = CellState.OWE_ME;
+                            picture2.Image = pbOweMe.Image;
+                        }
+                        break;
                 }
-                else
-                {
-                    cellState3 = CellState.Cash;
-                    picture3.Image = pbCash.Image;
-                }
-            }
+            } 
         }
 
         /// <summary>
@@ -1798,6 +1856,7 @@ namespace LoginWFsql
             WASTED,
             I_OWE,// Беру в долг (Я должен)
             TRANSFER,
+            TRANSFER_CURRENCY,
             OWE_ME,// Даю в долг (Мне должны)
             IN_COME
         }
@@ -1840,13 +1899,406 @@ namespace LoginWFsql
 
         private void bt_Transfer_Currency_Click(object sender, EventArgs e)
         {
+            buttons_Push = Buttons_Push.TRANSFER_CURRENCY;
 
+            // Отключение всего лишнего.
+            {
+                lbCashText.Visible = false;
+                lbCash.Visible = false;
+                lbCardText.Visible = false;
+                lbCard.Visible = false;
+                lbSavedText.Visible = false;
+                lbSaved.Visible = false;
+                lbOweMeText.Visible = false;
+                lbOweMe.Visible = false;
+                lbIOweText.Visible = false;
+                lbIOwe.Visible = false;
+
+                lbSymbol.Visible = false;
+                lb_select_cell.Visible = false;
+                bt_Transfer_Currency.Visible = false;
+
+                pbOweMe.Visible = false;
+                pbIOwe.Visible = false;
+            }
+
+            // Подготовление верхней части (Purse).
+            {
+                // Картинки
+                pbCash.Size = new Size(40, 40);
+                pbCash.Location = new Point(38, 49);
+                pbSaved.Size = new Size(40, 40);
+                pbSaved.Location = new Point(195, 49);
+                pbCard.Size = new Size(40, 40);
+                pbCard.Location = new Point(343, 49);
+
+                // Создание новых Label для значений из Purse-UAH/EUR.
+                lb_Cash_UAH = new Label
+                {
+                    Location = new Point(81, 49),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_uah.cash.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+                lb_Cash_EUR = new Label
+                {
+                    Location = new Point(81, 70),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_eur.cash.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+                lb_Saved_UAH = new Label
+                {
+                    Location = new Point(241, 49),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_uah.saved.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+                lb_Saved_EUR = new Label
+                {
+                    Location = new Point(241, 70),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_eur.saved.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+                lb_Card_UAH = new Label
+                {
+                    Location = new Point(389, 49),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_uah.card.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+                lb_Card_EUR = new Label
+                {
+                    Location = new Point(389, 70),
+                    Font = new Font("Consolas", 12f),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Text = days[Id_selected_day].purse_eur.card.ToString(),
+                    Cursor = Cursors.Hand,
+                };
+
+                // Добавление обработчиков нажатия
+                lb_Cash_UAH.Click += Lb_Cash_UAH_Click;
+                labels_currency[5].Click += Lb_Cash_UAH_Click;
+                lb_Cash_EUR.Click += Lb_Cash_EUR_Click;
+                labels_currency[6].Click += Lb_Cash_EUR_Click;
+                lb_Saved_UAH.Click += Lb_Saved_UAH_Click;
+                labels_currency[7].Click += Lb_Saved_UAH_Click;
+                lb_Saved_EUR.Click += Lb_Saved_EUR_Click;
+                labels_currency[8].Click += Lb_Saved_EUR_Click;
+                lb_Card_UAH.Click += Lb_Card_UAH_Click;
+                labels_currency[9].Click += Lb_Card_UAH_Click;
+                lb_Card_EUR.Click += Lb_Card_EUR_Click;
+
+                // Добавление обработчиков наводки
+                lb_Cash_UAH.MouseEnter += Lb_Cash_UAH_MouseEnter;
+                lb_Cash_UAH.MouseLeave += Lb_Cash_UAH_MouseLeave;
+                lb_Cash_EUR.MouseEnter += Lb_Cash_EUR_MouseEnter; ;
+                lb_Cash_EUR.MouseLeave += Lb_Cash_EUR_MouseLeave; ;
+                lb_Saved_UAH.MouseEnter += Lb_Saved_UAH_MouseEnter; ;
+                lb_Saved_UAH.MouseLeave += Lb_Saved_UAH_MouseLeave; ;
+                lb_Saved_EUR.MouseEnter += Lb_Saved_EUR_MouseEnter; ;
+                lb_Saved_EUR.MouseLeave += Lb_Saved_EUR_MouseLeave; ;
+                lb_Card_UAH.MouseEnter += Lb_Card_UAH_MouseEnter; ;
+                lb_Card_UAH.MouseLeave += Lb_Card_UAH_MouseLeave; ;
+                lb_Card_EUR.MouseEnter += Lb_Card_EUR_MouseEnter; ;
+                lb_Card_EUR.MouseLeave += Lb_Card_EUR_MouseLeave; ;
+
+                // Добавление их на панель.
+                mainContainer.Panel2.Controls.Add(lb_Cash_UAH);
+                mainContainer.Panel2.Controls.Add(lb_Cash_EUR);
+                mainContainer.Panel2.Controls.Add(lb_Saved_UAH);
+                mainContainer.Panel2.Controls.Add(lb_Saved_EUR);
+                mainContainer.Panel2.Controls.Add(lb_Card_UAH);
+                mainContainer.Panel2.Controls.Add(lb_Card_EUR);
+
+                // Значки валют для новых Label
+                // lb_Cash_UAH
+                labels_currency[5].Location = new Point(lb_Cash_UAH.Location.X + lb_Cash_UAH.Width, lb_Cash_UAH.Location.Y);
+                labels_currency[5].Text = "₴";
+                labels_currency[5].Cursor = Cursors.Hand;
+                labels_currency[6].Location = new Point(lb_Cash_EUR.Location.X + lb_Cash_EUR.Width, lb_Cash_EUR.Location.Y);
+                labels_currency[6].Text = "€";
+                labels_currency[6].Cursor = Cursors.Hand;
+                // lb_Saved_UAH
+                labels_currency[7].Location = new Point(lb_Saved_UAH.Location.X + lb_Saved_UAH.Width, lb_Saved_UAH.Location.Y);
+                labels_currency[7].Text = "₴";
+                labels_currency[7].Font = new Font("Consolas", 12f);
+                labels_currency[7].Cursor = Cursors.Hand;
+                labels_currency[8].Location = new Point(lb_Saved_EUR.Location.X + lb_Saved_EUR.Width, lb_Saved_EUR.Location.Y);
+                labels_currency[8].Text = "€";
+                labels_currency[8].Font = new Font("Consolas", 12f);
+                labels_currency[8].Cursor = Cursors.Hand;
+                // lb_Card_UAH
+                labels_currency[9].Location = new Point(lb_Card_UAH.Location.X + lb_Card_UAH.Width, lb_Card_UAH.Location.Y);
+                labels_currency[9].Text = "₴";
+                labels_currency[9].Font = new Font("Consolas", 12f);
+                labels_currency[9].Cursor = Cursors.Hand;
+                labels_currency[10] = new Label
+                {
+                    Text = "€",
+                    Font = new Font("Consolas", 12f),
+                    AutoSize = true,
+                    ForeColor = Color.White,
+                    Location = new Point(lb_Card_EUR.Location.X + lb_Card_EUR.Width, lb_Card_EUR.Location.Y)
+                };
+                labels_currency[10].Cursor = Cursors.Hand;
+                labels_currency[10].Click += Lb_Card_EUR_Click;
+                mainContainer.Panel2.Controls.Add(labels_currency[10]);
+            }
+
+            //Подготовка нижней части
+            {
+                // Левый текст бокс
+                // tb_quantity
+                // -
+                tb_quantity.Location = new Point(55, 114);
+                tb_quantity.Enter += Tb_quantity_Enter;
+
+                lb_sum_1.Location = new Point(tb_quantity.Location.X, tb_quantity.Location.Y - 16);
+                lb_sum_1.Text = "сума: -";
+
+                lb_currency1 = new Label
+                {
+                    Text = "€/₴",
+                    Location = new Point(tb_quantity.Location.X + tb_quantity.Width, tb_quantity.Location.Y + 8),
+                    Font = new Font("Consolas", 12f),
+                    AutoSize = true,
+                    ForeColor = Color.White,
+                };
+                mainContainer.Panel2.Controls.Add(lb_currency1);
+
+
+                // Правый текст бокс
+                // tb_quantity2
+                // +
+                tb_quantity2 = new TextBox
+                {
+                    Location = new Point(307, tb_quantity.Location.Y),
+                    Font = new Font("Consolas", 12f),
+                    AutoSize = true,
+                    TextAlign = HorizontalAlignment.Center,
+                    ForeColor = tb_quantity.ForeColor,
+                    BorderStyle = tb_quantity.BorderStyle,
+                    BackColor = tb_quantity.BackColor,
+                };
+                tb_quantity2.Enter += Tb_quantity2_Enter;
+                mainContainer.Panel2.Controls.Add(tb_quantity2);
+                tb_quantity2.BringToFront();
+
+                lb_sum_2 = new Label
+                {
+                    Text = "сумa: +",
+                    Location = new Point(tb_quantity2.Location.X, tb_quantity2.Location.Y - 16),
+                    Font = lb_sum_1.Font,
+                    AutoSize = true,
+                    ForeColor = lb_sum_1.ForeColor,
+                };
+                mainContainer.Panel2.Controls.Add(lb_sum_2);
+
+
+                lb_currency2 = new Label
+                {
+                    Text = "€/₴",
+                    Location = new Point(tb_quantity2.Location.X - 35, tb_quantity2.Location.Y + 8),
+                    Font = new Font("Consolas", 12f),
+                    AutoSize = true,
+                    ForeColor = Color.White,
+                };
+                mainContainer.Panel2.Controls.Add(lb_currency2);
+
+                // Картинки
+                picture1.Size = new Size(35, 35);
+                picture1.Location = new Point(tb_quantity.Location.X - picture1.Width - 5, tb_quantity.Location.Y - 5);
+                picture2.Size = new Size(35, 35);
+
+                // Ето для того чтобы средняя картинка была всегда по середине между двумя ТекстБоксами
+                int X = (tb_quantity.Location.X + tb_quantity2.Location.X + tb_quantity2.Width) / 2 - (picture2.Width / 2);
+                picture2.Location = new Point(X, tb_quantity.Location.Y - 5);
+
+                picture3.Size = new Size(35, 35);
+                picture3.Location = new Point(tb_quantity2.Location.X + tb_quantity2.Width + 5, tb_quantity2.Location.Y - 5);
+
+                // Подсказка
+                lb_prompt = new Label
+                {
+                    Text = "Введите суму которую нужно отнять и суму которую нужно прибавить!",
+                    Location = new Point(picture1.Location.X + 10, picture1.Location.Y + picture1.Height),
+                    Font = new Font("Constantia", 8F, FontStyle.Bold, GraphicsUnit.Point, 204),
+                    AutoSize = true,
+                    ForeColor = Color.IndianRed,
+                };
+                mainContainer.Panel2.Controls.Add(lb_prompt);
+                lb_prompt.BringToFront();
+            }
         }
-    }
-    public enum Currency
-    {
-        NULL,
-        UAH,
-        EUR
+
+        private void Lb_Card_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Card_EUR.BackColor = Lighting_Color(lb_Card_EUR.BackColor);
+        }
+
+        private void Lb_Card_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Card_EUR.BackColor = Blackout_Color(lb_Card_EUR.BackColor);
+        }
+
+        private void Lb_Card_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Card_UAH.BackColor = Lighting_Color(lb_Card_UAH.BackColor);
+        }
+
+        private void Lb_Card_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Card_UAH.BackColor = Blackout_Color(lb_Card_UAH.BackColor);
+        }
+
+        private void Lb_Saved_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Saved_EUR.BackColor = Lighting_Color(lb_Saved_EUR.BackColor);
+        }
+
+        private void Lb_Saved_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Saved_EUR.BackColor = Blackout_Color(lb_Saved_EUR.BackColor);
+        }
+
+        private void Lb_Saved_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Saved_UAH.BackColor = Lighting_Color(lb_Saved_UAH.BackColor);
+        }
+
+        private void Lb_Saved_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Saved_UAH.BackColor = Blackout_Color(lb_Saved_UAH.BackColor);
+        }
+
+        private void Lb_Cash_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Cash_EUR.BackColor = Lighting_Color(lb_Cash_EUR.BackColor);
+        }
+
+        private void Lb_Cash_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Cash_EUR.BackColor = Blackout_Color(lb_Cash_EUR.BackColor);
+        }
+
+        private void Lb_Cash_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Cash_UAH.BackColor = Lighting_Color(lb_Cash_UAH.BackColor);
+        }
+
+        private void Lb_Cash_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Cash_UAH.BackColor = Blackout_Color(lb_Cash_UAH.BackColor);
+        }
+
+        private void Tb_quantity_Enter(object sender, EventArgs e)
+        {
+            if (cellState1 == CellState.NULL)
+                _picture_select_halder(true);// Выбрана левая ячейка
+        }
+
+        private void Tb_quantity2_Enter(object sender, EventArgs e)
+        {
+            if (cellState3 == CellState.NULL)
+                _picture_select_halder(false); // Выбрана правая ячейка
+        }
+
+        private void Lb_Card_EUR_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Card, Currency.EUR);
+        }
+
+        private void Lb_Card_UAH_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Card, Currency.UAH);
+        }
+
+        private void Lb_Saved_EUR_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Saved, Currency.EUR);
+        }
+
+        private void Lb_Saved_UAH_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Saved, Currency.UAH);
+        }
+
+        private void Lb_Cash_EUR_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Cash, Currency.EUR);
+        }
+
+        private void Lb_Cash_UAH_Click(object sender, EventArgs e)
+        {
+            Lb_EUR_UAH_Click_HALDER(CellState.Cash, Currency.UAH);
+        }
+
+        private void Lb_EUR_UAH_Click_HALDER(CellState cell_select, Currency currency)
+        {
+            switch (cell_select)
+            {
+                case CellState.Cash:
+                    {
+                        Set_Cell_Halder(CellState.Cash);
+                    }
+                    break;
+                case CellState.Card:
+                    {
+                        Set_Cell_Halder(CellState.Card);
+                    }
+                    break;
+                case CellState.Saved:
+                    {
+                        Set_Cell_Halder(CellState.Saved);
+                    }
+                    break;
+            }
+
+            switch (currency)
+            {
+                case Currency.UAH:
+                    {
+                        if (picture_select)
+                            lb_currency1.Text = "UAH";
+                        else
+                            lb_currency2.Text = "UAH";
+                    }
+                    break;
+                case Currency.EUR:
+                    {
+                        if (picture_select)
+                            lb_currency1.Text = "EUR";
+                        else
+                            lb_currency2.Text = "EUR";
+                    }
+                    break;
+            }
+        }
+
+        TextBox tb_quantity2;
+        Label lb_sum_2;
+        Label lb_currency1;
+        Label lb_currency2;
+        Label lb_prompt;
+
+        Label lb_Cash_UAH;
+        Label lb_Cash_EUR;
+        Label lb_Saved_UAH;
+        Label lb_Saved_EUR;
+        Label lb_Card_UAH;
+        Label lb_Card_EUR;
     }
 }

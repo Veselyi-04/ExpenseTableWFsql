@@ -53,6 +53,7 @@ namespace LoginWFsql
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
+            this.bt_Transfer_Currency = new System.Windows.Forms.Button();
             this.pb_currency = new System.Windows.Forms.PictureBox();
             this.tb_In_Come_Str = new System.Windows.Forms.TextBox();
             this.tb_Wasted_Str = new System.Windows.Forms.TextBox();
@@ -70,7 +71,7 @@ namespace LoginWFsql
             this.bt_Owe_Me = new System.Windows.Forms.Button();
             this.bt_I_Owe = new System.Windows.Forms.Button();
             this.bt_In_Come = new System.Windows.Forms.Button();
-            this.lb_comment = new System.Windows.Forms.Label();
+            this.lb_comments = new System.Windows.Forms.Label();
             this.tb_comment = new System.Windows.Forms.TextBox();
             this.tb_quantity = new System.Windows.Forms.TextBox();
             this.pbIOwe = new System.Windows.Forms.PictureBox();
@@ -92,13 +93,12 @@ namespace LoginWFsql
             this.lbDate = new System.Windows.Forms.Label();
             this.lbNameDay = new System.Windows.Forms.Label();
             this.btSave = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lb_sum_1 = new System.Windows.Forms.Label();
             this.lbSymbol = new System.Windows.Forms.Label();
             this.pbCash = new System.Windows.Forms.PictureBox();
             this.pbSaved = new System.Windows.Forms.PictureBox();
             this.pbCard = new System.Windows.Forms.PictureBox();
             this.lbCardText = new System.Windows.Forms.Label();
-            this.bt_Transfer_Currency = new System.Windows.Forms.Button();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
@@ -393,7 +393,7 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.bt_Owe_Me);
             this.mainContainer.Panel2.Controls.Add(this.bt_I_Owe);
             this.mainContainer.Panel2.Controls.Add(this.bt_In_Come);
-            this.mainContainer.Panel2.Controls.Add(this.lb_comment);
+            this.mainContainer.Panel2.Controls.Add(this.lb_comments);
             this.mainContainer.Panel2.Controls.Add(this.tb_comment);
             this.mainContainer.Panel2.Controls.Add(this.tb_quantity);
             this.mainContainer.Panel2.Controls.Add(this.pbIOwe);
@@ -415,7 +415,7 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lbDate);
             this.mainContainer.Panel2.Controls.Add(this.lbNameDay);
             this.mainContainer.Panel2.Controls.Add(this.btSave);
-            this.mainContainer.Panel2.Controls.Add(this.label4);
+            this.mainContainer.Panel2.Controls.Add(this.lb_sum_1);
             this.mainContainer.Panel2.Controls.Add(this.lbSymbol);
             this.mainContainer.Panel2.Controls.Add(this.pbCash);
             this.mainContainer.Panel2.Controls.Add(this.pbSaved);
@@ -495,6 +495,23 @@ namespace LoginWFsql
             this.lb_To_7.MouseEnter += new System.EventHandler(this.lb_To_7_MouseEnter);
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
+            // 
+            // bt_Transfer_Currency
+            // 
+            this.bt_Transfer_Currency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.bt_Transfer_Currency.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.bt_Transfer_Currency.FlatAppearance.BorderSize = 0;
+            this.bt_Transfer_Currency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_Transfer_Currency.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Transfer_Currency.ForeColor = System.Drawing.Color.White;
+            this.bt_Transfer_Currency.Location = new System.Drawing.Point(287, 143);
+            this.bt_Transfer_Currency.Name = "bt_Transfer_Currency";
+            this.bt_Transfer_Currency.Size = new System.Drawing.Size(148, 22);
+            this.bt_Transfer_Currency.TabIndex = 70;
+            this.bt_Transfer_Currency.Text = "Перевод валют";
+            this.bt_Transfer_Currency.UseVisualStyleBackColor = false;
+            this.bt_Transfer_Currency.Visible = false;
+            this.bt_Transfer_Currency.Click += new System.EventHandler(this.bt_Transfer_Currency_Click);
             // 
             // pb_currency
             // 
@@ -728,18 +745,18 @@ namespace LoginWFsql
             this.bt_In_Come.UseVisualStyleBackColor = true;
             this.bt_In_Come.Click += new System.EventHandler(this.bt_In_Come_Click);
             // 
-            // lb_comment
+            // lb_comments
             // 
-            this.lb_comment.AutoSize = true;
-            this.lb_comment.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lb_comment.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_comment.ForeColor = System.Drawing.Color.Moccasin;
-            this.lb_comment.Location = new System.Drawing.Point(12, 152);
-            this.lb_comment.Name = "lb_comment";
-            this.lb_comment.Size = new System.Drawing.Size(105, 17);
-            this.lb_comment.TabIndex = 57;
-            this.lb_comment.Text = "Комментарий";
-            this.lb_comment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_comments.AutoSize = true;
+            this.lb_comments.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lb_comments.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_comments.ForeColor = System.Drawing.Color.Moccasin;
+            this.lb_comments.Location = new System.Drawing.Point(12, 152);
+            this.lb_comments.Name = "lb_comments";
+            this.lb_comments.Size = new System.Drawing.Size(109, 17);
+            this.lb_comments.TabIndex = 57;
+            this.lb_comments.Text = "Комментарий:";
+            this.lb_comments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tb_comment
             // 
@@ -1006,18 +1023,18 @@ namespace LoginWFsql
             this.btSave.UseVisualStyleBackColor = true;
             this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
-            // label4
+            // lb_sum_1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label4.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.Moccasin;
-            this.label4.Location = new System.Drawing.Point(180, 123);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 17);
-            this.label4.TabIndex = 56;
-            this.label4.Text = "сума:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_sum_1.AutoSize = true;
+            this.lb_sum_1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lb_sum_1.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_sum_1.ForeColor = System.Drawing.Color.Moccasin;
+            this.lb_sum_1.Location = new System.Drawing.Point(180, 123);
+            this.lb_sum_1.Name = "lb_sum_1";
+            this.lb_sum_1.Size = new System.Drawing.Size(44, 17);
+            this.lb_sum_1.TabIndex = 56;
+            this.lb_sum_1.Text = "сума:";
+            this.lb_sum_1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbSymbol
             // 
@@ -1076,23 +1093,6 @@ namespace LoginWFsql
             this.lbCardText.TabIndex = 15;
             this.lbCardText.Text = "Карта:";
             this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // bt_Transfer_Currency
-            // 
-            this.bt_Transfer_Currency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.bt_Transfer_Currency.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.bt_Transfer_Currency.FlatAppearance.BorderSize = 0;
-            this.bt_Transfer_Currency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_Transfer_Currency.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_Transfer_Currency.ForeColor = System.Drawing.Color.White;
-            this.bt_Transfer_Currency.Location = new System.Drawing.Point(287, 143);
-            this.bt_Transfer_Currency.Name = "bt_Transfer_Currency";
-            this.bt_Transfer_Currency.Size = new System.Drawing.Size(148, 22);
-            this.bt_Transfer_Currency.TabIndex = 70;
-            this.bt_Transfer_Currency.Text = "Перевод валют";
-            this.bt_Transfer_Currency.UseVisualStyleBackColor = false;
-            this.bt_Transfer_Currency.Visible = false;
-            this.bt_Transfer_Currency.Click += new System.EventHandler(this.bt_Transfer_Currency_Click);
             // 
             // MainForm
             // 
@@ -1188,9 +1188,9 @@ namespace LoginWFsql
         private System.Windows.Forms.PictureBox pbCard;
         private System.Windows.Forms.PictureBox pbOweMe;
         private System.Windows.Forms.TextBox tb_quantity;
-        private System.Windows.Forms.Label lb_comment;
+        private System.Windows.Forms.Label lb_comments;
         private System.Windows.Forms.TextBox tb_comment;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lb_sum_1;
         private System.Windows.Forms.Label lb_select_cell;
         private System.Windows.Forms.PictureBox picture2;
         private System.Windows.Forms.Button bt_Transfer;
