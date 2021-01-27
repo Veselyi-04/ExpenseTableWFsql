@@ -225,7 +225,7 @@ namespace LoginWFsql
             Set_state_btDelete();
             for (int i = 0; i < days.Length; i++)
             {
-                days[i].Create_New_Group_Box();
+                days[i].Create_New_Group_Box(currency);
                 days[i].Click_Button += new DayEventHandler(btDay_click_Handler);
                 days[i].GroupBox.Location = new Point(2, (65 * i + 25));
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
@@ -383,14 +383,12 @@ namespace LoginWFsql
                     count_days = DateTime.Now.Day;
                 }
             }
-
+            days = new Day[count_days];
             // создаем запрос
             command = SqlCommand.Select_Month(currentUserID, first_day_month, last_day_month, db.getConnection());
 
             // выполняем команду в Ридере
             reader = command.ExecuteReader();
-
-            days = new Day[count_days];
 
             DateTime lastDay = new DateTime(year, int.Parse(month), count_days);
 
@@ -398,7 +396,7 @@ namespace LoginWFsql
             // читаем то что мы вытянули из БД
             while (reader.Read())
             {
-                DateTime currentDate = reader.GetDateTime(9);
+                DateTime currentDate = reader.GetDateTime(2);
 
                 while (currentDate != lastDay)
                 {
@@ -444,8 +442,10 @@ namespace LoginWFsql
         private void Get_day_from_base(int i)
         {
             days[i] = new Day(i);
-            days[i].str_wasted = reader.GetString(0);
-            days[i].str_income = reader.GetString(1);
+
+            days[i].str_wasted = reader.IsDBNull(0) ? "" : reader.GetString(0);
+            days[i].str_income = reader.IsDBNull(1) ? "" : reader.GetString(1);
+
             days[i].date = reader.GetDateTime(2);
 
             days[i].purse_uah = new Purse();
@@ -662,6 +662,9 @@ namespace LoginWFsql
             }
 
             Show_Selected_Day(Id_selected_day);
+
+            Clear_Currency_Labels();
+            Create_Currency_Labels();
         }
 
         private void Create_New_Day()
@@ -707,10 +710,12 @@ namespace LoginWFsql
             bt_In_Come.Enabled = false;
             bt_Transfer.Enabled = false;
 
-            DateTime currentDate;
-            currentDate = DateTime.Parse(lbDate.Text);
-
-            command = SqlCommand.Select_PrevDay(currency, currentUserID, currentDate, db.getConnection());
+            Select_PrevDay();
+        }
+        private void Select_PrevDay()
+        {
+            DateTime currentDate = DateTime.Parse(lbDate.Text);
+            command = SqlCommand.Select_PrevDay( currency, currentUserID, currentDate, db.getConnection());
             db.openConnection();
             {
                 reader = command.ExecuteReader();
@@ -740,7 +745,6 @@ namespace LoginWFsql
             }
             db.closeConnection();
         }
-
         /// <summary>
         /// При создании дня - lbNameDay будет менятся в зависиости от выбраного дня в DateTimePicker
         /// </summary>
@@ -749,37 +753,7 @@ namespace LoginWFsql
             lbNameDay.Text = _dateTime.Value.DayOfWeek.ToString();
             lbDate.Text = _dateTime.Value.ToShortDateString();
 
-            DateTime currentDate = DateTime.Parse(lbDate.Text);
-
-            command = SqlCommand.Select_PrevDay(currency, currentUserID, currentDate, db.getConnection());
-            db.openConnection();
-            {
-                reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    lbCash.Text = reader.GetString(0);
-                    lbCard.Text = reader.GetString(1);
-                    lbIOwe.Text = reader.GetString(2);
-                    lbOweMe.Text = reader.GetString(3);
-                    lbSaved.Text = reader.GetString(4);
-                }
-                else
-                {
-                    lbCash.Text = "0";
-                    lbCard.Text = "0";
-                    lbIOwe.Text = "0";
-                    lbOweMe.Text = "0";
-                    lbSaved.Text = "0";
-                }
-
-                lbIncome.Text = "0";
-                tb_In_Come_Str.Text = "";
-                lbWasted.Text = "0";
-                tb_Wasted_Str.Text = "";
-                reader.Close();
-            }
-            db.closeConnection();
+            Select_PrevDay();
         }
 
 
@@ -896,8 +870,36 @@ namespace LoginWFsql
 
         private void Bt_Create_Click(object sender, EventArgs e)
         {
-            command = SqlCommand.Create_NewDay(currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
-           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, DateTime.Parse(lbDate.Text), db.getConnection());
+            DateTime currentDate = DateTime.Parse(lbDate.Text);
+            command = SqlCommand.Select_PrevDay(Currency.NULL, currentUserID, currentDate, db.getConnection());
+            float cash_uah = 0, card_uah = 0, i_owe_uah = 0, owe_me_uah = 0, saved_uah = 0;
+            float cash_eur = 0, card_eur = 0, i_owe_eur = 0, owe_me_eur = 0, saved_eur = 0;
+            db.openConnection();
+            {
+                reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    cash_uah = reader.GetFloat(0);
+                    card_uah = reader.GetFloat(1);
+                    i_owe_uah = reader.GetFloat(2);
+                    owe_me_uah = reader.GetFloat(3);
+                    saved_uah = reader.GetFloat(4);
+
+                    cash_eur = reader.GetFloat(5);
+                    card_eur = reader.GetFloat(6);
+                    i_owe_eur = reader.GetFloat(7);
+                    owe_me_eur = reader.GetFloat(8);
+                    saved_eur = reader.GetFloat(9);
+                }
+
+                reader.Close();
+            }
+            db.closeConnection();
+
+            command = SqlCommand.Create_NewDay(currentUserID, currentDate, 
+                cash_uah, card_uah, i_owe_uah, owe_me_uah, saved_uah,
+                cash_eur, card_eur, i_owe_eur, owe_me_eur, saved_eur, db.getConnection());
 
             db.openConnection();
 
@@ -1021,6 +1023,8 @@ namespace LoginWFsql
             float saved = float.Parse(lbSaved.Text);
             float owe_me = float.Parse(lbOweMe.Text);
             float i_owe = float.Parse(lbIOwe.Text);
+            float wasted = float.Parse(lbWasted.Text);
+            float in_come = float.Parse(lbIncome.Text);
 
             switch (buttons_Push)
             {
@@ -1034,6 +1038,7 @@ namespace LoginWFsql
                         {
                             lbCard.Text = (card - quantity).ToString();
                         }
+                        lbWasted.Text = (wasted + quantity).ToString();
                         tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
@@ -1051,6 +1056,7 @@ namespace LoginWFsql
                         {
                             lbSaved.Text = (saved - quantity).ToString();
                         }
+                        lbWasted.Text = (wasted + quantity).ToString();
                         lbOweMe.Text = (owe_me + quantity).ToString();
                         tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
@@ -1117,9 +1123,22 @@ namespace LoginWFsql
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
                         }
-                        tb_Wasted_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
-                        if (cellState3 != CellState.I_OWE)
+
+                        if (cellState1 != CellState.OWE_ME && cellState3 != CellState.I_OWE)
+                        {
+                            tb_Wasted_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                             tb_In_Come_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                        }
+                        else if (cellState1 == CellState.OWE_ME)
+                        {
+                            lbIncome.Text = (in_come + quantity).ToString();
+                            tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                        }
+                        else if (cellState3 == CellState.I_OWE)
+                        {
+                            lbWasted.Text = (wasted + quantity).ToString();
+                            tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                        }
                     }
                     break;
                 case Buttons_Push.I_OWE:// Беру в долг
@@ -1132,6 +1151,7 @@ namespace LoginWFsql
                         {
                             lbCard.Text = (card + quantity).ToString();
                         }
+                        lbIncome.Text = (in_come + quantity).ToString();
                         lbIOwe.Text = (i_owe + quantity).ToString();
                         tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
@@ -1150,7 +1170,8 @@ namespace LoginWFsql
                         {
                             lbSaved.Text = (saved + quantity).ToString();
                         }
-                        tb_In_Come_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                        lbIncome.Text = (in_come + quantity).ToString();
+                        tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
             }
@@ -1832,13 +1853,7 @@ namespace LoginWFsql
                     break;
             }
 
-            Show_Selected_Day(Id_selected_day);
-            Clear_list_days();
-            Show_list_days(6);
-            Fill_Top_Bar();
-
-            Clear_Currency_Labels();
-            Create_Currency_Labels();
+            Refresh_Data();
         }
 
         private void pb_currency_MouseEnter(object sender, EventArgs e)

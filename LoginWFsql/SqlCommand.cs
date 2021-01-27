@@ -89,20 +89,25 @@ namespace LoginWFsql
         /// Вставляет в список новый день. Принимает ID пользователя, коннект и параметры нового дня.
         /// </summary>
         /// <returns></returns>
-        public static MySqlCommand Create_NewDay(int currentUserID, float cash, float card, float i_owe, float owe_me, float saved, float wasted, string str_wasted, float in_come, string str_in_come, DateTime date, MySqlConnection connection)
+        public static MySqlCommand Create_NewDay(int currentUserID, DateTime date, 
+            float cash_uah, float card_uah, float i_owe_uah, float owe_me_uah, float saved_uah, 
+            float cash_eur, float card_eur, float i_owe_eur, float owe_me_eur, float saved_eur, MySqlConnection connection)
         {
             command = new MySqlCommand(create_newDay, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
-            command.Parameters.Add("@cash", MySqlDbType.Float).Value = cash;
-            command.Parameters.Add("@card", MySqlDbType.Float).Value = card;
-            command.Parameters.Add("@i_owe", MySqlDbType.Float).Value = i_owe;
-            command.Parameters.Add("@owe_me", MySqlDbType.Float).Value = owe_me;
-            command.Parameters.Add("@saved", MySqlDbType.Float).Value = saved;
-            command.Parameters.Add("@wasted", MySqlDbType.Float).Value = wasted;
-            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = str_wasted;
-            command.Parameters.Add("@in_come", MySqlDbType.Float).Value = in_come;
-            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = str_in_come;
             command.Parameters.Add("@date", MySqlDbType.DateTime).Value = date;
+
+            command.Parameters.Add("@cash_uah", MySqlDbType.Float).Value = cash_uah;
+            command.Parameters.Add("@card_uah", MySqlDbType.Float).Value = card_uah;
+            command.Parameters.Add("@i_owe_uah", MySqlDbType.Float).Value = i_owe_uah;
+            command.Parameters.Add("@owe_me_uah", MySqlDbType.Float).Value = owe_me_uah;
+            command.Parameters.Add("@saved_uah", MySqlDbType.Float).Value = saved_uah;
+
+            command.Parameters.Add("@cash_eur", MySqlDbType.Float).Value = cash_eur;
+            command.Parameters.Add("@card_eur", MySqlDbType.Float).Value = card_eur;
+            command.Parameters.Add("@i_owe_eur", MySqlDbType.Float).Value = i_owe_eur;
+            command.Parameters.Add("@owe_me_eur", MySqlDbType.Float).Value = owe_me_eur;
+            command.Parameters.Add("@saved_eur", MySqlDbType.Float).Value = saved_eur;
 
             return command;
         }
@@ -162,6 +167,9 @@ namespace LoginWFsql
                 case Currency.EUR:
                     purse = select_PrevDay_EUR;
                     break;
+                default:
+                    purse = select_PrevDay;
+                    break;
             }
 
             command = new MySqlCommand(purse, connection);
@@ -209,12 +217,12 @@ namespace LoginWFsql
         private static readonly string fill_comboBox_Month = "SELECT DISTINCT YEAR(date), MONTH(date) " +
             "FROM day WHERE day.id_user = @currentUserID";
 
-        private static readonly string create_newDay = "INSERT INTO day (id_user, date, str_wasted, str_in_come) " +
-            "VALUES (@currentUserID, @date, @str_wasted, @str_in_come);" +
-            "INSERT INTO `purse_uah` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `in_come`) " +
-            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash, @card, @i_owe, @owe_me, @saved, @wasted, @in_come);" +
-            "INSERT INTO `purse_eur` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`, `wasted`, `in_come`) " +
-            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash, @card, @i_owe, @owe_me, @saved, @wasted, @in_come);";
+        private static readonly string create_newDay = "INSERT INTO day (id_user, date) " +
+            "VALUES (@currentUserID, @date);" +
+            "INSERT INTO `purse_uah` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`) " +
+            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash_uah, @card_uah, @i_owe_uah, @owe_me_uah, @saved_uah);" +
+            "INSERT INTO `purse_eur` (`id_day`, `cash`, `card`, `i_owe`, `owe_me`, `saved`) " +
+            "VALUES((SELECT day.id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID), @cash_eur, @card_eur, @i_owe_eur, @owe_me_eur, @saved_eur);";
 
         private static readonly string update_day = "UPDATE day SET day.str_wasted = @str_wasted, day.str_in_come = @str_in_come " +
             "WHERE day.date = @date AND day.id_user = @currentUserID; ";
@@ -239,5 +247,12 @@ namespace LoginWFsql
             "FROM purse_eur " +
             "WHERE purse_eur.id_day = " +
             "(SELECT day.id_day FROM day WHERE day.date < @SelectDate AND day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
+
+        private static readonly string select_PrevDay = "SELECT UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, " +
+            "EUR.cash, EUR.card, EUR.i_owe, EUR.owe_me, EUR.saved " +
+            "FROM purse_uah AS UAH " +
+            "INNER JOIN purse_eur AS EUR ON UAH.id_day = EUR.id_day " +
+            "WHERE UAH.id_day = " +
+            "(SELECT day.id_day FROM day WHERE day.date<@SelectDate AND day.id_user = @currentUserID ORDER BY date DESC LIMIT 1);";
     }
 }
