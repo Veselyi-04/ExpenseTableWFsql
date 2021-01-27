@@ -182,7 +182,7 @@ namespace LoginWFsql
         {
             for (int i = 0; i < labels_currency.Length; i++)
             {
-                if(i <= 2)
+                if (i <= 2)
                 {
                     panelTopStats.Controls.Remove(labels_currency[i]);
                 }
@@ -210,7 +210,7 @@ namespace LoginWFsql
                     return;
 
                 days[i].Create_New_Group_Box(currency);
-                days[i].Click_Button += new DayEventHandler (btDay_click_Handler);
+                days[i].Click_Button += new DayEventHandler(btDay_click_Handler);
                 mainContainer.Panel1.Controls.Add(days[i].GroupBox);
                 days[i].is_show = true;
             }
@@ -261,7 +261,7 @@ namespace LoginWFsql
         /// <param name="On_Off"> true = on, false = off.</param>
         private void On_Of_btCrateNewDay(bool On_Off)
         {
-            if(On_Off)
+            if (On_Off)
             {
                 btCrateNewDay.Visible = true;
             }
@@ -330,7 +330,7 @@ namespace LoginWFsql
             command = SqlCommand.Main_Сommand(currentUserID, db.getConnection());
 
             reader = command.ExecuteReader();
-            
+
             // Ограничиваем считывание дней небольше 30
             // Можно будет сделать в запросе sql
             if (count_days > 30)
@@ -400,7 +400,7 @@ namespace LoginWFsql
             {
                 DateTime currentDate = reader.GetDateTime(9);
 
-                while(currentDate != lastDay)
+                while (currentDate != lastDay)
                 {
                     Get_empty_day(i, lastDay);
 
@@ -413,7 +413,7 @@ namespace LoginWFsql
                 i++;
             }
 
-            while(i < count_days)
+            while (i < count_days)
             {
                 Get_empty_day(i, lastDay);
                 lastDay = lastDay.AddDays(-1);
@@ -574,7 +574,7 @@ namespace LoginWFsql
         private void Delete_Day()
         {
             command = SqlCommand.Delete_Day(currentUserID, date: days[Id_selected_day].date, db.getConnection()); ;
-                
+
             db.openConnection();
             {
                 try
@@ -731,7 +731,7 @@ namespace LoginWFsql
                     lbOweMe.Text = "0";
                     lbSaved.Text = "0";
                 }
-                
+
                 lbIncome.Text = "0";
                 tb_In_Come_Str.Text = "";
                 lbWasted.Text = "0";
@@ -872,8 +872,8 @@ namespace LoginWFsql
             End_Create();
             _dateTime = new DateTimePicker
             {
-                Location = new Point(lbDate.Location.X - 4+232, lbDate.Location.Y - 6+40), // х232, у40 - позиция панель2 в глобальном пространстве
-                Size = new Size(150,25),
+                Location = new Point(lbDate.Location.X - 4 + 232, lbDate.Location.Y - 6 + 40), // х232, у40 - позиция панель2 в глобальном пространстве
+                Size = new Size(150, 25),
                 Font = lbDate.Font,
                 Value = DateTime.Now,
                 Format = DateTimePickerFormat.Short,
@@ -898,7 +898,7 @@ namespace LoginWFsql
         {
             command = SqlCommand.Create_NewDay(currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
            float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, DateTime.Parse(lbDate.Text), db.getConnection());
-            
+
             db.openConnection();
 
             try
@@ -908,7 +908,7 @@ namespace LoginWFsql
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Неизвесная ошибка при сохранение даных!\n{ex.Message}","Eror!", 
+                MessageBox.Show($"Неизвесная ошибка при сохранение даных!\n{ex.Message}", "Eror!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -950,7 +950,7 @@ namespace LoginWFsql
 
         private void lb_To_30_MouseEnter(object sender, EventArgs e)
         {
-           lb_To_30.BackColor = Lighting_Color(lb_To_30.BackColor);
+            lb_To_30.BackColor = Lighting_Color(lb_To_30.BackColor);
         }
 
         private void lb_To_30_MouseLeave(object sender, EventArgs e)
@@ -987,7 +987,7 @@ namespace LoginWFsql
         {
             lb_To_7.BackColor = Lighting_Color(lb_To_7.BackColor);
         }
-      
+
         /*________________________________________________________________*/
         #endregion
 
@@ -1116,24 +1116,24 @@ namespace LoginWFsql
                         {
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
-                        }   
+                        }
                         tb_Wasted_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                         if (cellState3 != CellState.I_OWE)
                             tb_In_Come_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.I_OWE:// Беру в долг
-                    { 
-                    if (cellState2 == CellState.Cash)
                     {
-                        lbCash.Text = (cash + quantity).ToString();
-                    }
-                    else if(cellState2 == CellState.Card)
-                    {
-                        lbCard.Text = (card + quantity).ToString();
-                    }
-                    lbIOwe.Text =(i_owe + quantity).ToString();
-                    tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                        if (cellState2 == CellState.Cash)
+                        {
+                            lbCash.Text = (cash + quantity).ToString();
+                        }
+                        else if (cellState2 == CellState.Card)
+                        {
+                            lbCard.Text = (card + quantity).ToString();
+                        }
+                        lbIOwe.Text = (i_owe + quantity).ToString();
+                        tb_In_Come_Str.Text += $"[+{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                     }
                     break;
                 case Buttons_Push.IN_COME:
@@ -1175,7 +1175,7 @@ namespace LoginWFsql
                 MessageBox.Show("Выберите ячейку.");
                 return false;
             }
-            
+
 
             if (quantity <= 0)
             {
@@ -1245,10 +1245,10 @@ namespace LoginWFsql
 
         private void btDelete_Click(object sender, EventArgs e)
         {
-           DialogResult result = MessageBox.Show("Вы действительно хотите удалить етот день?\n" +
-                $"{days[Id_selected_day].date.DayOfWeek} [{days[Id_selected_day].date.ToShortDateString()}]",
-                "Удаление дня...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить етот день?\n" +
+                 $"{days[Id_selected_day].date.DayOfWeek} [{days[Id_selected_day].date.ToShortDateString()}]",
+                 "Удаление дня...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
             if (result == DialogResult.OK)
                 Delete_Day();
         }
@@ -1263,7 +1263,7 @@ namespace LoginWFsql
             else if (cbMonth.SelectedIndex != -1)
             {
                 command = SqlCommand.Сount_Days(currentUserID, db.getConnection());
-                
+
                 db.openConnection();
                 {
                     reader = command.ExecuteReader();
@@ -1375,7 +1375,7 @@ namespace LoginWFsql
 
         private void bt_Transfer_Click(object sender, EventArgs e)
         {
-            if (buttons_Push == Buttons_Push.TRANSFER)
+            if (buttons_Push == Buttons_Push.TRANSFER || buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
             {
                 cancel();
                 return;
@@ -1721,7 +1721,7 @@ namespace LoginWFsql
                         }
                         break;
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -1740,6 +1740,9 @@ namespace LoginWFsql
         /// </summary>
         private void cancel()
         {
+            if (buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
+                cancel_transfer_currency();
+
             // Clear. End EDIT cancel
             buttons_Push = Buttons_Push.NULL;
             // Включаю все кнопки
@@ -1851,7 +1854,7 @@ namespace LoginWFsql
         }
 
         private enum Buttons_Push
-        { 
+        {
             NULL,
             WASTED,
             I_OWE,// Беру в долг (Я должен)
@@ -1873,29 +1876,7 @@ namespace LoginWFsql
 
         #endregion
 
-
-        /// <summary>
-        /// Возвращает цвет немного темнее чем тот что сюда передали
-        /// </summary>
-        private Color Blackout_Color(Color current)
-        {
-            int r = current.R - 10;
-            int g = current.G - 10;
-            int b = current.B - 10;
-            return Color.FromArgb(r, g, b);
-        }
-
-        /// <summary>
-        /// Возвращает цвет немного светлее чем тот что сюда передали
-        /// </summary>
-        /// <param name="button"></param>
-        private Color Lighting_Color(Color current)
-        {
-            int r = current.R + 10;
-            int g = current.G + 10;
-            int b = current.B + 10;
-            return Color.FromArgb(r, g, b);
-        }
+        #region Перевод между Валютами!
 
         private void bt_Transfer_Currency_Click(object sender, EventArgs e)
         {
@@ -2144,66 +2125,110 @@ namespace LoginWFsql
             }
         }
 
-        private void Lb_Card_EUR_MouseLeave(object sender, EventArgs e)
+        private void cancel_transfer_currency()
         {
-            lb_Card_EUR.BackColor = Lighting_Color(lb_Card_EUR.BackColor);
+            // Включение всего нужного.
+            {
+                lbCashText.Visible = true;
+                lbCash.Visible = true;
+                lbCardText.Visible = true;
+                lbCard.Visible = true;
+                lbSavedText.Visible = true;
+                lbSaved.Visible = true;
+                lbOweMeText.Visible = true;
+                lbOweMe.Visible = true;
+                lbIOweText.Visible = true;
+                lbIOwe.Visible = true;
+
+                lbSymbol.Visible = true;
+                lb_select_cell.Visible = true;
+                bt_Transfer_Currency.Visible = true;
+
+                pbOweMe.Visible = true;
+                pbIOwe.Visible = true;
+            }
+
+            // Откат верхней части (Purse).
+            {
+                // Картинки Откат
+                pbCash.Size = new Size(30, 30);
+                pbCash.Location = new Point(13, 44);
+                pbSaved.Size = new Size(25, 25);
+                pbSaved.Location = new Point(20, 75);
+                pbCard.Size = new Size(30, 30);
+                pbCard.Location = new Point(263, 45);
+
+                // Удаление новых Label для значений из Purse-UAH/EUR.
+                mainContainer.Panel2.Controls.Remove(lb_Cash_UAH);
+                mainContainer.Panel2.Controls.Remove(lb_Cash_EUR);
+                mainContainer.Panel2.Controls.Remove(lb_Saved_UAH);
+                mainContainer.Panel2.Controls.Remove(lb_Saved_EUR);
+                mainContainer.Panel2.Controls.Remove(lb_Card_UAH);
+                mainContainer.Panel2.Controls.Remove(lb_Card_EUR);
+                lb_Cash_UAH = null;
+                lb_Cash_EUR = null;
+                lb_Saved_UAH = null;
+                lb_Saved_EUR = null;
+                lb_Card_UAH = null;
+                lb_Card_EUR = null;
+
+                // Удаление обработчиков нажатия
+                labels_currency[5].Click -= Lb_Cash_UAH_Click;
+                labels_currency[6].Click -= Lb_Cash_EUR_Click;
+                labels_currency[7].Click -= Lb_Saved_UAH_Click;
+                labels_currency[8].Click -= Lb_Saved_EUR_Click;
+                labels_currency[9].Click -= Lb_Card_UAH_Click;
+
+                // Значки валют для новых Label
+                Clear_Currency_Labels();
+                Create_Currency_Labels();
+
+                mainContainer.Panel2.Controls.Remove(labels_currency[10]);
+                labels_currency[10] = null;
+            }
+
+            //Откат нижней части
+            {
+                // Левый текст бокс
+                // tb_quantity
+                tb_quantity.Location = new Point(181, 139);
+                tb_quantity.Enter -= Tb_quantity_Enter;
+
+                lb_sum_1.Location = new Point(tb_quantity.Location.X, tb_quantity.Location.Y - 16);
+                lb_sum_1.Text = "сума:";
+
+                mainContainer.Panel2.Controls.Remove(lb_currency1);
+                lb_currency1 = null;
+
+                // Правый текст бокс
+                // tb_quantity2
+                mainContainer.Panel2.Controls.Remove(tb_quantity2);
+                tb_quantity2 = null;
+
+                mainContainer.Panel2.Controls.Remove(lb_sum_2);
+                lb_sum_2 = null;
+
+                mainContainer.Panel2.Controls.Remove(lb_currency2);
+                lb_currency2 = null;
+                
+
+                // Картинки
+                picture1.Size = new Size(30, 30);
+                picture1.Location = new Point(45, 117);
+
+                picture2.Size = new Size(30, 30);
+                picture2.Location = new Point(81, 117);
+
+                picture3.Size = new Size(30, 30);
+                picture3.Location = new Point(117, 117);
+
+                // Подсказка
+                mainContainer.Panel2.Controls.Remove(lb_prompt);
+                lb_prompt = null;
+            }
         }
 
-        private void Lb_Card_EUR_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Card_EUR.BackColor = Blackout_Color(lb_Card_EUR.BackColor);
-        }
-
-        private void Lb_Card_UAH_MouseLeave(object sender, EventArgs e)
-        {
-            lb_Card_UAH.BackColor = Lighting_Color(lb_Card_UAH.BackColor);
-        }
-
-        private void Lb_Card_UAH_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Card_UAH.BackColor = Blackout_Color(lb_Card_UAH.BackColor);
-        }
-
-        private void Lb_Saved_EUR_MouseLeave(object sender, EventArgs e)
-        {
-            lb_Saved_EUR.BackColor = Lighting_Color(lb_Saved_EUR.BackColor);
-        }
-
-        private void Lb_Saved_EUR_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Saved_EUR.BackColor = Blackout_Color(lb_Saved_EUR.BackColor);
-        }
-
-        private void Lb_Saved_UAH_MouseLeave(object sender, EventArgs e)
-        {
-            lb_Saved_UAH.BackColor = Lighting_Color(lb_Saved_UAH.BackColor);
-        }
-
-        private void Lb_Saved_UAH_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Saved_UAH.BackColor = Blackout_Color(lb_Saved_UAH.BackColor);
-        }
-
-        private void Lb_Cash_EUR_MouseLeave(object sender, EventArgs e)
-        {
-            lb_Cash_EUR.BackColor = Lighting_Color(lb_Cash_EUR.BackColor);
-        }
-
-        private void Lb_Cash_EUR_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Cash_EUR.BackColor = Blackout_Color(lb_Cash_EUR.BackColor);
-        }
-
-        private void Lb_Cash_UAH_MouseLeave(object sender, EventArgs e)
-        {
-            lb_Cash_UAH.BackColor = Lighting_Color(lb_Cash_UAH.BackColor);
-        }
-
-        private void Lb_Cash_UAH_MouseEnter(object sender, EventArgs e)
-        {
-            lb_Cash_UAH.BackColor = Blackout_Color(lb_Cash_UAH.BackColor);
-        }
-
+        // Обработчики нажатия
         private void Tb_quantity_Enter(object sender, EventArgs e)
         {
             if (cellState1 == CellState.NULL)
@@ -2287,6 +2312,60 @@ namespace LoginWFsql
                     break;
             }
         }
+        /*--------------------------------------------------------------------------------------------------*/
+
+
+        // Обработка наведенея 
+        private void Lb_Card_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Card_EUR.BackColor = Blackout_Color(lb_Card_EUR.BackColor);
+        }
+        private void Lb_Card_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Card_UAH.BackColor = Blackout_Color(lb_Card_UAH.BackColor);
+        }
+        private void Lb_Saved_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Saved_EUR.BackColor = Blackout_Color(lb_Saved_EUR.BackColor);
+        }
+        private void Lb_Saved_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Saved_UAH.BackColor = Blackout_Color(lb_Saved_UAH.BackColor);
+        }
+        private void Lb_Cash_EUR_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Cash_EUR.BackColor = Blackout_Color(lb_Cash_EUR.BackColor);
+        }
+        private void Lb_Cash_UAH_MouseEnter(object sender, EventArgs e)
+        {
+            lb_Cash_UAH.BackColor = Blackout_Color(lb_Cash_UAH.BackColor);
+        }
+
+        private void Lb_Card_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Card_UAH.BackColor = Lighting_Color(lb_Card_UAH.BackColor);
+        }
+        private void Lb_Saved_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Saved_EUR.BackColor = Lighting_Color(lb_Saved_EUR.BackColor);
+        }
+        private void Lb_Saved_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Saved_UAH.BackColor = Lighting_Color(lb_Saved_UAH.BackColor);
+        }
+        private void Lb_Cash_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Cash_EUR.BackColor = Lighting_Color(lb_Cash_EUR.BackColor);
+        }
+        private void Lb_Cash_UAH_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Cash_UAH.BackColor = Lighting_Color(lb_Cash_UAH.BackColor);
+        }
+        private void Lb_Card_EUR_MouseLeave(object sender, EventArgs e)
+        {
+            lb_Card_EUR.BackColor = Lighting_Color(lb_Card_EUR.BackColor);
+        }
+        /*--------------------------------------------------------------------------------------------------*/
 
         TextBox tb_quantity2;
         Label lb_sum_2;
@@ -2300,5 +2379,33 @@ namespace LoginWFsql
         Label lb_Saved_EUR;
         Label lb_Card_UAH;
         Label lb_Card_EUR;
+
+        #endregion
+
+
+        /// <summary>
+        /// Возвращает цвет немного темнее чем тот что сюда передали
+        /// </summary>
+        private Color Blackout_Color(Color current)
+        {
+            int r = current.R - 10;
+            int g = current.G - 10;
+            int b = current.B - 10;
+            return Color.FromArgb(r, g, b);
+        }
+
+        /// <summary>
+        /// Возвращает цвет немного светлее чем тот что сюда передали
+        /// </summary>
+        /// <param name="button"></param>
+        private Color Lighting_Color(Color current)
+        {
+            int r = current.R + 10;
+            int g = current.G + 10;
+            int b = current.B + 10;
+            return Color.FromArgb(r, g, b);
+        }
+
+        
     }
 }
