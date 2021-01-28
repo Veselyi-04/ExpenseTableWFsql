@@ -156,5 +156,23 @@
   <ItemGroup>
     <None Include="Resources\selected_wait1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saved1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i_owe3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\owe_me3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i_owe4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\owe_me4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\purse4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

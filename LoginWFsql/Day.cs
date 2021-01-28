@@ -119,7 +119,7 @@ namespace LoginWFsql
             //
             lb_cash.AutoEllipsis = true;
             lb_cash.Font = new Font("a_LatinoNr", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            lb_cash.Location = new Point(25, 36);
+            lb_cash.Location = new Point(30, 36);
             lb_cash.Size = new Size(40, 15);
             //
             // lb_currency
@@ -179,11 +179,12 @@ namespace LoginWFsql
             //
             // pb_cash
             //
-            pb_cash.Image = Properties.Resources.purse3;
-            pb_cash.Location = new Point(3, 27);
+            pb_cash.Image = Properties.Resources.purse4;
+            pb_cash.Location = new Point(3, 25);
             pb_cash.Name = "pictureBox13";
-            pb_cash.Size = new Size(28, 28);
+            pb_cash.Size = new Size(27, 27);
             pb_cash.SizeMode = PictureBoxSizeMode.StretchImage;
+            pb_cash.BringToFront();
             //
             // pb_income
             //
@@ -210,7 +211,7 @@ namespace LoginWFsql
             // line_cash
             //
             line_cash.BackColor = Color.White;
-            line_cash.Location = new Point(28, 49);
+            line_cash.Location = new Point(30, 49);
             line_cash.Size = new Size(35, 1);
             line_cash.BringToFront();
         }

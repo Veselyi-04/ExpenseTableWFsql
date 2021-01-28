@@ -1677,39 +1677,7 @@ namespace LoginWFsql
                 return;
             }
             buttons_Push = Buttons_Push.WASTED;
-            bt_Owe_Me.Enabled = false;
-            bt_Transfer.Enabled = false;
-            bt_I_Owe.Enabled = false;
-            bt_In_Come.Enabled = false;
-
-            pb_currency.Enabled = false;
-            switch (currency)
-            {
-                case Currency.UAH:
-                    pb_currency.Image = Properties.Resources.uah0;
-                    break;
-                case Currency.EUR:
-                    pb_currency.Image = Properties.Resources.eur0;
-                    break;
-            }
-
-            lbSavedText.Enabled = false;
-            lbIOweText.Enabled = false;
-            lbOweMeText.Enabled = false;
-
-            picture2.Image = Properties.Resources.selected_wait1;
-            lb_select_cell.Visible = true;
-
-            lbCashText.Cursor = Cursors.Hand;
-            lbCashText.Click += LbCashText_Click;
-            lbCardText.Cursor = Cursors.Hand;
-            lbCardText.Click += LbCardText_Click;
-
-            lbSymbol.Text = "-";
-            bt_Wasted.Text = "Отмена";
-            btSave.Enabled = true;
-
-            lb_select_cell.ForeColor = Color.IndianRed;
+            Buttons_push_Handler();
         }
 
         private void bt_Owe_Me_Click(object sender, EventArgs e)
@@ -1719,42 +1687,8 @@ namespace LoginWFsql
                 cancel();
                 return;
             }
-
             buttons_Push = Buttons_Push.OWE_ME;
-            bt_Wasted.Enabled = false;
-            bt_Transfer.Enabled = false;
-            bt_I_Owe.Enabled = false;
-            bt_In_Come.Enabled = false;
-
-            pb_currency.Enabled = false;
-            switch (currency)
-            {
-                case Currency.UAH:
-                    pb_currency.Image = Properties.Resources.uah0;
-                    break;
-                case Currency.EUR:
-                    pb_currency.Image = Properties.Resources.eur0;
-                    break;
-            }
-
-            lbIOweText.Enabled = false;
-            lbOweMeText.Enabled = false;
-
-            picture2.Image = Properties.Resources.selected_wait1;
-            lb_select_cell.Visible = true;
-
-            lbCashText.Cursor = Cursors.Hand;
-            lbCashText.Click += LbCashText_Click;
-            lbCardText.Cursor = Cursors.Hand;
-            lbCardText.Click += LbCardText_Click;
-            lbSavedText.Cursor = Cursors.Hand;
-            lbSavedText.Click += lbSavedText_Click;
-
-            lbSymbol.Text = "-";
-            bt_Owe_Me.Text = "Отмена";
-            btSave.Enabled = true;
-
-            lb_select_cell.ForeColor = Color.IndianRed;
+            Buttons_push_Handler();
         }
 
         private void bt_Transfer_Click(object sender, EventArgs e)
@@ -1764,61 +1698,8 @@ namespace LoginWFsql
                 cancel();
                 return;
             }
-
             buttons_Push = Buttons_Push.TRANSFER;
-            cellState2 = CellState.TRANSFER;
-            bt_Wasted.Enabled = false;
-            bt_Owe_Me.Enabled = false;
-            bt_I_Owe.Enabled = false;
-            bt_In_Come.Enabled = false;
-            bt_Transfer_Currency.Visible = true;
-
-            pb_currency.Enabled = false;
-            switch (currency)
-            {
-                case Currency.UAH:
-                    pb_currency.Image = Properties.Resources.uah0;
-                    break;
-                case Currency.EUR:
-                    pb_currency.Image = Properties.Resources.eur0;
-                    break;
-            }
-
-            lbIOweText.Enabled = false;
-            lbCashText.Enabled = true;
-            lbCardText.Enabled = true;
-            lbSavedText.Enabled = true;
-            lbOweMeText.Enabled = true;
-
-            picture_select = true;
-            picture1.Image = Properties.Resources.selected_wait1;
-            picture1.Cursor = Cursors.Hand;
-            picture1.Click += Picture1_Click;
-
-            picture2.Image = Properties.Resources.transfer;
-            lb_select_cell.Visible = true;
-
-
-            picture3.Image = Properties.Resources.selected_wait0;
-            picture3.Cursor = Cursors.Hand;
-            picture3.Click += Picture3_Click;
-
-            lbCashText.Cursor = Cursors.Hand;
-            lbCashText.Click += LbCashText_Click;
-            lbCardText.Cursor = Cursors.Hand;
-            lbCardText.Click += LbCardText_Click;
-            lbSavedText.Cursor = Cursors.Hand;
-            lbSavedText.Click += lbSavedText_Click;
-            lbOweMeText.Cursor = Cursors.Hand;
-            lbOweMeText.Click += LbOweMeText_Click;
-            lbIOweText.Cursor = Cursors.Hand;
-            lbIOweText.Click += LbIOweText_Click;
-
-            lbSymbol.Text = "~";
-            bt_Transfer.Text = "Отмена";
-            btSave.Enabled = true;
-
-            lb_select_cell.ForeColor = Color.IndianRed;
+            Buttons_push_Handler();
         }
 
         private void bt_I_Owe_Click(object sender, EventArgs e)
@@ -1828,44 +1709,8 @@ namespace LoginWFsql
                 cancel();
                 return;
             }
-
             buttons_Push = Buttons_Push.I_OWE;
-            bt_Wasted.Enabled = false;
-            bt_Owe_Me.Enabled = false;
-            bt_I_Owe.Enabled = true;
-            bt_In_Come.Enabled = false;
-            bt_Transfer.Enabled = false;
-
-            pb_currency.Enabled = false;
-            switch (currency)
-            {
-                case Currency.UAH:
-                    pb_currency.Image = Properties.Resources.uah0;
-                    break;
-                case Currency.EUR:
-                    pb_currency.Image = Properties.Resources.eur0;
-                    break;
-            }
-
-            lbCashText.Enabled = true;
-            lbCardText.Enabled = true;
-            lbSavedText.Enabled = false;
-            lbIOweText.Enabled = false;
-            lbOweMeText.Enabled = false;
-
-            picture2.Image = Properties.Resources.selected_wait1;
-            lb_select_cell.Visible = true;
-
-            lbCashText.Cursor = Cursors.Hand;
-            lbCashText.Click += LbCashText_Click;
-            lbCardText.Cursor = Cursors.Hand;
-            lbCardText.Click += LbCardText_Click;
-
-            lbSymbol.Text = "+";
-            bt_I_Owe.Text = "Отмена";
-            btSave.Enabled = true;
-
-            lb_select_cell.ForeColor = Color.IndianRed;
+            Buttons_push_Handler();
         }
 
         private void bt_In_Come_Click(object sender, EventArgs e)
@@ -1875,46 +1720,8 @@ namespace LoginWFsql
                 cancel();
                 return;
             }
-
             buttons_Push = Buttons_Push.IN_COME;
-            bt_Wasted.Enabled = false;
-            bt_Owe_Me.Enabled = false;
-            bt_I_Owe.Enabled = false;
-            bt_In_Come.Enabled = true;
-            bt_Transfer.Enabled = false;
-
-            pb_currency.Enabled = false;
-            switch (currency)
-            {
-                case Currency.UAH:
-                    pb_currency.Image = Properties.Resources.uah0;
-                    break;
-                case Currency.EUR:
-                    pb_currency.Image = Properties.Resources.eur0;
-                    break;
-            }
-
-            lbCashText.Enabled = true;
-            lbCardText.Enabled = true;
-            lbSavedText.Enabled = true;
-            lbIOweText.Enabled = false;
-            lbOweMeText.Enabled = false;
-
-            picture2.Image = Properties.Resources.selected_wait1;
-            lb_select_cell.Visible = true;
-
-            lbCashText.Cursor = Cursors.Hand;
-            lbCashText.Click += LbCashText_Click;
-            lbCardText.Cursor = Cursors.Hand;
-            lbCardText.Click += LbCardText_Click;
-            lbSavedText.Cursor = Cursors.Hand;
-            lbSavedText.Click += lbSavedText_Click;
-
-            lbSymbol.Text = "+";
-            bt_In_Come.Text = "Отмена";
-            btSave.Enabled = true;
-
-            lb_select_cell.ForeColor = Color.IndianRed;
+            Buttons_push_Handler();
         }
 
         private void Picture1_Click(object sender, EventArgs e)
@@ -1950,6 +1757,7 @@ namespace LoginWFsql
             {
                 picture1.Image = Properties.Resources.selected_wait1;
                 cellState1 = CellState.NULL;
+
                 if (cellState3 == CellState.NULL)
                     picture3.Image = Properties.Resources.selected_wait0;
 
@@ -1959,6 +1767,7 @@ namespace LoginWFsql
             {
                 picture3.Image = Properties.Resources.selected_wait1;
                 cellState3 = CellState.NULL;
+
                 if (cellState1 == CellState.NULL)
                     picture1.Image = Properties.Resources.selected_wait0;
 
@@ -1990,6 +1799,255 @@ namespace LoginWFsql
         private void LbCashText_Click(object sender, EventArgs e)
         {
             Set_Cell_Halder(CellState.Cash);
+        }
+
+        private void Buttons_push_Handler()
+        {
+            btSave.Enabled = true;
+            lb_select_cell.Visible = true;
+            pb_currency.Enabled = false;
+            switch (currency)
+            {
+                case Currency.UAH:
+                    pb_currency.Image = Properties.Resources.uah0;
+                    break;
+                case Currency.EUR:
+                    pb_currency.Image = Properties.Resources.eur0;
+                    break;
+            }
+
+            switch (buttons_Push)
+            {
+                case Buttons_Push.NULL:
+                    break;
+                case Buttons_Push.WASTED:
+                    {
+                        lbCashText.Cursor = Cursors.Hand;
+                        lbCashText.Click += LbCashText_Click;
+                        lbCashText.MouseEnter += LbCashText_MouseEnter;
+                        lbCashText.MouseLeave += LbCashText_MouseLeave;
+
+                        lbCardText.Cursor = Cursors.Hand;
+                        lbCardText.Click += LbCardText_Click;
+                        lbCardText.MouseEnter += LbCardText_MouseEnter;
+                        lbCardText.MouseLeave += LbCardText_MouseLeave;
+
+                        lbSavedText.Enabled = false;
+                        lbIOweText.Enabled = false;
+                        lbOweMeText.Enabled = false;
+
+                        bt_Owe_Me.Enabled = false;
+                        bt_Transfer.Enabled = false;
+                        bt_I_Owe.Enabled = false;
+                        bt_In_Come.Enabled = false;
+
+                        picture2.Image = Properties.Resources.selected_wait1;
+
+                        lbSymbol.Text = "-";
+                        bt_Wasted.Text = "Отмена";
+                    }
+                    break;
+                case Buttons_Push.I_OWE:
+                    {
+                        lbCashText.Cursor = Cursors.Hand;
+                        lbCashText.Click += LbCashText_Click;
+                        lbCashText.MouseEnter += LbCashText_MouseEnter;
+                        lbCashText.MouseLeave += LbCashText_MouseLeave;
+
+                        lbCardText.Cursor = Cursors.Hand;
+                        lbCardText.Click += LbCardText_Click;
+                        lbCardText.MouseEnter += LbCardText_MouseEnter;
+                        lbCardText.MouseLeave += LbCardText_MouseLeave;
+
+                        lbSavedText.Enabled = false;
+                        lbIOweText.Enabled = false;
+                        lbOweMeText.Enabled = false;
+
+                        bt_Wasted.Enabled = false;
+                        bt_Owe_Me.Enabled = false;
+                        bt_In_Come.Enabled = false;
+                        bt_Transfer.Enabled = false;
+
+                        picture2.Image = Properties.Resources.selected_wait1;
+
+                        lbSymbol.Text = "+";
+                        bt_I_Owe.Text = "Отмена";
+                    }
+                    break;
+                case Buttons_Push.TRANSFER:
+                    {
+                        lbCashText.Cursor = Cursors.Hand;
+                        lbCashText.Click += LbCashText_Click;
+                        lbCashText.MouseEnter += LbCashText_MouseEnter;
+                        lbCashText.MouseLeave += LbCashText_MouseLeave;
+
+                        lbCardText.Cursor = Cursors.Hand;
+                        lbCardText.Click += LbCardText_Click;
+                        lbCardText.MouseEnter += LbCardText_MouseEnter;
+                        lbCardText.MouseLeave += LbCardText_MouseLeave;
+
+                        lbSavedText.Cursor = Cursors.Hand;
+                        lbSavedText.Click += lbSavedText_Click;
+                        lbSavedText.MouseEnter += LbSavedText_MouseEnter;
+                        lbSavedText.MouseLeave += LbSavedText_MouseLeave;
+
+                        lbOweMeText.Cursor = Cursors.Hand;
+                        lbOweMeText.Click += LbOweMeText_Click;
+                        lbOweMeText.MouseEnter += LbOweMeText_MouseEnter;
+                        lbOweMeText.MouseLeave += LbOweMeText_MouseLeave;
+
+                        lbIOweText.Cursor = Cursors.Hand;
+                        lbIOweText.Click += LbIOweText_Click;
+                        lbIOweText.MouseEnter += LbIOweText_MouseEnter;
+                        lbIOweText.MouseLeave += LbIOweText_MouseLeave;
+
+
+                        lbIOweText.Enabled = false;
+
+                        bt_Wasted.Enabled = false;
+                        bt_Owe_Me.Enabled = false;
+                        bt_I_Owe.Enabled = false;
+                        bt_In_Come.Enabled = false;
+                        bt_Transfer_Currency.Visible = true;
+
+                        picture_select = true;
+                        picture1.Image = Properties.Resources.selected_wait1;
+                        picture1.Cursor = Cursors.Hand;
+                        picture1.Click += Picture1_Click;
+
+                        picture2.Image = Properties.Resources.transfer;
+                        cellState2 = CellState.TRANSFER;
+
+                        picture3.Image = Properties.Resources.selected_wait0;
+                        picture3.Cursor = Cursors.Hand;
+                        picture3.Click += Picture3_Click;
+
+                        lbSymbol.Text = "~";
+                        bt_Transfer.Text = "Отмена";
+                    }
+                    break;
+                case Buttons_Push.TRANSFER_CURRENCY:
+                    break;
+                case Buttons_Push.OWE_ME:
+                    {
+                        lbCashText.Cursor = Cursors.Hand;
+                        lbCashText.Click += LbCashText_Click;
+                        lbCashText.MouseEnter += LbCashText_MouseEnter;
+                        lbCashText.MouseLeave += LbCashText_MouseLeave;
+
+                        lbCardText.Cursor = Cursors.Hand;
+                        lbCardText.Click += LbCardText_Click;
+                        lbCardText.MouseEnter += LbCardText_MouseEnter;
+                        lbCardText.MouseLeave += LbCardText_MouseLeave;
+
+                        lbSavedText.Cursor = Cursors.Hand;
+                        lbSavedText.Click += lbSavedText_Click;
+                        lbSavedText.MouseEnter += LbSavedText_MouseEnter;
+                        lbSavedText.MouseLeave += LbSavedText_MouseLeave;
+
+                        lbIOweText.Enabled = false;
+                        lbOweMeText.Enabled = false;
+
+                        bt_Wasted.Enabled = false;
+                        bt_Transfer.Enabled = false;
+                        bt_I_Owe.Enabled = false;
+                        bt_In_Come.Enabled = false;
+
+                        picture2.Image = Properties.Resources.selected_wait1;
+
+                        lbSymbol.Text = "-";
+                        bt_Owe_Me.Text = "Отмена";
+                    }
+                    break;
+                case Buttons_Push.IN_COME:
+                    {
+                        lbCashText.Cursor = Cursors.Hand;
+                        lbCashText.Click += LbCashText_Click;
+                        lbCashText.MouseEnter += LbCashText_MouseEnter;
+                        lbCashText.MouseLeave += LbCashText_MouseLeave;
+
+                        lbCardText.Cursor = Cursors.Hand;
+                        lbCardText.Click += LbCardText_Click;
+                        lbCardText.MouseEnter += LbCardText_MouseEnter;
+                        lbCardText.MouseLeave += LbCardText_MouseLeave;
+
+                        lbSavedText.Cursor = Cursors.Hand;
+                        lbSavedText.Click += lbSavedText_Click;
+                        lbSavedText.MouseEnter += LbSavedText_MouseEnter;
+                        lbSavedText.MouseLeave += LbSavedText_MouseLeave;
+
+
+                        lbIOweText.Enabled = false;
+                        lbOweMeText.Enabled = false;
+
+
+                        bt_Wasted.Enabled = false;
+                        bt_Owe_Me.Enabled = false;
+                        bt_I_Owe.Enabled = false;
+                        bt_Transfer.Enabled = false;
+
+                        picture2.Image = Properties.Resources.selected_wait1;
+
+                        lbSymbol.Text = "+";
+                        bt_In_Come.Text = "Отмена";
+                    }
+                    break;
+            }
+        }
+
+        private void LbCashText_MouseLeave(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbCashText, Enter_Leave: false);
+        }
+        private void LbCardText_MouseLeave(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbCardText, Enter_Leave: false);
+        }
+        private void LbSavedText_MouseLeave(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbSavedText, Enter_Leave: false);
+        }
+        private void LbIOweText_MouseLeave(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbIOweText, Enter_Leave: false);
+        }
+        private void LbOweMeText_MouseLeave(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbOweMeText, Enter_Leave: false);
+        }
+
+        private void LbCashText_MouseEnter(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbCashText, Enter_Leave: true);
+        }
+        private void LbCardText_MouseEnter(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbCardText, Enter_Leave: true);
+        }
+        private void LbSavedText_MouseEnter(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbSavedText, Enter_Leave: true);
+        }
+        private void LbIOweText_MouseEnter(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbIOweText, Enter_Leave: true);
+        }
+        private void LbOweMeText_MouseEnter(object sender, EventArgs e)
+        {
+            Lb_Blackou_or_tLighting(lbOweMeText, Enter_Leave: true);
+        }
+
+
+        private void Lb_Blackou_or_tLighting(Label label, bool Enter_Leave)
+        {
+            if(Enter_Leave)
+            {
+                label.BackColor = Blackout_Color(label.BackColor);
+            }
+            else
+            {
+                label.BackColor = Lighting_Color(label.BackColor);
+            }
         }
 
         private void Set_Cell_Halder(CellState pressed_lb)
@@ -2158,14 +2216,28 @@ namespace LoginWFsql
             // Отключаю для label обработчик нажатия
             lbCashText.Cursor = Cursors.Default;
             lbCashText.Click -= LbCashText_Click;
+            lbCashText.MouseEnter -= LbCashText_MouseEnter;
+            lbCashText.MouseLeave -= LbCashText_MouseLeave;
+
             lbCardText.Cursor = Cursors.Default;
             lbCardText.Click -= LbCardText_Click;
+            lbCardText.MouseEnter -= LbCardText_MouseEnter;
+            lbCardText.MouseLeave -= LbCardText_MouseLeave;
+
             lbSavedText.Cursor = Cursors.Default;
             lbSavedText.Click -= lbSavedText_Click;
-            lbIOweText.Cursor = Cursors.Default;
-            lbIOweText.Click -= LbIOweText_Click;
+            lbSavedText.MouseEnter -= LbSavedText_MouseEnter;
+            lbSavedText.MouseLeave -= LbSavedText_MouseLeave;
+
             lbOweMeText.Cursor = Cursors.Default;
             lbOweMeText.Click -= LbOweMeText_Click;
+            lbOweMeText.MouseEnter -= LbOweMeText_MouseEnter;
+            lbOweMeText.MouseLeave -= LbOweMeText_MouseLeave;
+
+            lbIOweText.Cursor = Cursors.Default;
+            lbIOweText.Click -= LbIOweText_Click;
+            lbIOweText.MouseEnter -= LbIOweText_MouseEnter;
+            lbIOweText.MouseLeave -= LbIOweText_MouseLeave;
 
             // Чищу выбраные ячейки
             picture1.Image = null;
@@ -2771,7 +2843,7 @@ namespace LoginWFsql
         Label lb_Card_EUR;
 
         #endregion
-
+        
 
         /// <summary>
         /// Возвращает цвет немного темнее чем тот что сюда передали

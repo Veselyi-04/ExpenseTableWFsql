@@ -34,7 +34,6 @@ namespace LoginWFsql
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.pictureBox17 = new System.Windows.Forms.PictureBox();
-            this.pictureBox16 = new System.Windows.Forms.PictureBox();
             this._lb_state_i_owe = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
             this._lb_state_cash = new System.Windows.Forms.Label();
@@ -45,14 +44,20 @@ namespace LoginWFsql
             this.panel24 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this._lb_state_saved = new System.Windows.Forms.Label();
+            this.pictureBox16 = new System.Windows.Forms.PictureBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.btCrateNewDay = new System.Windows.Forms.Button();
             this.cbMonth = new System.Windows.Forms.ComboBox();
             this.lb_To_30 = new System.Windows.Forms.Label();
             this.lb_To_7 = new System.Windows.Forms.Label();
+            this.pbCash = new System.Windows.Forms.PictureBox();
+            this.pbSaved = new System.Windows.Forms.PictureBox();
+            this.lbSavedText = new System.Windows.Forms.Label();
+            this.lbCardText = new System.Windows.Forms.Label();
+            this.lbCashText = new System.Windows.Forms.Label();
             this.bt_Transfer_Currency = new System.Windows.Forms.Button();
             this.pb_currency = new System.Windows.Forms.PictureBox();
             this.tb_In_Come_Str = new System.Windows.Forms.TextBox();
@@ -86,29 +91,26 @@ namespace LoginWFsql
             this.lbCash = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.lbSavedText = new System.Windows.Forms.Label();
             this.lbIOweText = new System.Windows.Forms.Label();
             this.lbOweMeText = new System.Windows.Forms.Label();
-            this.lbCashText = new System.Windows.Forms.Label();
             this.lbDate = new System.Windows.Forms.Label();
             this.lbNameDay = new System.Windows.Forms.Label();
             this.btSave = new System.Windows.Forms.Button();
             this.lb_sum_1 = new System.Windows.Forms.Label();
             this.lbSymbol = new System.Windows.Forms.Label();
-            this.pbCash = new System.Windows.Forms.PictureBox();
-            this.pbSaved = new System.Windows.Forms.PictureBox();
             this.pbCard = new System.Windows.Forms.PictureBox();
-            this.lbCardText = new System.Windows.Forms.Label();
             this.panelTopStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCash)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).BeginInit();
@@ -117,8 +119,6 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbIOwe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCash)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,7 +128,6 @@ namespace LoginWFsql
             this.panelTopStats.Controls.Add(this.pictureBox5);
             this.panelTopStats.Controls.Add(this.panel12);
             this.panelTopStats.Controls.Add(this.pictureBox17);
-            this.panelTopStats.Controls.Add(this.pictureBox16);
             this.panelTopStats.Controls.Add(this._lb_state_i_owe);
             this.panelTopStats.Controls.Add(this.pictureBox15);
             this.panelTopStats.Controls.Add(this._lb_state_cash);
@@ -139,9 +138,10 @@ namespace LoginWFsql
             this.panelTopStats.Controls.Add(this.panel24);
             this.panelTopStats.Controls.Add(this.panel25);
             this.panelTopStats.Controls.Add(this.label6);
-            this.panelTopStats.Controls.Add(this.label10);
             this.panelTopStats.Controls.Add(this.label13);
             this.panelTopStats.Controls.Add(this._lb_state_saved);
+            this.panelTopStats.Controls.Add(this.pictureBox16);
+            this.panelTopStats.Controls.Add(this.label10);
             this.panelTopStats.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTopStats.Location = new System.Drawing.Point(0, 0);
             this.panelTopStats.Name = "panelTopStats";
@@ -153,7 +153,7 @@ namespace LoginWFsql
             // pictureBox5
             // 
             this.pictureBox5.Enabled = false;
-            this.pictureBox5.Image = global::LoginWFsql.Properties.Resources.purse3;
+            this.pictureBox5.Image = global::LoginWFsql.Properties.Resources.purse4;
             this.pictureBox5.Location = new System.Drawing.Point(178, 0);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(30, 30);
@@ -182,17 +182,6 @@ namespace LoginWFsql
             this.pictureBox17.TabIndex = 41;
             this.pictureBox17.TabStop = false;
             // 
-            // pictureBox16
-            // 
-            this.pictureBox16.Enabled = false;
-            this.pictureBox16.Image = global::LoginWFsql.Properties.Resources.moneySaved2;
-            this.pictureBox16.Location = new System.Drawing.Point(423, 1);
-            this.pictureBox16.Name = "pictureBox16";
-            this.pictureBox16.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox16.TabIndex = 38;
-            this.pictureBox16.TabStop = false;
-            // 
             // _lb_state_i_owe
             // 
             this._lb_state_i_owe.AutoSize = true;
@@ -207,7 +196,7 @@ namespace LoginWFsql
             // pictureBox15
             // 
             this.pictureBox15.Enabled = false;
-            this.pictureBox15.Image = global::LoginWFsql.Properties.Resources.i_owe2;
+            this.pictureBox15.Image = global::LoginWFsql.Properties.Resources.i_owe4;
             this.pictureBox15.Location = new System.Drawing.Point(303, 0);
             this.pictureBox15.Name = "pictureBox15";
             this.pictureBox15.Size = new System.Drawing.Size(30, 30);
@@ -315,20 +304,6 @@ namespace LoginWFsql
             this.label6.Text = "/";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label10.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
-            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.label10.Location = new System.Drawing.Point(406, 5);
-            this.label10.Name = "label10";
-            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label10.Size = new System.Drawing.Size(25, 35);
-            this.label10.TabIndex = 37;
-            this.label10.Text = "/";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -354,6 +329,31 @@ namespace LoginWFsql
             this._lb_state_saved.TabIndex = 39;
             this._lb_state_saved.Text = "000";
             // 
+            // pictureBox16
+            // 
+            this.pictureBox16.Enabled = false;
+            this.pictureBox16.Image = global::LoginWFsql.Properties.Resources.saved1;
+            this.pictureBox16.Location = new System.Drawing.Point(423, 1);
+            this.pictureBox16.Name = "pictureBox16";
+            this.pictureBox16.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox16.TabIndex = 38;
+            this.pictureBox16.TabStop = false;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label10.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
+            this.label10.Location = new System.Drawing.Point(406, 5);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(25, 35);
+            this.label10.TabIndex = 37;
+            this.label10.Text = "/";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // mainContainer
             // 
             this.mainContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -375,6 +375,11 @@ namespace LoginWFsql
             // 
             // mainContainer.Panel2
             // 
+            this.mainContainer.Panel2.Controls.Add(this.pbCash);
+            this.mainContainer.Panel2.Controls.Add(this.pbSaved);
+            this.mainContainer.Panel2.Controls.Add(this.lbSavedText);
+            this.mainContainer.Panel2.Controls.Add(this.lbCardText);
+            this.mainContainer.Panel2.Controls.Add(this.lbCashText);
             this.mainContainer.Panel2.Controls.Add(this.bt_Transfer_Currency);
             this.mainContainer.Panel2.Controls.Add(this.pb_currency);
             this.mainContainer.Panel2.Controls.Add(this.tb_In_Come_Str);
@@ -408,19 +413,14 @@ namespace LoginWFsql
             this.mainContainer.Panel2.Controls.Add(this.lbCash);
             this.mainContainer.Panel2.Controls.Add(this.label14);
             this.mainContainer.Panel2.Controls.Add(this.label11);
-            this.mainContainer.Panel2.Controls.Add(this.lbSavedText);
             this.mainContainer.Panel2.Controls.Add(this.lbIOweText);
             this.mainContainer.Panel2.Controls.Add(this.lbOweMeText);
-            this.mainContainer.Panel2.Controls.Add(this.lbCashText);
             this.mainContainer.Panel2.Controls.Add(this.lbDate);
             this.mainContainer.Panel2.Controls.Add(this.lbNameDay);
             this.mainContainer.Panel2.Controls.Add(this.btSave);
             this.mainContainer.Panel2.Controls.Add(this.lb_sum_1);
             this.mainContainer.Panel2.Controls.Add(this.lbSymbol);
-            this.mainContainer.Panel2.Controls.Add(this.pbCash);
-            this.mainContainer.Panel2.Controls.Add(this.pbSaved);
             this.mainContainer.Panel2.Controls.Add(this.pbCard);
-            this.mainContainer.Panel2.Controls.Add(this.lbCardText);
             this.mainContainer.Size = new System.Drawing.Size(694, 454);
             this.mainContainer.SplitterDistance = 227;
             this.mainContainer.TabIndex = 1;
@@ -496,6 +496,67 @@ namespace LoginWFsql
             this.lb_To_7.MouseLeave += new System.EventHandler(this.lb_To_7_MouseLeave);
             this.lb_To_7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lb_To_7_MouseUp);
             // 
+            // pbCash
+            // 
+            this.pbCash.Enabled = false;
+            this.pbCash.Image = global::LoginWFsql.Properties.Resources.purse4;
+            this.pbCash.Location = new System.Drawing.Point(12, 44);
+            this.pbCash.Name = "pbCash";
+            this.pbCash.Size = new System.Drawing.Size(30, 30);
+            this.pbCash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCash.TabIndex = 8;
+            this.pbCash.TabStop = false;
+            // 
+            // pbSaved
+            // 
+            this.pbSaved.Enabled = false;
+            this.pbSaved.Image = global::LoginWFsql.Properties.Resources.saved1;
+            this.pbSaved.Location = new System.Drawing.Point(20, 75);
+            this.pbSaved.Name = "pbSaved";
+            this.pbSaved.Size = new System.Drawing.Size(25, 25);
+            this.pbSaved.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbSaved.TabIndex = 44;
+            this.pbSaved.TabStop = false;
+            // 
+            // lbSavedText
+            // 
+            this.lbSavedText.AutoSize = true;
+            this.lbSavedText.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbSavedText.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbSavedText.ForeColor = System.Drawing.Color.Moccasin;
+            this.lbSavedText.Location = new System.Drawing.Point(45, 79);
+            this.lbSavedText.Name = "lbSavedText";
+            this.lbSavedText.Size = new System.Drawing.Size(83, 17);
+            this.lbSavedText.TabIndex = 21;
+            this.lbSavedText.Text = "Отложено:";
+            this.lbSavedText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbCardText
+            // 
+            this.lbCardText.AutoSize = true;
+            this.lbCardText.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbCardText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbCardText.ForeColor = System.Drawing.Color.Moccasin;
+            this.lbCardText.Location = new System.Drawing.Point(292, 49);
+            this.lbCardText.Name = "lbCardText";
+            this.lbCardText.Size = new System.Drawing.Size(75, 24);
+            this.lbCardText.TabIndex = 15;
+            this.lbCardText.Text = "Карта:";
+            this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbCashText
+            // 
+            this.lbCashText.AutoSize = true;
+            this.lbCashText.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbCashText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbCashText.ForeColor = System.Drawing.Color.Moccasin;
+            this.lbCashText.Location = new System.Drawing.Point(38, 49);
+            this.lbCashText.Name = "lbCashText";
+            this.lbCashText.Size = new System.Drawing.Size(104, 24);
+            this.lbCashText.TabIndex = 13;
+            this.lbCashText.Text = "Наличка:";
+            this.lbCashText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // bt_Transfer_Currency
             // 
             this.bt_Transfer_Currency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
@@ -568,7 +629,7 @@ namespace LoginWFsql
             // pbOweMe
             // 
             this.pbOweMe.Enabled = false;
-            this.pbOweMe.Image = global::LoginWFsql.Properties.Resources.owe_me2;
+            this.pbOweMe.Image = global::LoginWFsql.Properties.Resources.owe_me4;
             this.pbOweMe.Location = new System.Drawing.Point(271, 73);
             this.pbOweMe.Name = "pbOweMe";
             this.pbOweMe.Size = new System.Drawing.Size(25, 25);
@@ -679,7 +740,7 @@ namespace LoginWFsql
             this.lb_select_cell.AutoSize = true;
             this.lb_select_cell.Cursor = System.Windows.Forms.Cursors.Default;
             this.lb_select_cell.Font = new System.Drawing.Font("Constantia", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_select_cell.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lb_select_cell.ForeColor = System.Drawing.Color.IndianRed;
             this.lb_select_cell.Location = new System.Drawing.Point(46, 102);
             this.lb_select_cell.Name = "lb_select_cell";
             this.lb_select_cell.Size = new System.Drawing.Size(104, 13);
@@ -792,7 +853,7 @@ namespace LoginWFsql
             // pbIOwe
             // 
             this.pbIOwe.Enabled = false;
-            this.pbIOwe.Image = global::LoginWFsql.Properties.Resources.i_owe2;
+            this.pbIOwe.Image = global::LoginWFsql.Properties.Resources.i_owe4;
             this.pbIOwe.Location = new System.Drawing.Point(271, 100);
             this.pbIOwe.Name = "pbIOwe";
             this.pbIOwe.Size = new System.Drawing.Size(25, 25);
@@ -846,7 +907,7 @@ namespace LoginWFsql
             this.lbSaved.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbSaved.Font = new System.Drawing.Font("Consolas", 9.75F);
             this.lbSaved.ForeColor = System.Drawing.Color.White;
-            this.lbSaved.Location = new System.Drawing.Point(124, 80);
+            this.lbSaved.Location = new System.Drawing.Point(125, 80);
             this.lbSaved.Name = "lbSaved";
             this.lbSaved.Size = new System.Drawing.Size(28, 15);
             this.lbSaved.TabIndex = 20;
@@ -885,7 +946,7 @@ namespace LoginWFsql
             this.lbCard.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCard.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCard.ForeColor = System.Drawing.Color.White;
-            this.lbCard.Location = new System.Drawing.Point(361, 52);
+            this.lbCard.Location = new System.Drawing.Point(363, 52);
             this.lbCard.Name = "lbCard";
             this.lbCard.Size = new System.Drawing.Size(36, 19);
             this.lbCard.TabIndex = 14;
@@ -898,7 +959,7 @@ namespace LoginWFsql
             this.lbCash.Cursor = System.Windows.Forms.Cursors.Default;
             this.lbCash.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lbCash.ForeColor = System.Drawing.Color.White;
-            this.lbCash.Location = new System.Drawing.Point(135, 52);
+            this.lbCash.Location = new System.Drawing.Point(138, 52);
             this.lbCash.Name = "lbCash";
             this.lbCash.Size = new System.Drawing.Size(36, 19);
             this.lbCash.TabIndex = 12;
@@ -931,19 +992,6 @@ namespace LoginWFsql
             this.label11.Text = "Потратил:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lbSavedText
-            // 
-            this.lbSavedText.AutoSize = true;
-            this.lbSavedText.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbSavedText.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbSavedText.ForeColor = System.Drawing.Color.Moccasin;
-            this.lbSavedText.Location = new System.Drawing.Point(45, 79);
-            this.lbSavedText.Name = "lbSavedText";
-            this.lbSavedText.Size = new System.Drawing.Size(83, 17);
-            this.lbSavedText.TabIndex = 21;
-            this.lbSavedText.Text = "Отложено:";
-            this.lbSavedText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lbIOweText
             // 
             this.lbIOweText.AutoSize = true;
@@ -969,19 +1017,6 @@ namespace LoginWFsql
             this.lbOweMeText.TabIndex = 17;
             this.lbOweMeText.Text = "Мне должны:";
             this.lbOweMeText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbCashText
-            // 
-            this.lbCashText.AutoSize = true;
-            this.lbCashText.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbCashText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbCashText.ForeColor = System.Drawing.Color.Moccasin;
-            this.lbCashText.Location = new System.Drawing.Point(38, 49);
-            this.lbCashText.Name = "lbCashText";
-            this.lbCashText.Size = new System.Drawing.Size(104, 24);
-            this.lbCashText.TabIndex = 13;
-            this.lbCashText.Text = "Наличка:";
-            this.lbCashText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbDate
             // 
@@ -1048,28 +1083,6 @@ namespace LoginWFsql
             this.lbSymbol.TabIndex = 67;
             this.lbSymbol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // pbCash
-            // 
-            this.pbCash.Enabled = false;
-            this.pbCash.Image = global::LoginWFsql.Properties.Resources.purse3;
-            this.pbCash.Location = new System.Drawing.Point(13, 44);
-            this.pbCash.Name = "pbCash";
-            this.pbCash.Size = new System.Drawing.Size(30, 30);
-            this.pbCash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbCash.TabIndex = 8;
-            this.pbCash.TabStop = false;
-            // 
-            // pbSaved
-            // 
-            this.pbSaved.Enabled = false;
-            this.pbSaved.Image = global::LoginWFsql.Properties.Resources.moneySaved2;
-            this.pbSaved.Location = new System.Drawing.Point(20, 75);
-            this.pbSaved.Name = "pbSaved";
-            this.pbSaved.Size = new System.Drawing.Size(25, 25);
-            this.pbSaved.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbSaved.TabIndex = 44;
-            this.pbSaved.TabStop = false;
-            // 
             // pbCard
             // 
             this.pbCard.Enabled = false;
@@ -1080,19 +1093,6 @@ namespace LoginWFsql
             this.pbCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbCard.TabIndex = 43;
             this.pbCard.TabStop = false;
-            // 
-            // lbCardText
-            // 
-            this.lbCardText.AutoSize = true;
-            this.lbCardText.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbCardText.Font = new System.Drawing.Font("Constantia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbCardText.ForeColor = System.Drawing.Color.Moccasin;
-            this.lbCardText.Location = new System.Drawing.Point(292, 49);
-            this.lbCardText.Name = "lbCardText";
-            this.lbCardText.Size = new System.Drawing.Size(75, 24);
-            this.lbCardText.TabIndex = 15;
-            this.lbCardText.Text = "Карта:";
-            this.lbCardText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MainForm
             // 
@@ -1111,14 +1111,16 @@ namespace LoginWFsql
             this.panelTopStats.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
             this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbCash)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_currency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOweMe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_income)).EndInit();
@@ -1127,8 +1129,6 @@ namespace LoginWFsql
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbIOwe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCash)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSaved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCard)).EndInit();
             this.ResumeLayout(false);
 
