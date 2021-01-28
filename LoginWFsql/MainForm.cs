@@ -40,15 +40,18 @@ namespace LoginWFsql
         private CellState cellState2 = CellState.NULL;
         private CellState cellState3 = CellState.NULL;
         /// <summary>
-        /// true = puctire1 | false = picture3
+        /// true = puctire1 | false = picture3 [picture1 = Left picture | picture2 = Midl picture | picture3 = Right picture]
         /// </summary>
         private bool picture_select;
 
         // Валюта.
         Currency currency = Currency.UAH;
         string str_currency = "₴"; // €  ₴
-
         Label[] labels_currency = new Label[11];
+        // Для переводов
+        Currency Left_currency_state;
+        Currency Right_currency_state;
+        
 
         // Кнопки для создания нового дня.
         private DateTimePicker _dateTime = null;
@@ -998,13 +1001,25 @@ namespace LoginWFsql
         {
             DateTime date = DateTime.Parse(lbDate.Text);
 
-            if (!check_valid_data())
+            if (buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
+            {
+                if (!check_valid_data_transfer_currency())
+                    return;
+            }
+            else if (!check_valid_data())
                 return;
 
             realization();
 
-            command = SqlCommand.Update_Day(currency, currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
-           float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, date, db.getConnection());
+            if (buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
+            {
+                command = SqlCommand.Update_Day_Transfer_Currency(currentUserID, date, tb_Wasted_Str.Text, tb_In_Come_Str.Text,
+            days[Id_selected_day].purse_uah.cash, days[Id_selected_day].purse_uah.card, days[Id_selected_day].purse_uah.saved,
+            days[Id_selected_day].purse_eur.cash, days[Id_selected_day].purse_eur.card, days[Id_selected_day].purse_eur.saved, db.getConnection());
+            }
+            else
+                command = SqlCommand.Update_Day(currency, currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
+               float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, date, db.getConnection());
 
 
             db.openConnection();
@@ -1025,6 +1040,8 @@ namespace LoginWFsql
             float i_owe = float.Parse(lbIOwe.Text);
             float wasted = float.Parse(lbWasted.Text);
             float in_come = float.Parse(lbIncome.Text);
+
+            string from_where = "", where_to = "";
 
             switch (buttons_Push)
             {
@@ -1067,11 +1084,15 @@ namespace LoginWFsql
                         {
                             lbCash.Text = (cash - quantity).ToString();
                             lbCard.Text = (card + quantity).ToString();
+                            from_where = "Наличка";
+                            where_to = "Картка";
                         }
                         else if (cellState1 == CellState.Cash && cellState3 == CellState.Saved)
                         {
                             lbCash.Text = (cash - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
+                            from_where = "Наличка";
+                            where_to = "Отложения";
                         }
                         else if (cellState1 == CellState.Cash && cellState3 == CellState.I_OWE)
                         {
@@ -1082,11 +1103,15 @@ namespace LoginWFsql
                         {
                             lbCard.Text = (card - quantity).ToString();
                             lbCash.Text = (cash + quantity).ToString();
+                            from_where = "Картка";
+                            where_to = "Наличка";
                         }
                         else if (cellState1 == CellState.Card && cellState3 == CellState.Saved)
                         {
                             lbCard.Text = (card - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
+                            from_where = "Картка";
+                            where_to = "Отложения";
                         }
                         else if (cellState1 == CellState.Card && cellState3 == CellState.I_OWE)
                         {
@@ -1097,11 +1122,15 @@ namespace LoginWFsql
                         {
                             lbSaved.Text = (saved - quantity).ToString();
                             lbCash.Text = (cash + quantity).ToString();
+                            from_where = "Отложения";
+                            where_to = "Наличка";
                         }
                         else if (cellState1 == CellState.Saved && cellState3 == CellState.Card)
                         {
                             lbSaved.Text = (saved - quantity).ToString();
                             lbCard.Text = (card + quantity).ToString();
+                            from_where = "Отложения";
+                            where_to = "Картка";
                         }
                         else if (cellState1 == CellState.Saved && cellState3 == CellState.I_OWE)
                         {
@@ -1123,11 +1152,17 @@ namespace LoginWFsql
                             lbOweMe.Text = (owe_me - quantity).ToString();
                             lbSaved.Text = (saved + quantity).ToString();
                         }
+                        else if (cellState1 == cellState3)
+                        {
+                            MessageBox.Show("Нужно выбрать разные ячейки!");
+                            return;
+                        }
+
 
                         if (cellState1 != CellState.OWE_ME && cellState3 != CellState.I_OWE)
                         {
-                            tb_Wasted_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
-                            tb_In_Come_Str.Text += $"[~{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
+                            tb_Wasted_Str.Text += $"  [~{tb_quantity.Text + str_currency}]-{from_where + Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            tb_In_Come_Str.Text += $"  [~{tb_quantity.Text + str_currency}]-{where_to + Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
                         }
                         else if (cellState1 == CellState.OWE_ME)
                         {
@@ -1139,6 +1174,226 @@ namespace LoginWFsql
                             lbWasted.Text = (wasted + quantity).ToString();
                             tb_Wasted_Str.Text += $"[-{tb_quantity.Text + str_currency}] {tb_comment.Text}" + Environment.NewLine;
                         }
+                    }
+                    break;
+                case Buttons_Push.TRANSFER_CURRENCY:
+                    {
+                        // Для удобства перепсываем знаения в новые переменные
+                        float quantity2 = float.Parse(tb_quantity2.Text);
+                        float cash_uah = days[Id_selected_day].purse_uah.cash;
+                        float card_uah = days[Id_selected_day].purse_uah.card;
+                        float saved_uah = days[Id_selected_day].purse_uah.saved;
+                        float cash_eur = days[Id_selected_day].purse_eur.cash;
+                        float card_eur = days[Id_selected_day].purse_eur.card;
+                        float saved_eur = days[Id_selected_day].purse_eur.saved;
+
+                        // Обрабатываем значения
+                        if (cellState1 == CellState.Cash && cellState3 == CellState.Cash)
+                        {
+                            if(Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                cash_uah -= quantity;
+                                cash_eur += quantity2;// €  ₴
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                cash_eur -= quantity;
+                                cash_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if(cellState1 == CellState.Cash && cellState3 == CellState.Card)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                cash_uah -= quantity;
+                                card_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                cash_eur -= quantity;
+                                card_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if (cellState1 == CellState.Cash && cellState3 == CellState.Saved)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                cash_uah -= quantity;
+                                saved_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                cash_eur -= quantity;
+                                saved_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if (cellState1 == CellState.Card && cellState3 == CellState.Card)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                card_uah -= quantity;
+                                card_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                card_eur -= quantity;
+                                card_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if(cellState1 == CellState.Card && cellState3 == CellState.Cash)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                card_uah -= quantity;
+                                cash_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                card_eur -= quantity;
+                                cash_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if(cellState1 == CellState.Card && cellState3 == CellState.Saved)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                card_uah -= quantity;
+                                saved_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                card_eur -= quantity;
+                                saved_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if (cellState1 == CellState.Saved && cellState3 == CellState.Saved)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                saved_uah -= quantity;
+                                saved_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                saved_eur -= quantity;
+                                saved_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if(cellState1 == CellState.Saved && cellState3 == CellState.Cash)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                saved_uah -= quantity;
+                                cash_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                saved_eur -= quantity;
+                                cash_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Наличка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+                        else if(cellState1 == CellState.Saved && cellState3 == CellState.Card)
+                        {
+                            if (Left_currency_state == Currency.UAH && Right_currency_state == Currency.EUR)
+                            {
+                                saved_uah -= quantity;
+                                card_eur += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}₴]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}€]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Currency.EUR && Right_currency_state == Currency.UAH)
+                            {
+                                saved_eur -= quantity;
+                                card_uah += quantity2;
+                                tb_Wasted_Str.Text += $"  [~{quantity}€]-Отложения {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                                tb_In_Come_Str.Text += $"  [~{quantity2}₴]-Картка {Environment.NewLine + tb_comment.Text}" + Environment.NewLine;
+                            }
+                            else if (Left_currency_state == Right_currency_state)
+                            {
+                                MessageBox.Show("Нужно выбрать разные валюты для перевода между ними!");
+                                return;
+                            }
+                        }
+
+                        // Записываем обратно уже обрботаные значения
+                        days[Id_selected_day].purse_uah.cash = cash_uah;
+                        days[Id_selected_day].purse_uah.card = card_uah;
+                        days[Id_selected_day].purse_uah.saved = saved_uah;
+                        days[Id_selected_day].purse_eur.cash = cash_eur;
+                        days[Id_selected_day].purse_eur.card = card_eur;
+                        days[Id_selected_day].purse_eur.saved = saved_eur;
                     }
                     break;
                 case Buttons_Push.I_OWE:// Беру в долг
@@ -1177,6 +1432,116 @@ namespace LoginWFsql
             }
         }
 
+        private bool check_valid_data_transfer_currency()
+        {
+            if (tb_quantity.Text == "" || tb_quantity2.Text == "")
+            {
+                MessageBox.Show("В поле сума нужно записать знаение");
+                return false;
+            }
+
+            float quantity = float.Parse(tb_quantity.Text);
+            float quantity2 = float.Parse(tb_quantity2.Text);
+            float cash_uah = days[Id_selected_day].purse_uah.cash;
+            float card_uah = days[Id_selected_day].purse_uah.card;
+            float saved_uah = days[Id_selected_day].purse_uah.saved;
+            float cash_eur = days[Id_selected_day].purse_eur.cash;
+            float card_eur = days[Id_selected_day].purse_eur.card;
+            float saved_eur = days[Id_selected_day].purse_eur.saved;
+
+            if(cellState1 == CellState.NULL || cellState3 == CellState.NULL)
+            {
+                MessageBox.Show("Выберите ячейку!");
+                return false;
+            }
+            else if(quantity <= 0 || quantity2 <= 0)
+            {
+                MessageBox.Show("Сумма не должна быть меньше или равна Нулю.");
+                return false;
+            }
+
+            switch (cellState1)
+            {
+                case CellState.Cash:
+                    {
+                        switch (Left_currency_state)
+                        {
+                            case Currency.UAH:
+                                {
+                                    if(cash_uah < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                            case Currency.EUR:
+                                {
+                                    if (cash_eur < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case CellState.Card:
+                    {
+                        switch (Left_currency_state)
+                        {
+                            case Currency.UAH:
+                                {
+                                    if (card_uah < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                            case Currency.EUR:
+                                {
+                                    if (card_eur < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case CellState.Saved:
+                    {
+                        switch (Left_currency_state)
+                        {
+                            case Currency.UAH:
+                                {
+                                    if (saved_uah < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                            case Currency.EUR:
+                                {
+                                    if (saved_eur < quantity)
+                                    {
+                                        MessageBox.Show("Сума перевода не может быть больше чем есть в наличии");
+                                        return false;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    break;
+            }
+
+            return true;
+        }
+
         private bool check_valid_data()
         {
             if (tb_quantity.Text == "")
@@ -1196,9 +1561,7 @@ namespace LoginWFsql
                 MessageBox.Show("Выберите ячейку.");
                 return false;
             }
-
-
-            if (quantity <= 0)
+            else if (quantity <= 0)
             {
                 MessageBox.Show("Сумма не должна быть меньше или равна Нулю.");
                 return false;
@@ -2312,17 +2675,29 @@ namespace LoginWFsql
                 case Currency.UAH:
                     {
                         if (picture_select)
+                        {
                             lb_currency1.Text = "UAH";
+                            Left_currency_state = Currency.UAH;
+                        }
                         else
+                        {
                             lb_currency2.Text = "UAH";
+                            Right_currency_state = Currency.UAH;
+                        }
                     }
                     break;
                 case Currency.EUR:
                     {
                         if (picture_select)
+                        {
                             lb_currency1.Text = "EUR";
+                            Left_currency_state = Currency.EUR;
+                        }
                         else
+                        {
                             lb_currency2.Text = "EUR";
+                            Right_currency_state = Currency.EUR;
+                        }
                     }
                     break;
             }

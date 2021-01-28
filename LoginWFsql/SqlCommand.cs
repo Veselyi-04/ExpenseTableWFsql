@@ -43,7 +43,8 @@ namespace LoginWFsql
         /// Запрос возвращает конкретный месяц. Принимает ID текущего пользователя, первый день месяца, последний день месяца и коннект.
         /// </summary>
         /// <returns>Возвращает 10 столбцов</returns>
-        public static MySqlCommand Select_Month(int currentUserID, DateTime first_day_month, DateTime last_day_month, MySqlConnection connection)
+        public static MySqlCommand Select_Month(int currentUserID, DateTime first_day_month, 
+            DateTime last_day_month, MySqlConnection connection)
         {
             command = new MySqlCommand(select_month, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
@@ -112,7 +113,8 @@ namespace LoginWFsql
             return command;
         }
 
-        public static MySqlCommand Update_Day(Currency currency, int currentUserID, float cash, float card, float i_owe, float owe_me, float saved, float wasted, string str_wasted, float in_come, string str_in_come, DateTime date, MySqlConnection connection)
+        public static MySqlCommand Update_Day(Currency currency, int currentUserID, float cash, float card, float i_owe, float owe_me,
+            float saved, float wasted, string str_wasted, float in_come, string str_in_come, DateTime date, MySqlConnection connection)
         {
             string purse = upd_purse_UAH;
             switch (currency)
@@ -137,6 +139,26 @@ namespace LoginWFsql
             command.Parameters.Add("@in_come", MySqlDbType.Float).Value = in_come;
             command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = str_in_come;
             command.Parameters.Add("@date", MySqlDbType.DateTime).Value = date;
+
+            return command;
+        }
+
+        public static MySqlCommand Update_Day_Transfer_Currency(int currentUserID, DateTime date, string str_wasted, string str_in_come,
+            float cash_uah, float card_uah, float saved_uah, float cash_eur, float card_eur, float saved_eur, MySqlConnection connection)
+        {
+            command = new MySqlCommand(update_day + Transfer_Currency, connection);
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            command.Parameters.Add("@str_wasted", MySqlDbType.String).Value = str_wasted;
+            command.Parameters.Add("@str_in_come", MySqlDbType.String).Value = str_in_come;
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = date;
+
+            command.Parameters.Add("@cash_uah", MySqlDbType.Float).Value = cash_uah;
+            command.Parameters.Add("@card_uah", MySqlDbType.Float).Value = card_uah;
+            command.Parameters.Add("@saved_uah", MySqlDbType.Float).Value = saved_uah;
+
+            command.Parameters.Add("@cash_eur", MySqlDbType.Float).Value = cash_eur;
+            command.Parameters.Add("@card_eur", MySqlDbType.Float).Value = card_eur;
+            command.Parameters.Add("@saved_eur", MySqlDbType.Float).Value = saved_eur;
 
             return command;
         }
@@ -228,12 +250,18 @@ namespace LoginWFsql
             "WHERE day.date = @date AND day.id_user = @currentUserID; ";
             
         private static readonly string upd_purse_UAH = "UPDATE purse_uah AS UAH SET UAH.cash = @cash, UAH.card = @card, UAH.i_owe = @i_owe, " +
-            "UAH.owe_me = @owe_me, UAH.saved = @saved, UAH.wasted = @wasted, UAH.in_come = @in_come WHERE UAH.id_day = (SELECT id_day FROM day " +
-            "WHERE day.date = @date AND day.id_user = @currentUserID);";
+            "UAH.owe_me = @owe_me, UAH.saved = @saved, UAH.wasted = @wasted, UAH.in_come = @in_come " +
+            "WHERE UAH.id_day = (SELECT id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID);";
 
         private static readonly string upd_purse_EUR = "UPDATE purse_eur AS EUR SET EUR.cash = @cash, EUR.card = @card, EUR.i_owe = @i_owe, " +
-            "EUR.owe_me = @owe_me, EUR.saved = @saved, EUR.wasted = @wasted, EUR.in_come = @in_come WHERE EUR.id_day = (SELECT id_day FROM day " +
-            "WHERE day.date = @date AND day.id_user = @currentUserID);";
+            "EUR.owe_me = @owe_me, EUR.saved = @saved, EUR.wasted = @wasted, EUR.in_come = @in_come " +
+            "WHERE EUR.id_day = (SELECT id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID);";
+
+        private static readonly string Transfer_Currency = "UPDATE purse_uah AS UAH SET UAH.cash = @cash_uah, UAH.card = @card_uah, UAH.saved = @saved_uah " +
+            "WHERE UAH.id_day = (SELECT id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID); " +
+
+            "UPDATE purse_eur AS EUR SET EUR.cash = @cash_eur, EUR.card = @card_eur, EUR.saved = @saved_eur " +
+            "WHERE EUR.id_day = (SELECT id_day FROM day WHERE day.date = @date AND day.id_user = @currentUserID);";
 
         private static readonly string delete_day = "DELETE FROM day WHERE day.date = @date AND day.id_user = @currentUserID";
 

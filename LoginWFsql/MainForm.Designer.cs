@@ -537,7 +537,7 @@ namespace LoginWFsql
             this.tb_In_Come_Str.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_In_Come_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_In_Come_Str.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_In_Come_Str.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_In_Come_Str.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tb_In_Come_Str.Location = new System.Drawing.Point(256, 268);
             this.tb_In_Come_Str.Multiline = true;
             this.tb_In_Come_Str.Name = "tb_In_Come_Str";
@@ -556,7 +556,7 @@ namespace LoginWFsql
             this.tb_Wasted_Str.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.tb_Wasted_Str.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_Wasted_Str.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_Wasted_Str.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_Wasted_Str.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tb_Wasted_Str.Location = new System.Drawing.Point(19, 268);
             this.tb_Wasted_Str.Multiline = true;
             this.tb_Wasted_Str.Name = "tb_Wasted_Str";
