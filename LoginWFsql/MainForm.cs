@@ -206,7 +206,7 @@ namespace LoginWFsql
         private void Show_list_days(int count)
         {
             On_Of_btCrateNewDay(true);
-            Set_state_btDelete();
+            //Set_state_btDelete();
 
             for (int i = 0; i < count; i++)
             {
@@ -227,7 +227,7 @@ namespace LoginWFsql
         private void Show_list_days_from_Select_Month()
         {
             On_Of_btCrateNewDay(false);
-            Set_state_btDelete();
+            //Set_state_btDelete();
             for (int i = 0; i < days.Length; i++)
             {
                 days[i].Create_New_Group_Box(currency);
@@ -345,6 +345,7 @@ namespace LoginWFsql
                 if (count_days == 0)
                 {
                     Create_Deffault_Empty_Day();
+                    days = null;
                     return;
                 }
             }
@@ -724,11 +725,11 @@ namespace LoginWFsql
             {
                 Location = new Point(btSave.Location.X + 232, btSave.Location.Y + 40),
                 Size = btSave.Size,
-                Text = "Create",
+                Text = "СОЗДАТЬ",
                 Font = btSave.Font,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = btSave.ForeColor,
-                BackColor = Color.DarkGreen
+                BackColor = btSave.BackColor
             };
             btSave.Visible = false;
             bt_Create.FlatAppearance.BorderSize = 0;
@@ -740,11 +741,11 @@ namespace LoginWFsql
             {
                 Location = new Point(bt_Delete.Location.X + 232, bt_Delete.Location.Y + 40),
                 Size = bt_Delete.Size,
-                Text = "Cancel",
+                Text = "ОТМЕНА",
                 Font = bt_Delete.Font,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = bt_Delete.ForeColor,
-                BackColor = Color.DarkRed
+                BackColor = bt_Delete.BackColor
             };
             bt_Delete.Visible = false;
             bt_Cancel.FlatAppearance.BorderSize = 0;
@@ -1726,12 +1727,24 @@ namespace LoginWFsql
 
         private void btDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить етот день?\n" +
+            if(buttons_Push != Buttons_Push.NULL)
+            {
+                cancel();
+            }
+            else
+            {
+                if(days == null)
+                {
+                    MessageBox.Show("Нечего удалять", "Список дней пуст!");
+                    return;
+                }
+                DialogResult result = MessageBox.Show("Вы действительно хотите удалить етот день?\n" +
                  $"{days[Id_selected_day].date.DayOfWeek} [{days[Id_selected_day].date.ToShortDateString()}]",
                  "Удаление дня...", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
-            if (result == DialogResult.OK)
-                Delete_Day();
+                if (result == DialogResult.OK)
+                    Delete_Day();
+            } 
         }
 
         /// <summary>
@@ -1901,6 +1914,8 @@ namespace LoginWFsql
         private void Buttons_push_Handler()
         {
             btSave.Enabled = true;
+            bt_Delete.Text = "ОТМЕНА";
+
             lb_select_cell.Visible = true;
             pb_currency.Enabled = false;
             switch (currency)
@@ -2365,6 +2380,7 @@ namespace LoginWFsql
             bt_In_Come.Text = "Доход";
 
             btSave.Enabled = false;
+            bt_Delete.Text = "УДАЛИТЬ";
             //Делит должен ставиться в тру если чек делит позволяет
             lb_select_cell.ForeColor = Color.Gainsboro;
         }
@@ -2427,6 +2443,11 @@ namespace LoginWFsql
 
         private void bt_Transfer_Currency_Click(object sender, EventArgs e)
         {
+            if (days == null)
+            {
+                MessageBox.Show("Сначала создайте день", "Список дней пуст!");
+                return;
+            }
             buttons_Push = Buttons_Push.TRANSFER_CURRENCY;
 
             // Отключение всего лишнего.

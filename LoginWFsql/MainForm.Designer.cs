@@ -431,13 +431,13 @@ namespace LoginWFsql
             this.btCrateNewDay.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.btCrateNewDay.FlatAppearance.BorderSize = 0;
             this.btCrateNewDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btCrateNewDay.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
+            this.btCrateNewDay.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.btCrateNewDay.ForeColor = System.Drawing.Color.White;
             this.btCrateNewDay.Location = new System.Drawing.Point(4, 27);
             this.btCrateNewDay.Name = "btCrateNewDay";
             this.btCrateNewDay.Size = new System.Drawing.Size(204, 35);
             this.btCrateNewDay.TabIndex = 13;
-            this.btCrateNewDay.Text = "CREATE NEW";
+            this.btCrateNewDay.Text = "СОЗДАТЬ НОВЫЙ";
             this.btCrateNewDay.UseVisualStyleBackColor = false;
             this.btCrateNewDay.Click += new System.EventHandler(this.btCrateNewDay_Click);
             // 
@@ -563,11 +563,11 @@ namespace LoginWFsql
             this.bt_Transfer_Currency.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.bt_Transfer_Currency.FlatAppearance.BorderSize = 0;
             this.bt_Transfer_Currency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_Transfer_Currency.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Transfer_Currency.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_Transfer_Currency.ForeColor = System.Drawing.Color.White;
-            this.bt_Transfer_Currency.Location = new System.Drawing.Point(287, 143);
+            this.bt_Transfer_Currency.Location = new System.Drawing.Point(300, 143);
             this.bt_Transfer_Currency.Name = "bt_Transfer_Currency";
-            this.bt_Transfer_Currency.Size = new System.Drawing.Size(148, 22);
+            this.bt_Transfer_Currency.Size = new System.Drawing.Size(150, 22);
             this.bt_Transfer_Currency.TabIndex = 70;
             this.bt_Transfer_Currency.Text = "Перевод валют";
             this.bt_Transfer_Currency.UseVisualStyleBackColor = false;
@@ -863,17 +863,17 @@ namespace LoginWFsql
             // 
             // bt_Delete
             // 
-            this.bt_Delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.bt_Delete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
             this.bt_Delete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.bt_Delete.FlatAppearance.BorderSize = 0;
             this.bt_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_Delete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Delete.Font = new System.Drawing.Font("Constantia", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bt_Delete.ForeColor = System.Drawing.Color.White;
             this.bt_Delete.Location = new System.Drawing.Point(5, 398);
             this.bt_Delete.Name = "bt_Delete";
             this.bt_Delete.Size = new System.Drawing.Size(452, 45);
             this.bt_Delete.TabIndex = 42;
-            this.bt_Delete.Text = "DELETE";
+            this.bt_Delete.Text = "УДАЛИТЬ";
             this.bt_Delete.UseVisualStyleBackColor = false;
             this.bt_Delete.Click += new System.EventHandler(this.btDelete_Click);
             // 
@@ -1043,19 +1043,19 @@ namespace LoginWFsql
             // 
             // btSave
             // 
-            this.btSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.btSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(84)))), ((int)(((byte)(36)))));
             this.btSave.Enabled = false;
             this.btSave.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.btSave.FlatAppearance.BorderSize = 0;
             this.btSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btSave.Font = new System.Drawing.Font("Arial Rounded MT Bold", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btSave.Font = new System.Drawing.Font("Constantia", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btSave.ForeColor = System.Drawing.Color.White;
             this.btSave.Location = new System.Drawing.Point(5, 344);
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(452, 45);
             this.btSave.TabIndex = 7;
-            this.btSave.Text = "Save";
-            this.btSave.UseVisualStyleBackColor = true;
+            this.btSave.Text = "СОХРАНИТЬ";
+            this.btSave.UseVisualStyleBackColor = false;
             this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
             // lb_sum_1
