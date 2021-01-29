@@ -174,8 +174,8 @@ namespace LoginWFsql
             // 
             this.pictureBox17.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBox17.Enabled = false;
-            this.pictureBox17.Image = global::LoginWFsql.Properties.Resources.user5;
-            this.pictureBox17.Location = new System.Drawing.Point(52, 1);
+            this.pictureBox17.Image = global::LoginWFsql.Properties.Resources.User;
+            this.pictureBox17.Location = new System.Drawing.Point(52, 2);
             this.pictureBox17.Name = "pictureBox17";
             this.pictureBox17.Size = new System.Drawing.Size(27, 27);
             this.pictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

@@ -96,7 +96,7 @@ namespace LoginWFsql
             // 
             this.buttonLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.buttonLogin.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonLogin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.buttonLogin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.buttonLogin.FlatAppearance.BorderSize = 0;
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLogin.Font = new System.Drawing.Font("a_LatinoNr", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -111,7 +111,7 @@ namespace LoginWFsql
             // 
             // btRegistration
             // 
-            this.btRegistration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.btRegistration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.btRegistration.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
             this.btRegistration.FlatAppearance.BorderSize = 0;
             this.btRegistration.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -127,7 +127,7 @@ namespace LoginWFsql
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::LoginWFsql.Properties.Resources.password;
+            this.pictureBox2.Image = global::LoginWFsql.Properties.Resources.Pass;
             this.pictureBox2.Location = new System.Drawing.Point(121, 161);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(65, 65);
@@ -137,7 +137,7 @@ namespace LoginWFsql
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::LoginWFsql.Properties.Resources.user5;
+            this.pictureBox1.Image = global::LoginWFsql.Properties.Resources.User;
             this.pictureBox1.Location = new System.Drawing.Point(121, 51);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(65, 65);

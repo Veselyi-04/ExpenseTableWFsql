@@ -1,12 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LoginWFsql
@@ -14,26 +9,27 @@ namespace LoginWFsql
     public partial class RegisterForm : Form
     {
         private LoginForm LG;
-        public RegisterForm() /* конструтор 1 */
-        {
-            startform();
-        }
-        public RegisterForm(LoginForm lg) /* конструтор 2 */
+        DataBase db = new DataBase();
+        MySqlCommand command;
+        MySqlDataReader reader;
+
+        Validations login_valid_state;
+        public RegisterForm(LoginForm lg)
         {
             LG = lg;
             startform();
         }
 
-        /*--------------------placehold-----------------------------*/
-        /* Поле ввода  имени*/
-        private void NameField_Enter(object sender, EventArgs e)
+        private void startform()
         {
-            namePlaceHold(state: true);
+            InitializeComponent();
+            /* placehold (подсказки в текстовых полях) */
+            loginPlaceHold(false); /* Поле ввода логина*/
+            passwordPlaceHold(false); /* Поле ввода пароля */
+            passCheckPlaceHold(false); /* Поле проверки пароля*/
         }
-        private void NameField_Leave(object sender, EventArgs e)
-        {
-            namePlaceHold(state: false);
-        }
+
+        #region placehold
         /* Поле ввода логина*/
         private void LoginField_Enter(object sender, EventArgs e)
         {
@@ -62,98 +58,66 @@ namespace LoginWFsql
             passCheckPlaceHold(state: false);
         }
 
-        /*--------------------placehold--functions----------------------*/
-        private void namePlaceHold(bool state)
-        {
-            string text_placehold = "введите имя...";
-            if (!state && NameField.Text == "") // если выходим из поля
-            {
-                NameField.Text = text_placehold;
-                NameField.ForeColor = Color.Gray;
-            }
-            else if (state && NameField.Text == text_placehold) // если заходим в поле
-            {
-                NameField.Text = "";
-                NameField.ForeColor = Color.White;
-            }
-        }
         private void loginPlaceHold(bool state)
         {
             string text_placehold = "*придумайте логин...";
-            if (!state && LoginField.Text == "") // если выходим из поля
+            if (!state && tbLoginField.Text == "") // если выходим из поля
             {
-                LoginField.Text = text_placehold;
-                LoginField.ForeColor = Color.Gray;
+                login_valid_state = Validations.PLACE_HOLD;
+                tbLoginField.Text = text_placehold;
+                tbLoginField.ForeColor = Color.Gray;
             }
-            else if (state && LoginField.Text == text_placehold) // если заходим в поле
+            else if (state && tbLoginField.Text == text_placehold) // если заходим в поле
             {
-                LoginField.Text = "";
-                LoginField.ForeColor = Color.White;
+                tbLoginField.Text = "";
+                tbLoginField.ForeColor = Color.White;
             }
         }
         private void passwordPlaceHold(bool state)
         {
             string text_placehold = "*придумайте пароль...";
-            if (!state && PasswordField.Text == "")// если выходим из поля
+            if (!state && tbPasswordField.Text == "")// если выходим из поля
             {
-                PasswordField.Text = text_placehold;
-                PasswordField.ForeColor = Color.Gray;
-                PasswordField.UseSystemPasswordChar = false;
+                tbPasswordField.Text = text_placehold;
+                tbPasswordField.ForeColor = Color.Gray;
+                tbPasswordField.UseSystemPasswordChar = false;
             }
-            else if (state && PasswordField.Text == text_placehold)// если заходим в поле
+            else if (state && tbPasswordField.Text == text_placehold)// если заходим в поле
             {
-                PasswordField.Text = "";
-                PasswordField.ForeColor = Color.White;
-                PasswordField.UseSystemPasswordChar = true;
+                tbPasswordField.Text = "";
+                tbPasswordField.ForeColor = Color.White;
+                tbPasswordField.UseSystemPasswordChar = true;
             }
         }
         private void passCheckPlaceHold(bool state)
         {
             string text_placehold = "*повторите пароль...";
-            if (!state && PassCheckField.Text == "")// если выходим из поля
+            if (!state && tbPassCheckField.Text == "")// если выходим из поля
             {
-                PassCheckField.Text = text_placehold;
-                PassCheckField.ForeColor = Color.Gray;
-                PassCheckField.UseSystemPasswordChar = false;
+                tbPassCheckField.Text = text_placehold;
+                tbPassCheckField.ForeColor = Color.Gray;
+                tbPassCheckField.UseSystemPasswordChar = false;
             }
-            else if (state && PassCheckField.Text == text_placehold)// если заходим в поле
+            else if (state && tbPassCheckField.Text == text_placehold)// если заходим в поле
             {
-                PassCheckField.Text = "";
-                PassCheckField.ForeColor = Color.White;
-                PassCheckField.UseSystemPasswordChar = true;
+                tbPassCheckField.Text = "";
+                tbPassCheckField.ForeColor = Color.White;
+                tbPassCheckField.UseSystemPasswordChar = true;
             }
         }
 
-
-        private void btOnOfShowPass_Click(object sender, EventArgs e)
-        {
-            // временный костыль
-            if (PasswordField.Text == "*придумайте пароль..." || PasswordField.Text == "")
-                return;
-
-            PasswordField.UseSystemPasswordChar = !PasswordField.UseSystemPasswordChar;
-            btOnOfShowPass.Visible = false;
-            btOnOfShowPass2.Visible = true;
-        }
-
-        private void btOnOfShowPass2_Click(object sender, EventArgs e)
-        {
-            PasswordField.UseSystemPasswordChar = !PasswordField.UseSystemPasswordChar;
-            btOnOfShowPass.Visible = true;
-            btOnOfShowPass2.Visible = false;
-        }
+        #endregion
 
         private void btRegistration_Click(object sender, EventArgs e)
         {
-            if (!checkValidData())
+            //if (!checkValidData())
                 return;
 
-            DataBase db = new DataBase();
             MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`login`, `pass`)" +
                 "VALUES(@login, @pass)", db.getConnection());
 
-            command.Parameters.Add("@login", MySqlDbType.VarChar).Value = LoginField.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = PasswordField.Text;
+            command.Parameters.Add("@login", MySqlDbType.VarChar).Value = tbLoginField.Text;
+            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = tbPasswordField.Text;
 
             db.openConnection();
             {
@@ -169,92 +133,114 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
-        private bool checkValidData()
-        {
-            if (!validLogin())
-                return false;
-            if (!validPassword())
-                return false;
-            return true;
-        }
-
         private bool validPassword()
         {
             /* Проверка на пустоту и пробелы */
-            if (PasswordField.Text == "" || PasswordField.Text.Contains(' '))
+            if (tbPasswordField.Text == "" || tbPasswordField.Text.Contains(' '))
             {
                 MessageBox.Show("Поле: Пароль - должно быть заполнено!\n" +
                     "И не должно содержать пробелов!");
-                PasswordField.Text = "";
+                tbPasswordField.Text = "";
                 return false;
             }
             /* Проверка на длинну */
-            if (PasswordField.Text.Length < 4)
+            if (tbPasswordField.Text.Length < 4)
             {
                 MessageBox.Show("Пароль должен быть длиннее 4-рех символов!");
-                PasswordField.Text = "";
+                tbPasswordField.Text = "";
                 return false;
             }
             /* Проверка паролей на совпадение */
-            if (PasswordField.Text != PassCheckField.Text)
+            if (tbPasswordField.Text != tbPassCheckField.Text)
             {
                 MessageBox.Show("Пароли не совпадают!");
-                PassCheckField.Text = "";
+                tbPassCheckField.Text = "";
                 return false;
             }
             return true;
         }
 
-        private bool validLogin()
+
+        private void RegisterForm_MouseMove(object sender, MouseEventArgs e)
         {
-            // проверка на то заполнено ли оно
-            if (LoginField.Text == "")
+            if (e.Button == MouseButtons.Left)
             {
-                MessageBox.Show("Поле: Логин - должно быть заполнено!");
-                return false;
+                this.Left += e.X - lastpoint.X;
+                this.Top += e.Y - lastpoint.Y;
             }
-            // проверка на пробел
-            if (LoginField.Text.Contains(' '))
+        }
+        Point lastpoint;
+        private void RegisterForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
             {
-                MessageBox.Show("Поле: Логин - не должно содержать Пробелов");
-                return false;
+                lastpoint.X = e.X;
+                lastpoint.Y = e.Y;
             }
-
-            // проверка на уникальность
-            if (!checkUniqueLogin())
-            {
-                MessageBox.Show("Етот логин уже занят");
-                return false;
-            }
-
-            return true;
         }
 
-        private bool checkUniqueLogin()
+        private void bt_Cancel_Click(object sender, EventArgs e)
         {
-            DataBase db = new DataBase();
-            DataTable table = new DataTable();
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-
-            MySqlCommand command = new MySqlCommand("SELECT * FROM `users` " +
-                "WHERE `login`= @login",
-                db.getConnection());
-
-            command.Parameters.Add("@login", MySqlDbType.VarChar).Value = LoginField.Text;
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
-
-            return !(table.Rows.Count > 0);
+            LG.Show();
+            this.Close();
         }
 
-        private void startform()
+        private void LoginField_TextChanged(object sender, EventArgs e)
         {
-            InitializeComponent();
-            /* placehold (подсказки в текстовых полях) */
-            namePlaceHold(false); /* Поле ввода  имени*/
-            loginPlaceHold(false); /* Поле ввода логина*/
-            passwordPlaceHold(false); /* Поле ввода пароля */
-            passCheckPlaceHold(false); /* Поле проверки пароля*/
+            Check_Valid_Login();
         }
+
+        private void Check_Valid_Login()
+        {
+            if (login_valid_state == Validations.PLACE_HOLD)
+            {
+                pbValid_unValid.Image = null;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+            else if (tbLoginField.Text == "")
+            {
+                pbValid_unValid.Image = null;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+            else if (tbLoginField.Text.Length < 4)
+            {
+                pbValid_unValid.Image = Properties.Resources.unValid1;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+
+
+
+
+            db.openConnection();
+            {
+                command = SqlCommand.Search_User(tbLoginField.Text, db.getConnection());
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    pbValid_unValid.Image = Properties.Resources.unValid1;
+                    login_valid_state = Validations.unVALID;
+                }
+                else
+                {
+                    pbValid_unValid.Image = Properties.Resources.Valid1;
+                    login_valid_state = Validations.VALID;
+                }
+
+                reader.Close();
+            }
+            db.closeConnection();
+        }
+
+        private enum Validations
+        {
+            VALID,
+            unVALID,
+            PLACE_HOLD,
+        }
+
     }
 }

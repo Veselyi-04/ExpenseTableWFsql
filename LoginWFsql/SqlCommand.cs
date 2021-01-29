@@ -207,6 +207,20 @@ namespace LoginWFsql
             return command;
         }
 
+        public static MySqlCommand Search_User(string login, MySqlConnection connection)
+        {
+            command = new MySqlCommand(search_user, connection);
+            command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
+            return command;
+        }
+        public static MySqlCommand Login_User_getID(string login, string pass, MySqlConnection connection)
+        {
+            command = new MySqlCommand(login_user, connection);
+            command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
+            command.Parameters.Add("@Pass", MySqlDbType.String).Value = pass;
+            return command;
+        }
+
         private static readonly string main_command = "SELECT day.str_wasted, day.str_in_come, day.date, " +
             "UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, UAH.wasted, UAH.in_come, " +
             "EUR.cash, EUR.card, EUR.i_owe, EUR.owe_me, EUR.saved, EUR.wasted, EUR.in_come " +
@@ -282,5 +296,8 @@ namespace LoginWFsql
             "INNER JOIN purse_eur AS EUR ON UAH.id_day = EUR.id_day " +
             "WHERE UAH.id_day = " +
             "(SELECT day.id_day FROM day WHERE day.date<@SelectDate AND day.id_user = @currentUserID ORDER BY date DESC LIMIT 1);";
+
+        private static readonly string search_user = "SELECT users.login FROM users WHERE users.login = @Login";
+        private static readonly string login_user = "SELECT users.id FROM users WHERE users.login = @Login AND users.pass = @Pass";
     }
 }

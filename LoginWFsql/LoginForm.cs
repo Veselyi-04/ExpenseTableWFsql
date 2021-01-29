@@ -1,18 +1,16 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LoginWFsql
 {
     public partial class LoginForm : Form
     {
+        DataBase db = new DataBase();
+        MySqlCommand command;
+        MySqlDataReader reader;
+
         public LoginForm()
         {
             startform();
@@ -43,33 +41,33 @@ namespace LoginWFsql
             string loginUser = LoginField.Text;
             string passUser = PasswordField.Text;
 
-            DataBase db = new DataBase();
             db.openConnection();
             {
 
-                // Для команд MySql
-                MySqlCommand command = new MySqlCommand("SELECT `id` FROM `users` " +
-                    "WHERE `login`= @uL " +
-                    "AND `pass` = @uP",
-                    db.getConnection()); // @uL - @uP заглушка чтобы не передавать туда реальные даные чтоб их было сложнее взломать
+                command = SqlCommand.Search_User(loginUser, db.getConnection());
 
-                //Здесь в заглушки помещаем реальные даные
-                command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser;
-                command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passUser;
 
                 //Здесь считываем даные которые запросили командой
-                MySqlDataReader reader = command.ExecuteReader(); 
+                reader = command.ExecuteReader(); 
+                
+                if(!reader.HasRows)
+                {
+                    MessageBox.Show("Пользователя с таким именем не существует", "Неверно указаное имя!");
+                    reader.Close();
+                    return;
+                }
+                reader.Close();
 
-                //Провераем ситались ли какието даные
+                command = SqlCommand.Login_User_getID(loginUser, passUser, db.getConnection());
+                reader = command.ExecuteReader();
+                
+                //Провераем считались ли какието даные
                 if (reader.HasRows)
                 {
-                    int id;
                     reader.Read();
-                    {
-                        id = reader.GetInt32(0); // ето будет ид
-                    }reader.Close();//считываем Ид пользователя в ->id
-                    
 
+                    int id = reader.GetInt32(0); // ето будет ид
+                    reader.Close();
                     /*Создаем основную форму, передаем туда ИД и ету форму
                     чтобы потом корректно закрыть програму*/
                     MainForm mf = new MainForm(this, id);
@@ -77,7 +75,11 @@ namespace LoginWFsql
                     this.Hide();// текущее (логин) скрываем от пользователя
                 }
                 else // если нет знаит такого акк не существует
-                    MessageBox.Show("Такого пользователя не существует");
+                {
+                    MessageBox.Show("Неверный пароль!");
+                    reader.Close();
+                }
+                    
             }db.closeConnection();
             
         }
