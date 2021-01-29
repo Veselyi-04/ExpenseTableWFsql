@@ -671,7 +671,7 @@ namespace LoginWFsql
             this.bt_Wasted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bt_Wasted.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_Wasted.ForeColor = System.Drawing.Color.White;
-            this.bt_Wasted.Location = new System.Drawing.Point(12, 221);
+            this.bt_Wasted.Location = new System.Drawing.Point(12, 220);
             this.bt_Wasted.Name = "bt_Wasted";
             this.bt_Wasted.Size = new System.Drawing.Size(80, 22);
             this.bt_Wasted.TabIndex = 58;
