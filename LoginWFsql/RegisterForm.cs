@@ -14,6 +14,13 @@ namespace LoginWFsql
         MySqlDataReader reader;
 
         Validations login_valid_state;
+
+        private bool show_hide_password;
+
+        private Password_Placehold state_password_placehold;
+        private Password_Placehold state_pass_check_placehold;
+        private bool valid_state_password;
+
         public RegisterForm(LoginForm lg)
         {
             LG = lg;
@@ -76,33 +83,38 @@ namespace LoginWFsql
         private void passwordPlaceHold(bool state)
         {
             string text_placehold = "*придумайте пароль...";
-            if (!state && tbPasswordField.Text == "")// если выходим из поля
+            if (state && state_password_placehold == Password_Placehold.on)// если заходим в поле
+            {
+                tbPasswordField.Text = "";
+                tbPasswordField.ForeColor = Color.White;
+                tbPasswordField.UseSystemPasswordChar = !show_hide_password;
+                state_password_placehold = Password_Placehold.off;
+
+            }
+            else if (!state && tbPasswordField.Text == "")// если выходим из поля
             {
                 tbPasswordField.Text = text_placehold;
                 tbPasswordField.ForeColor = Color.Gray;
                 tbPasswordField.UseSystemPasswordChar = false;
-            }
-            else if (state && tbPasswordField.Text == text_placehold)// если заходим в поле
-            {
-                tbPasswordField.Text = "";
-                tbPasswordField.ForeColor = Color.White;
-                tbPasswordField.UseSystemPasswordChar = true;
+                state_password_placehold = Password_Placehold.on;
             }
         }
         private void passCheckPlaceHold(bool state)
         {
             string text_placehold = "*повторите пароль...";
-            if (!state && tbPassCheckField.Text == "")// если выходим из поля
+            if (state && state_pass_check_placehold == Password_Placehold.on)// если заходим в поле
+            {
+                tbPassCheckField.Text = "";
+                tbPassCheckField.ForeColor = Color.White;
+                tbPassCheckField.UseSystemPasswordChar = !show_hide_password;
+                state_pass_check_placehold = Password_Placehold.off;
+            }
+            else if (!state && tbPassCheckField.Text == "")// если выходим из поля
             {
                 tbPassCheckField.Text = text_placehold;
                 tbPassCheckField.ForeColor = Color.Gray;
                 tbPassCheckField.UseSystemPasswordChar = false;
-            }
-            else if (state && tbPassCheckField.Text == text_placehold)// если заходим в поле
-            {
-                tbPassCheckField.Text = "";
-                tbPassCheckField.ForeColor = Color.White;
-                tbPassCheckField.UseSystemPasswordChar = true;
+                state_pass_check_placehold = Password_Placehold.on;
             }
         }
 
@@ -133,56 +145,28 @@ namespace LoginWFsql
             db.closeConnection();
         }
 
-        private bool validPassword()
+        private void Check_Valid_Password()
         {
-            /* Проверка на пустоту и пробелы */
-            if (tbPasswordField.Text == "" || tbPasswordField.Text.Contains(' '))
-            {
-                MessageBox.Show("Поле: Пароль - должно быть заполнено!\n" +
-                    "И не должно содержать пробелов!");
-                tbPasswordField.Text = "";
-                return false;
-            }
-            /* Проверка на длинну */
             if (tbPasswordField.Text.Length < 4)
             {
-                MessageBox.Show("Пароль должен быть длиннее 4-рех символов!");
-                tbPasswordField.Text = "";
-                return false;
+                pbPassword_Valid_unValid.Image = Properties.Resources.unValid1;
+                valid_state_password = false;
             }
-            /* Проверка паролей на совпадение */
-            if (tbPasswordField.Text != tbPassCheckField.Text)
+            else if (tbPasswordField.Text.Length >= 4 && state_pass_check_placehold == Password_Placehold.on)
             {
-                MessageBox.Show("Пароли не совпадают!");
-                tbPassCheckField.Text = "";
-                return false;
+                pbPassword_Valid_unValid.Image = Properties.Resources.Valid1;
+                valid_state_password = false;
             }
-            return true;
-        }
-
-
-        private void RegisterForm_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
+            else if (tbPasswordField.Text == tbPassCheckField.Text && state_password_placehold != Password_Placehold.on)
             {
-                this.Left += e.X - lastpoint.X;
-                this.Top += e.Y - lastpoint.Y;
+                pbPassword_Valid_unValid.Image = Properties.Resources.Valid1;
+                valid_state_password = true;
             }
-        }
-        Point lastpoint;
-        private void RegisterForm_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
+            else
             {
-                lastpoint.X = e.X;
-                lastpoint.Y = e.Y;
+                pbPassword_Valid_unValid.Image = Properties.Resources.unValid1;
+                valid_state_password = false;
             }
-        }
-
-        private void bt_Cancel_Click(object sender, EventArgs e)
-        {
-            LG.Show();
-            this.Close();
         }
 
         private void LoginField_TextChanged(object sender, EventArgs e)
@@ -194,19 +178,19 @@ namespace LoginWFsql
         {
             if (login_valid_state == Validations.PLACE_HOLD)
             {
-                pbValid_unValid.Image = null;
+                pbLogin_Valid_unValid.Image = null;
                 login_valid_state = Validations.unVALID;
                 return;
             }
             else if (tbLoginField.Text == "")
             {
-                pbValid_unValid.Image = null;
+                pbLogin_Valid_unValid.Image = null;
                 login_valid_state = Validations.unVALID;
                 return;
             }
             else if (tbLoginField.Text.Length < 4)
             {
-                pbValid_unValid.Image = Properties.Resources.unValid1;
+                pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
                 login_valid_state = Validations.unVALID;
                 return;
             }
@@ -221,12 +205,12 @@ namespace LoginWFsql
 
                 if (reader.HasRows)
                 {
-                    pbValid_unValid.Image = Properties.Resources.unValid1;
+                    pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
                     login_valid_state = Validations.unVALID;
                 }
                 else
                 {
-                    pbValid_unValid.Image = Properties.Resources.Valid1;
+                    pbLogin_Valid_unValid.Image = Properties.Resources.Valid1;
                     login_valid_state = Validations.VALID;
                 }
 
@@ -242,5 +226,106 @@ namespace LoginWFsql
             PLACE_HOLD,
         }
 
+        private enum Password_Placehold
+        {
+            on,
+            off
+        }
+
+        private void pbShow_Hide_Click(object sender, EventArgs e)
+        {
+            if(show_hide_password)
+            {
+                Show_Hide_Password(false);
+                show_hide_password = false;
+            }
+            else
+            {
+                Show_Hide_Password(true);
+                show_hide_password = true;
+            }
+        }
+
+        private void Show_Hide_Password(bool Show_Hide)
+        {
+            if(Show_Hide)
+            {
+                tbPasswordField.UseSystemPasswordChar = false;
+                tbPassCheckField.UseSystemPasswordChar = false;
+                pbShow_Hide.Image = Properties.Resources.Show;
+            }
+            else
+            {
+                if(state_password_placehold == Password_Placehold.off)
+                {
+                    tbPasswordField.UseSystemPasswordChar = true;
+                }
+                if(state_pass_check_placehold == Password_Placehold.off)
+                {
+                    tbPassCheckField.UseSystemPasswordChar = true;
+                }
+                pbShow_Hide.Image = Properties.Resources.Hide;
+            }
+        }
+
+        private void tbPasswordField_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tbPasswordField_KeyUp(object sender, KeyEventArgs e)
+        {
+            Check_Valid_Password();
+        }
+
+
+
+        private void RegisterForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Left += e.X - lastpoint.X;
+                this.Top += e.Y - lastpoint.Y;
+            }
+        }
+        private void RegisterForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                lastpoint.X = e.X;
+                lastpoint.Y = e.Y;
+            }
+        }
+        Point lastpoint;
+
+        private void topPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Left += e.X - lastpoint.X;
+                this.Top += e.Y - lastpoint.Y;
+            }
+        }
+        private void topPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                lastpoint.X = e.X;
+                lastpoint.Y = e.Y;
+            }
+        }
+
+        private void bt_Close_Click(object sender, EventArgs e)
+        {
+            LG.Close();
+        }
+        private void bt_Cancel_Click(object sender, EventArgs e)
+        {
+            LG.Show();
+            this.Close();
+        }
     }
 }
