@@ -41,20 +41,20 @@ namespace LoginWFsql
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbCash_UAH = new System.Windows.Forms.TextBox();
+            this.tbCash_EUR = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbCard_EUR = new System.Windows.Forms.TextBox();
+            this.tbCard_UAH = new System.Windows.Forms.TextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.tbSaved_EUR = new System.Windows.Forms.TextBox();
+            this.tbSaved_UAH = new System.Windows.Forms.TextBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -254,35 +254,35 @@ namespace LoginWFsql
             this.label2.Text = "Наличка";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // textBox1
+            // tbCash_UAH
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(87, 269);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.ShortcutsEnabled = false;
-            this.textBox1.Size = new System.Drawing.Size(80, 20);
-            this.textBox1.TabIndex = 26;
-            this.textBox1.Tag = "";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCash_UAH.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbCash_UAH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCash_UAH.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbCash_UAH.ForeColor = System.Drawing.Color.White;
+            this.tbCash_UAH.Location = new System.Drawing.Point(87, 269);
+            this.tbCash_UAH.Name = "tbCash_UAH";
+            this.tbCash_UAH.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbCash_UAH.Size = new System.Drawing.Size(80, 20);
+            this.tbCash_UAH.TabIndex = 26;
+            this.tbCash_UAH.Tag = "";
+            this.tbCash_UAH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCash_UAH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbQuantity_KeyPress);
             // 
-            // textBox2
+            // tbCash_EUR
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(207, 269);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox2.ShortcutsEnabled = false;
-            this.textBox2.Size = new System.Drawing.Size(80, 20);
-            this.textBox2.TabIndex = 27;
-            this.textBox2.Tag = "";
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCash_EUR.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbCash_EUR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCash_EUR.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbCash_EUR.ForeColor = System.Drawing.Color.White;
+            this.tbCash_EUR.Location = new System.Drawing.Point(207, 269);
+            this.tbCash_EUR.Name = "tbCash_EUR";
+            this.tbCash_EUR.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbCash_EUR.Size = new System.Drawing.Size(80, 20);
+            this.tbCash_EUR.TabIndex = 27;
+            this.tbCash_EUR.Tag = "";
+            this.tbCash_EUR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCash_EUR.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbQuantity_KeyPress);
             // 
             // label5
             // 
@@ -346,35 +346,35 @@ namespace LoginWFsql
             this.label8.Text = "₴";
             this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // textBox3
+            // tbCard_EUR
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(207, 321);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox3.ShortcutsEnabled = false;
-            this.textBox3.Size = new System.Drawing.Size(80, 20);
-            this.textBox3.TabIndex = 35;
-            this.textBox3.Tag = "";
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCard_EUR.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbCard_EUR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCard_EUR.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbCard_EUR.ForeColor = System.Drawing.Color.White;
+            this.tbCard_EUR.Location = new System.Drawing.Point(207, 321);
+            this.tbCard_EUR.Name = "tbCard_EUR";
+            this.tbCard_EUR.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbCard_EUR.Size = new System.Drawing.Size(80, 20);
+            this.tbCard_EUR.TabIndex = 35;
+            this.tbCard_EUR.Tag = "";
+            this.tbCard_EUR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCard_EUR.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCard_KeyPress);
             // 
-            // textBox4
+            // tbCard_UAH
             // 
-            this.textBox4.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox4.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox4.ForeColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(87, 321);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox4.ShortcutsEnabled = false;
-            this.textBox4.Size = new System.Drawing.Size(80, 20);
-            this.textBox4.TabIndex = 34;
-            this.textBox4.Tag = "";
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCard_UAH.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbCard_UAH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCard_UAH.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbCard_UAH.ForeColor = System.Drawing.Color.White;
+            this.tbCard_UAH.Location = new System.Drawing.Point(87, 321);
+            this.tbCard_UAH.Name = "tbCard_UAH";
+            this.tbCard_UAH.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbCard_UAH.Size = new System.Drawing.Size(80, 20);
+            this.tbCard_UAH.TabIndex = 34;
+            this.tbCard_UAH.Tag = "";
+            this.tbCard_UAH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbCard_UAH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCard_KeyPress);
             // 
             // pictureBox4
             // 
@@ -435,35 +435,35 @@ namespace LoginWFsql
             this.label11.Text = "₴";
             this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // textBox5
+            // tbSaved_EUR
             // 
-            this.textBox5.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox5.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox5.ForeColor = System.Drawing.Color.White;
-            this.textBox5.Location = new System.Drawing.Point(207, 375);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox5.ShortcutsEnabled = false;
-            this.textBox5.Size = new System.Drawing.Size(80, 20);
-            this.textBox5.TabIndex = 41;
-            this.textBox5.Tag = "";
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbSaved_EUR.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbSaved_EUR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbSaved_EUR.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbSaved_EUR.ForeColor = System.Drawing.Color.White;
+            this.tbSaved_EUR.Location = new System.Drawing.Point(207, 375);
+            this.tbSaved_EUR.Name = "tbSaved_EUR";
+            this.tbSaved_EUR.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbSaved_EUR.Size = new System.Drawing.Size(80, 20);
+            this.tbSaved_EUR.TabIndex = 41;
+            this.tbSaved_EUR.Tag = "";
+            this.tbSaved_EUR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbSaved_EUR.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbQuantity_KeyPress);
             // 
-            // textBox6
+            // tbSaved_UAH
             // 
-            this.textBox6.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox6.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox6.ForeColor = System.Drawing.Color.White;
-            this.textBox6.Location = new System.Drawing.Point(87, 375);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox6.ShortcutsEnabled = false;
-            this.textBox6.Size = new System.Drawing.Size(80, 20);
-            this.textBox6.TabIndex = 40;
-            this.textBox6.Tag = "";
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbSaved_UAH.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tbSaved_UAH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbSaved_UAH.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbSaved_UAH.ForeColor = System.Drawing.Color.White;
+            this.tbSaved_UAH.Location = new System.Drawing.Point(87, 375);
+            this.tbSaved_UAH.Name = "tbSaved_UAH";
+            this.tbSaved_UAH.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbSaved_UAH.Size = new System.Drawing.Size(80, 20);
+            this.tbSaved_UAH.TabIndex = 40;
+            this.tbSaved_UAH.Tag = "";
+            this.tbSaved_UAH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbSaved_UAH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbQuantity_KeyPress);
             // 
             // pictureBox5
             // 
@@ -759,20 +759,20 @@ namespace LoginWFsql
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.pbLogin_Valid_unValid);
             this.Controls.Add(this.pbShow_Hide);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.tbSaved_EUR);
+            this.Controls.Add(this.tbSaved_UAH);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.tbCard_EUR);
+            this.Controls.Add(this.tbCard_UAH);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbCash_EUR);
+            this.Controls.Add(this.tbCash_UAH);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tbPassCheckField);
             this.Controls.Add(this.tbPasswordField);
@@ -835,20 +835,20 @@ namespace LoginWFsql
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbCash_UAH;
+        private System.Windows.Forms.TextBox tbCash_EUR;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tbCard_EUR;
+        private System.Windows.Forms.TextBox tbCard_UAH;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox tbSaved_EUR;
+        private System.Windows.Forms.TextBox tbSaved_UAH;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;

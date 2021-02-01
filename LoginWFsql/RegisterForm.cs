@@ -13,13 +13,18 @@ namespace LoginWFsql
         MySqlCommand command;
         MySqlDataReader reader;
 
+        // Отвечает за состояние логина(Подходит\Не подходит)
         Validations login_valid_state;
 
+        // Отвечает за состояние пароля(Подходит\Не подходит)
+        private bool valid_state_password;
+
+        // Отвечает за состояние кнопки Скрыть\Показать Пароль
         private bool show_hide_password;
 
+        // Отвечает за состояние подсказок в полях пароля Скрыты или Показаны
         private Password_Placehold state_password_placehold;
         private Password_Placehold state_pass_check_placehold;
-        private bool valid_state_password;
 
         public RegisterForm(LoginForm lg)
         {
@@ -34,6 +39,68 @@ namespace LoginWFsql
             loginPlaceHold(false); /* Поле ввода логина*/
             passwordPlaceHold(false); /* Поле ввода пароля */
             passCheckPlaceHold(false); /* Поле проверки пароля*/
+        }
+
+        private enum Validations
+        {
+            VALID,
+            unVALID,
+            PLACE_HOLD,
+        }
+        private enum Password_Placehold
+        {
+            on,
+            off
+        }
+
+        private void LoginField_TextChanged(object sender, EventArgs e)
+        {
+            Check_Valid_Login();
+        }
+
+        private void Check_Valid_Login()
+        {
+            if (login_valid_state == Validations.PLACE_HOLD)
+            {
+                pbLogin_Valid_unValid.Image = null;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+            else if (tbLoginField.Text == "")
+            {
+                pbLogin_Valid_unValid.Image = null;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+            else if (tbLoginField.Text.Length < 4)
+            {
+                pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
+                login_valid_state = Validations.unVALID;
+                return;
+            }
+
+
+
+
+            db.openConnection();
+            {
+                command = SqlCommand.Search_User(tbLoginField.Text, db.getConnection());
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
+                    login_valid_state = Validations.unVALID;
+                }
+                else
+                {
+                    pbLogin_Valid_unValid.Image = Properties.Resources.Valid1;
+                    login_valid_state = Validations.VALID;
+                }
+
+                reader.Close();
+            }
+            db.closeConnection();
         }
 
         #region placehold
@@ -120,29 +187,53 @@ namespace LoginWFsql
 
         #endregion
 
-        private void btRegistration_Click(object sender, EventArgs e)
+        private void pbShow_Hide_Click(object sender, EventArgs e)
         {
-            //if (!checkValidData())
-                return;
-
-            MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`login`, `pass`)" +
-                "VALUES(@login, @pass)", db.getConnection());
-
-            command.Parameters.Add("@login", MySqlDbType.VarChar).Value = tbLoginField.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = tbPasswordField.Text;
-
-            db.openConnection();
+            if (show_hide_password)
             {
-                if (command.ExecuteNonQuery() == 1)
-                {
-                    MessageBox.Show("Вы успешно зарегистрировались!\n Авторизуйтесь!");
-                    LG.Show();
-                    this.Close();
-                }
-                else
-                    MessageBox.Show("Ошибка регистрации!");
+                Show_Hide_Password(false);
+                show_hide_password = false;
             }
-            db.closeConnection();
+            else
+            {
+                Show_Hide_Password(true);
+                show_hide_password = true;
+            }
+        }
+
+        private void Show_Hide_Password(bool Show_Hide)
+        {
+            if (Show_Hide)
+            {
+                tbPasswordField.UseSystemPasswordChar = false;
+                tbPassCheckField.UseSystemPasswordChar = false;
+                pbShow_Hide.Image = Properties.Resources.Show;
+            }
+            else
+            {
+                if (state_password_placehold == Password_Placehold.off)
+                {
+                    tbPasswordField.UseSystemPasswordChar = true;
+                }
+                if (state_pass_check_placehold == Password_Placehold.off)
+                {
+                    tbPassCheckField.UseSystemPasswordChar = true;
+                }
+                pbShow_Hide.Image = Properties.Resources.Hide;
+            }
+        }
+
+        private void tbPasswordField_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tbPasswordField_KeyUp(object sender, KeyEventArgs e)
+        {
+            Check_Valid_Password();
         }
 
         private void Check_Valid_Password()
@@ -169,118 +260,82 @@ namespace LoginWFsql
             }
         }
 
-        private void LoginField_TextChanged(object sender, EventArgs e)
+
+        private void btRegistration_Click(object sender, EventArgs e)
         {
-            Check_Valid_Login();
-        }
-
-        private void Check_Valid_Login()
-        {
-            if (login_valid_state == Validations.PLACE_HOLD)
+            if (login_valid_state != Validations.VALID)
             {
-                pbLogin_Valid_unValid.Image = null;
-                login_valid_state = Validations.unVALID;
+                MessageBox.Show($"Неподходящий логин!", "Eror!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else if (tbLoginField.Text == "")
+            else if (valid_state_password != true)
             {
-                pbLogin_Valid_unValid.Image = null;
-                login_valid_state = Validations.unVALID;
-                return;
-            }
-            else if (tbLoginField.Text.Length < 4)
-            {
-                pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
-                login_valid_state = Validations.unVALID;
+                MessageBox.Show($"Неподходящий пароль!", "Eror!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-
-
+            command = SqlCommand.Create_New_User(tbLoginField.Text, tbPasswordField.Text, db.getConnection());
 
             db.openConnection();
+            try
             {
-                command = SqlCommand.Search_User(tbLoginField.Text, db.getConnection());
-                reader = command.ExecuteReader();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвесная ошибка регистрации!\n{ex.Message}");
+                return;
+            }
+            db.closeConnection();
 
-                if (reader.HasRows)
-                {
-                    pbLogin_Valid_unValid.Image = Properties.Resources.unValid1;
-                    login_valid_state = Validations.unVALID;
-                }
-                else
-                {
-                    pbLogin_Valid_unValid.Image = Properties.Resources.Valid1;
-                    login_valid_state = Validations.VALID;
-                }
+            Create_First_Day();
 
-                reader.Close();
+            MessageBox.Show($"Вы зарегистрировались!\nПройдите авторизацию!", "Info");
+            LG.Show();
+            this.Close();
+        }
+        private void Create_First_Day()
+        {
+            command = SqlCommand.Login_User_getID(tbLoginField.Text, tbPasswordField.Text, db.getConnection());
+
+            db.openConnection();
+            reader = command.ExecuteReader();
+            reader.Read();
+            int id = reader.GetInt32(0);
+            reader.Close();
+
+            float cash_uah = tbCash_UAH.Text == "" ? 0 : float.Parse(tbCash_UAH.Text);
+            float card_uah = tbCard_UAH.Text == "" ? 0 : float.Parse(tbCard_UAH.Text);
+            float saved_uah = tbSaved_UAH.Text == "" ? 0 : float.Parse(tbSaved_UAH.Text);
+            float cash_eur = tbCash_EUR.Text == "" ? 0 : float.Parse(tbCash_EUR.Text);
+            float card_eur = tbCard_EUR.Text == "" ? 0 : float.Parse(tbCard_EUR.Text);
+            float saved_eur = tbSaved_EUR.Text == "" ? 0 : float.Parse(tbSaved_EUR.Text);
+
+            command = SqlCommand.Create_NewDay(id, DateTime.Today,
+                cash_uah, card_uah, 0f, 0f, saved_uah,
+                cash_eur, card_eur, 0f, 0f, saved_eur, db.getConnection());
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвесная ошибка создания первого дня!\n{ex.Message}");
             }
             db.closeConnection();
         }
 
-        private enum Validations
-        {
-            VALID,
-            unVALID,
-            PLACE_HOLD,
-        }
 
-        private enum Password_Placehold
+        private void bt_Close_Click(object sender, EventArgs e)
         {
-            on,
-            off
+            LG.Close();
         }
-
-        private void pbShow_Hide_Click(object sender, EventArgs e)
+        private void bt_Cancel_Click(object sender, EventArgs e)
         {
-            if(show_hide_password)
-            {
-                Show_Hide_Password(false);
-                show_hide_password = false;
-            }
-            else
-            {
-                Show_Hide_Password(true);
-                show_hide_password = true;
-            }
+            LG.Show();
+            this.Close();
         }
-
-        private void Show_Hide_Password(bool Show_Hide)
-        {
-            if(Show_Hide)
-            {
-                tbPasswordField.UseSystemPasswordChar = false;
-                tbPassCheckField.UseSystemPasswordChar = false;
-                pbShow_Hide.Image = Properties.Resources.Show;
-            }
-            else
-            {
-                if(state_password_placehold == Password_Placehold.off)
-                {
-                    tbPasswordField.UseSystemPasswordChar = true;
-                }
-                if(state_pass_check_placehold == Password_Placehold.off)
-                {
-                    tbPassCheckField.UseSystemPasswordChar = true;
-                }
-                pbShow_Hide.Image = Properties.Resources.Hide;
-            }
-        }
-
-        private void tbPasswordField_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8)
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void tbPasswordField_KeyUp(object sender, KeyEventArgs e)
-        {
-            Check_Valid_Password();
-        }
-
 
 
         private void RegisterForm_MouseMove(object sender, MouseEventArgs e)
@@ -299,6 +354,7 @@ namespace LoginWFsql
                 lastpoint.Y = e.Y;
             }
         }
+
         Point lastpoint;
 
         private void topPanel_MouseMove(object sender, MouseEventArgs e)
@@ -318,14 +374,19 @@ namespace LoginWFsql
             }
         }
 
-        private void bt_Close_Click(object sender, EventArgs e)
+        private void tbQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
-            LG.Close();
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44)
+            {
+                e.Handled = true;
+            }
         }
-        private void bt_Cancel_Click(object sender, EventArgs e)
+        private void tbCard_KeyPress(object sender, KeyPressEventArgs e)
         {
-            LG.Show();
-            this.Close();
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44 && e.KeyChar != 45)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

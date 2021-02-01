@@ -2283,7 +2283,7 @@ namespace LoginWFsql
         /// </summary>
         private void tb_quantity_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 44)
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44)
             {
                 e.Handled = true;
             }

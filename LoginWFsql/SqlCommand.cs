@@ -11,8 +11,6 @@ namespace LoginWFsql
     {
         private static MySqlCommand command;
 
-        private static Currency currency;
-
         /// <summary>
         /// Основной запрос, выбирает абсолютно все дни которые есть у текущего пользователя. Принимает только ID текущего пользователя и коннект.
         /// </summary>
@@ -221,6 +219,14 @@ namespace LoginWFsql
             return command;
         }
 
+        public static MySqlCommand Create_New_User(string login, string pass, MySqlConnection connection)
+        {
+            command = new MySqlCommand(create_new_user, connection);
+            command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
+            command.Parameters.Add("@Pass", MySqlDbType.String).Value = pass;
+            return command;
+        }
+
         private static readonly string main_command = "SELECT day.str_wasted, day.str_in_come, day.date, " +
             "UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, UAH.wasted, UAH.in_come, " +
             "EUR.cash, EUR.card, EUR.i_owe, EUR.owe_me, EUR.saved, EUR.wasted, EUR.in_come " +
@@ -299,5 +305,6 @@ namespace LoginWFsql
 
         private static readonly string search_user = "SELECT users.login FROM users WHERE users.login = @Login";
         private static readonly string login_user = "SELECT users.id FROM users WHERE users.login = @Login AND users.pass = @Pass";
+        private static readonly string create_new_user = "INSERT INTO users (users.login, users.pass) VALUES (@Login, @Pass);";
     }
 }
