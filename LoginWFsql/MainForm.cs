@@ -755,13 +755,6 @@ namespace LoginWFsql
             bt_Cancel.BringToFront();
 
             mainContainer.Panel2.Enabled = false;
-            /*tb_quantity.Enabled = false;
-            tb_comment.Enabled = false;
-            bt_Wasted.Enabled = false;
-            bt_Owe_Me.Enabled = false;
-            bt_I_Owe.Enabled = false;
-            bt_In_Come.Enabled = false;
-            bt_Transfer.Enabled = false;*/
 
             Select_PrevDay();
         }
@@ -1915,6 +1908,12 @@ namespace LoginWFsql
 
         private void bt_Transfer_Click(object sender, EventArgs e)
         {
+            // (наверное)Временный костыль блокирования переводов для прошедших дней
+            if (cbMonth.SelectedIndex > 1)
+                return;
+            else if (Id_selected_day != 0)
+                return;
+
             if (buttons_Push == Buttons_Push.TRANSFER || buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
             {
                 cancel();
