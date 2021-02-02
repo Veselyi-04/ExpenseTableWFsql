@@ -224,7 +224,7 @@ namespace LoginWFsql
 
         private void tbPasswordField_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8)
+            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 001 && e.KeyChar != 003 && e.KeyChar != 022)
             {
                 e.Handled = true;
             }
@@ -375,14 +375,14 @@ namespace LoginWFsql
 
         private void tbQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44)
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44 && e.KeyChar != 001 && e.KeyChar != 003 && e.KeyChar != 022)
             {
                 e.Handled = true;
             }
         }
         private void tbCard_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44 && e.KeyChar != 45)
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44 && e.KeyChar != 45 && e.KeyChar != 001 && e.KeyChar != 003 && e.KeyChar != 022)
             {
                 e.Handled = true;
             }

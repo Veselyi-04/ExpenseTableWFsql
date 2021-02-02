@@ -120,6 +120,14 @@ namespace LoginWFsql
                 PasswordField.UseSystemPasswordChar = false;
             }
         }
+
+        private void LoginField_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 001 && e.KeyChar != 003 && e.KeyChar != 022)
+            {
+                e.Handled = true;
+            }
+        }
         /*--------------------placehold-----------------------------*/
     }
 }

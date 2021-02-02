@@ -71,6 +71,7 @@ namespace LoginWFsql
             this.LoginField.Tag = "";
             this.LoginField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.LoginField.Enter += new System.EventHandler(this.LoginField_Enter);
+            this.LoginField.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LoginField_KeyPress);
             this.LoginField.Leave += new System.EventHandler(this.LoginField_Leave);
             // 
             // PasswordField
@@ -90,6 +91,7 @@ namespace LoginWFsql
             this.PasswordField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.PasswordField.UseSystemPasswordChar = true;
             this.PasswordField.Enter += new System.EventHandler(this.PasswordField_Enter);
+            this.PasswordField.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LoginField_KeyPress);
             this.PasswordField.Leave += new System.EventHandler(this.PasswordField_Leave);
             // 
             // buttonLogin

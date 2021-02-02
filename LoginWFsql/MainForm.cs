@@ -70,13 +70,11 @@ namespace LoginWFsql
         {
             InitializeComponent();
             Select_Login();
-            //Check_Count_Day();
-            Fill_Top_Bar(); // 
-            Fill_ComboBox_Month();//
-            Fill_Array_Days();//
-            Show_list_days(30);//
+            Fill_Top_Bar();
+            Fill_ComboBox_Month();
+            Fill_Array_Days();
+            Show_list_days(30);
             Show_Selected_Day(0);
-            Create_Currency_Labels();
         }
 
         private void Create_Currency_Labels()
@@ -325,6 +323,9 @@ namespace LoginWFsql
             }
 
             Id_selected_day = i;
+
+            Clear_Currency_Labels();
+            Create_Currency_Labels();
         }
 
         /// <summary>
@@ -1074,7 +1075,7 @@ namespace LoginWFsql
 
             realization();
 
-            if (buttons_Push == Buttons_Push.TRANSFER_CURRENCY)
+            if (buttons_Push == Buttons_Push.TRANSFER_CURRENCY) // '2020-02-13' '2020-02-19'
             {
                 command = SqlCommand.Update_Day_Transfer_Currency(currentUserID, date, tb_Wasted_Str.Text, tb_In_Come_Str.Text,
             days[Id_selected_day].purse_uah.cash, days[Id_selected_day].purse_uah.card, days[Id_selected_day].purse_uah.saved,
@@ -1084,13 +1085,124 @@ namespace LoginWFsql
                 command = SqlCommand.Update_Day(currency, currentUserID, float.Parse(lbCash.Text), float.Parse(lbCard.Text), float.Parse(lbIOwe.Text), float.Parse(lbOweMe.Text),
                float.Parse(lbSaved.Text), float.Parse(lbWasted.Text), tb_Wasted_Str.Text, float.Parse(lbIncome.Text), tb_In_Come_Str.Text, date, db.getConnection());
 
-
             db.openConnection();
             command.ExecuteNonQuery();
             db.closeConnection();
 
+
+            Update_All_Next_Day();
+            
+
             cancel();
             Refresh_Data();
+        }
+
+        private void Update_All_Next_Day()
+        {
+            command = new MySqlCommand(" SELECT COUNT(day.id_day) FROM day WHERE day.date > @date AND day.id_user = @currentUserID; ", db.getConnection());
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text);
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+
+            db.openConnection();
+            reader = command.ExecuteReader();
+            reader.Read();
+            int[] arr_Id_Days = new int[reader.GetInt32(0)];
+            reader.Close();
+            db.closeConnection();
+
+            if (arr_Id_Days.Length == 0)
+                return;
+
+            command = new MySqlCommand("SELECT day.id_day FROM day WHERE day.date > @date AND day.id_user = @currentUserID; ", db.getConnection());
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Parse(lbDate.Text);
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+
+            db.openConnection();
+            reader = command.ExecuteReader();
+            for (int i = 0; i < arr_Id_Days.Length; i++)
+            {
+                reader.Read();
+                arr_Id_Days[i] = reader.GetInt32(0);
+
+            }
+            reader.Close();
+            db.closeConnection();
+
+            string cell = "";
+            switch (cellState2)
+            {
+                case CellState.Cash:
+                    cell = "cash";
+                    break;
+                case CellState.Card:
+                    cell = "card";
+                    break;
+                case CellState.Saved:
+                    cell = "saved";
+                    break;
+                case CellState.I_OWE:
+                    cell = "i_owe";
+                    break;
+                case CellState.OWE_ME:
+                    cell = "owe_me";
+                    break;
+            }
+
+            string purse = "";
+            switch (currency)
+            {
+                case Currency.UAH:
+                    purse = "purse_uah";
+                    break;
+                case Currency.EUR:
+                    purse = "purse_eur";
+                    break;
+            }
+
+
+            for (int i = 0; i < arr_Id_Days.Length; i++)
+            {
+                command = new MySqlCommand("SELECT "+ cell +", owe_me, i_owe FROM " + purse +" WHERE id_day = "+ arr_Id_Days[i] +";", db.getConnection());
+
+                db.openConnection();
+                reader = command.ExecuteReader();
+                reader.Read();
+                float select_cell_value = reader.GetInt32(0);
+                float owe_me = reader.GetInt32(1);
+                float i_owe = reader.GetInt32(2);
+                reader.Close();
+                db.closeConnection();
+
+                switch (buttons_Push)
+                {
+                    case Buttons_Push.OWE_ME: // Я дал комуто в долг (ктото мне должен)
+                        {
+                            owe_me += float.Parse(tb_quantity.Text);
+                            select_cell_value -= float.Parse(tb_quantity.Text);
+                        }
+                        break;
+
+                    case Buttons_Push.WASTED:
+                        select_cell_value -= float.Parse(tb_quantity.Text);
+                        break;
+
+                    case Buttons_Push.I_OWE: // Я одолжил у когото (я комуто должен)
+                        {
+                            i_owe += float.Parse(tb_quantity.Text);
+                            select_cell_value += float.Parse(tb_quantity.Text);
+                        }
+                        break;
+
+                    case Buttons_Push.IN_COME:
+                        select_cell_value += float.Parse(tb_quantity.Text);
+                        break;
+                }
+
+                command = new MySqlCommand("UPDATE "+ purse +" SET "+ cell +" = "+ select_cell_value +", owe_me = "+ owe_me + ", i_owe = "+ i_owe + " WHERE id_day = " + arr_Id_Days[i] + ";", db.getConnection());
+                db.openConnection();
+                command.ExecuteNonQuery();
+                db.closeConnection();
+            }
         }
 
         private void realization()
@@ -2985,7 +3097,5 @@ namespace LoginWFsql
             int b = current.B + 10;
             return Color.FromArgb(r, g, b);
         }
-
-        
     }
 }
