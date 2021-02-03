@@ -13,7 +13,7 @@ namespace LoginWFsql
         /// <param name="currentUserID">ID текущего пользователя</param>
         /// <param name="connection">Коннект к БД</param>
         /// <returns>Возвращает команду с готовым запросом.</returns>
-        public static MySqlCommand Main_Сommand(int currentUserID, MySqlConnection connection)
+        public static MySqlCommand MainСommand(int currentUserID, MySqlConnection connection)
         {
             command = new MySqlCommand(main_command, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
@@ -26,7 +26,7 @@ namespace LoginWFsql
         /// <param name="currentUserID">ID текущего пользователя</param>
         /// <param name="connection">Коннект к БД</param>
         /// <returns>Возвращает команду с готовым запросом.</returns>
-        public static MySqlCommand Сount_Days(int currentUserID, MySqlConnection connection)
+        public static MySqlCommand СountDays(int currentUserID, MySqlConnection connection)
         {
             command = new MySqlCommand(count_days, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
@@ -37,7 +37,7 @@ namespace LoginWFsql
         /// Запрос возвращает конкретный месяц. Принимает ID текущего пользователя, первый день месяца, последний день месяца и коннект.
         /// </summary>
         /// <returns>Возвращает 10 столбцов</returns>
-        public static MySqlCommand Select_Month(int currentUserID, DateTime first_day_month, 
+        public static MySqlCommand SelectMonth(int currentUserID, DateTime first_day_month, 
             DateTime last_day_month, MySqlConnection connection)
         {
             command = new MySqlCommand(select_month, connection);
@@ -52,7 +52,7 @@ namespace LoginWFsql
         /// Запрос возвращает последние актуальные даные для заполнения TopBar. Принимает только ID текущего пользователя и коннект.
         /// </summary>
         /// /// <returns>Возвращает 4 столбца</returns>
-        public static MySqlCommand Fill_TopBar(Currency currency ,int currentUserID, MySqlConnection connection)
+        public static MySqlCommand FillTopBar(Currency currency ,int currentUserID, MySqlConnection connection)
         {
             string purse = fill_topBar_UAH;
             switch (currency)
@@ -73,7 +73,7 @@ namespace LoginWFsql
         /// Запрос возвращает существующие месяца(без повторений). Принимает только ID текущего пользователя и коннект.
         /// </summary>
         /// <returns></returns>
-        public static MySqlCommand Fill_ComboBox_Month(int currentUserID, MySqlConnection connection)
+        public static MySqlCommand FillComboBoxMonth(int currentUserID, MySqlConnection connection)
         {
             command = new MySqlCommand(fill_comboBox_Month, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
@@ -84,7 +84,7 @@ namespace LoginWFsql
         /// Вставляет в список новый день. Принимает ID пользователя, коннект и параметры нового дня.
         /// </summary>
         /// <returns></returns>
-        public static MySqlCommand Create_NewDay(int currentUserID, DateTime date, 
+        public static MySqlCommand CreateNewDay(int currentUserID, DateTime date, 
             float cash_uah, float card_uah, float i_owe_uah, float owe_me_uah, float saved_uah, 
             float cash_eur, float card_eur, float i_owe_eur, float owe_me_eur, float saved_eur, MySqlConnection connection)
         {
@@ -107,7 +107,7 @@ namespace LoginWFsql
             return command;
         }
 
-        public static MySqlCommand Update_Day(Currency currency, int currentUserID, float cash, float card, float i_owe, float owe_me,
+        public static MySqlCommand UpdateDay(Currency currency, int currentUserID, float cash, float card, float i_owe, float owe_me,
             float saved, float wasted, string str_wasted, float in_come, string str_in_come, DateTime date, MySqlConnection connection)
         {
             string purse = upd_purse_UAH;
@@ -137,7 +137,7 @@ namespace LoginWFsql
             return command;
         }
 
-        public static MySqlCommand Update_Day_Transfer_Currency(int currentUserID, DateTime date, string str_wasted, string str_in_come,
+        public static MySqlCommand UpdateDayTransferCurrency(int currentUserID, DateTime date, string str_wasted, string str_in_come,
             float cash_uah, float card_uah, float saved_uah, float cash_eur, float card_eur, float saved_eur, MySqlConnection connection)
         {
             command = new MySqlCommand(update_day + Transfer_Currency, connection);
@@ -161,7 +161,7 @@ namespace LoginWFsql
         /// Запрос на удаление дня из списка. Принимает ID пользователя, дату дня и коннект.
         /// </summary>
         /// <returns></returns>
-        public static MySqlCommand Delete_Day(int currentUserID, DateTime date, MySqlConnection connection)
+        public static MySqlCommand DeleteDay(int currentUserID, DateTime date, MySqlConnection connection)
         {
             command = new MySqlCommand(delete_day, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
@@ -172,7 +172,7 @@ namespace LoginWFsql
         /// <summary>
         /// Возвращает последний актуальный день для создания на его основе следущего дня
         /// </summary>
-        public static MySqlCommand Select_PrevDay(Currency currency, int currentUserID, DateTime SelectDate,  MySqlConnection connection)
+        public static MySqlCommand SelectPrevDay(Currency currency, int currentUserID, DateTime SelectDate,  MySqlConnection connection)
         {
             string purse = select_PrevDay_UAH;
             switch (currency)
@@ -194,20 +194,20 @@ namespace LoginWFsql
             return command;
         }
 
-        public static MySqlCommand Select_Login(int currentUserID, MySqlConnection connection)
+        public static MySqlCommand SelectLogin(int currentUserID, MySqlConnection connection)
         {
             command = new MySqlCommand(select_login, connection);
             command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
             return command;
         }
 
-        public static MySqlCommand Search_User(string login, MySqlConnection connection)
+        public static MySqlCommand SearchUser(string login, MySqlConnection connection)
         {
             command = new MySqlCommand(search_user, connection);
             command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
             return command;
         }
-        public static MySqlCommand Login_User_getID(string login, string pass, MySqlConnection connection)
+        public static MySqlCommand LoginUserGetID(string login, string pass, MySqlConnection connection)
         {
             command = new MySqlCommand(login_user, connection);
             command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
@@ -215,13 +215,22 @@ namespace LoginWFsql
             return command;
         }
 
-        public static MySqlCommand Create_New_User(string login, string pass, MySqlConnection connection)
+        public static MySqlCommand CreateNewUser(string login, string pass, MySqlConnection connection)
         {
             command = new MySqlCommand(create_new_user, connection);
             command.Parameters.Add("@Login", MySqlDbType.String).Value = login;
             command.Parameters.Add("@Pass", MySqlDbType.String).Value = pass;
             return command;
         }
+
+        public static MySqlCommand GetIdAllNextDay(int currentUserID, DateTime date, MySqlConnection connection)
+        {
+            command = new MySqlCommand(get_id_all_next_day, connection);
+            command.Parameters.Add("@date", MySqlDbType.DateTime).Value = date;
+            command.Parameters.Add("@currentUserID", MySqlDbType.Int32).Value = currentUserID;
+            return command;
+        }
+        
 
         private static readonly string main_command = "SELECT day.str_wasted, day.str_in_come, day.date, " +
             "UAH.cash, UAH.card, UAH.i_owe, UAH.owe_me, UAH.saved, UAH.wasted, UAH.in_come, " +
@@ -241,11 +250,11 @@ namespace LoginWFsql
             "INNER JOIN purse_eur AS EUR ON EUR.id_day = day.id_day " +
             "WHERE day.id_user = @currentUserID AND (date BETWEEN @first_day_month AND @last_day_month) ORDER BY date DESC";
 
-        private static readonly string fill_topBar_UAH = "SELECT purse_uah.cash, purse_uah.i_owe, purse_uah.saved " +
+        private static readonly string fill_topBar_UAH = "SELECT purse_uah.cash, purse_uah.card, purse_uah.saved " +
             "FROM purse_uah " +
             "WHERE purse_uah.id_day = (SELECT day.id_day FROM day WHERE day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
 
-        private static readonly string fill_topBar_EUR = "SELECT purse_eur.cash, purse_eur.i_owe, purse_eur.saved " +
+        private static readonly string fill_topBar_EUR = "SELECT purse_eur.cash, purse_eur.card, purse_eur.saved " +
             "FROM purse_eur " +
             "WHERE purse_eur.id_day = (SELECT day.id_day FROM day WHERE day.id_user = @currentUserID ORDER BY date DESC LIMIT 1)";
 
@@ -302,5 +311,7 @@ namespace LoginWFsql
         private static readonly string search_user = "SELECT users.login FROM users WHERE users.login = @Login";
         private static readonly string login_user = "SELECT users.id FROM users WHERE users.login = @Login AND users.pass = @Pass";
         private static readonly string create_new_user = "INSERT INTO users (users.login, users.pass) VALUES (@Login, @Pass);";
+
+        private static readonly string get_id_all_next_day = "SELECT day.id_day FROM day WHERE day.date > @date AND day.id_user = @currentUserID;";
     }
 }

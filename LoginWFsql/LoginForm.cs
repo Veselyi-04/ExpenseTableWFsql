@@ -13,10 +13,10 @@ namespace LoginWFsql
 
         public LoginForm()
         {
-            startform();
+            StartForm();
         }
 
-        private void startform()
+        private void StartForm()
         {
             InitializeComponent();
             /* placehold (подсказка в текстовых полях) */
@@ -41,10 +41,10 @@ namespace LoginWFsql
             string loginUser = LoginField.Text;
             string passUser = PasswordField.Text;
 
-            db.openConnection();
+            db.OpenConnection();
             {
 
-                command = SqlCommand.Search_User(loginUser, db.getConnection());
+                command = SqlCommand.SearchUser(loginUser, db.GetConnection());
 
 
                 //Здесь считываем даные которые запросили командой
@@ -58,7 +58,7 @@ namespace LoginWFsql
                 }
                 reader.Close();
 
-                command = SqlCommand.Login_User_getID(loginUser, passUser, db.getConnection());
+                command = SqlCommand.LoginUserGetID(loginUser, passUser, db.GetConnection());
                 reader = command.ExecuteReader();
                 
                 //Провераем считались ли какието даные
@@ -80,7 +80,7 @@ namespace LoginWFsql
                     reader.Close();
                 }
                     
-            }db.closeConnection();
+            }db.CloseConnection();
             
         }
 

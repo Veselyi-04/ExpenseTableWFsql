@@ -49,18 +49,18 @@ namespace LoginWFsql
         /// Создает новый GroupBox(), для дальнейшего его вывода в Лист с днями.
         /// Сам определяет пустой ето день или заполненый.
         /// </summary>
-        public void Create_New_Group_Box(Currency currency = Currency.NULL)
+        public void CreateNewGroupBox(Currency currency = Currency.NULL)
         {
             if (is_empty)
-                Create_Empty_Group_Box();
+                CreateEmptyGroupBox();
             else
-                Create_Filled_Group_Box(currency);
+                CreateFilledGroupBox(currency);
         }
 
         /// <summary>
         /// Создает груп бокс существующего дня.
         /// </summary>
-        private void Create_Filled_Group_Box(Currency currency)
+        private void CreateFilledGroupBox(Currency currency)
         {
             //
             // InitializeComponent
@@ -219,7 +219,7 @@ namespace LoginWFsql
         /// <summary>
         /// Создает пустой груп бокс, (чтото вроде заглушки с кнопкой для создания дня на том месте).
         /// </summary>
-        private void Create_Empty_Group_Box()
+        private void CreateEmptyGroupBox()
         {
             //
             // InitializeComponent
@@ -272,7 +272,7 @@ namespace LoginWFsql
         /// Возвращает булевое значение для проверки, выведен ли етот день в список
         /// </summary>
         /// <returns> bool: is_show </returns>
-        public bool Check_show()
+        public bool CheckShow()
         {
             return is_show;
         }

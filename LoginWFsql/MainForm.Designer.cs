@@ -34,7 +34,7 @@ namespace LoginWFsql
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.pictureBox17 = new System.Windows.Forms.PictureBox();
-            this._lb_state_i_owe = new System.Windows.Forms.Label();
+            this._lb_state_card = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
             this._lb_state_cash = new System.Windows.Forms.Label();
             this.btMinimize = new System.Windows.Forms.Label();
@@ -128,9 +128,7 @@ namespace LoginWFsql
             this.panelTopStats.Controls.Add(this.pictureBox5);
             this.panelTopStats.Controls.Add(this.panel12);
             this.panelTopStats.Controls.Add(this.pictureBox17);
-            this.panelTopStats.Controls.Add(this._lb_state_i_owe);
             this.panelTopStats.Controls.Add(this.pictureBox15);
-            this.panelTopStats.Controls.Add(this._lb_state_cash);
             this.panelTopStats.Controls.Add(this.btMinimize);
             this.panelTopStats.Controls.Add(this.btClose);
             this.panelTopStats.Controls.Add(this._lb_state_userlogin);
@@ -139,9 +137,11 @@ namespace LoginWFsql
             this.panelTopStats.Controls.Add(this.panel25);
             this.panelTopStats.Controls.Add(this.label6);
             this.panelTopStats.Controls.Add(this.label13);
-            this.panelTopStats.Controls.Add(this._lb_state_saved);
             this.panelTopStats.Controls.Add(this.pictureBox16);
             this.panelTopStats.Controls.Add(this.label10);
+            this.panelTopStats.Controls.Add(this._lb_state_card);
+            this.panelTopStats.Controls.Add(this._lb_state_cash);
+            this.panelTopStats.Controls.Add(this._lb_state_saved);
             this.panelTopStats.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTopStats.Location = new System.Drawing.Point(0, 0);
             this.panelTopStats.Name = "panelTopStats";
@@ -154,7 +154,7 @@ namespace LoginWFsql
             // 
             this.pictureBox5.Enabled = false;
             this.pictureBox5.Image = global::LoginWFsql.Properties.Resources.purse4;
-            this.pictureBox5.Location = new System.Drawing.Point(178, 0);
+            this.pictureBox5.Location = new System.Drawing.Point(180, 0);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(30, 30);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -163,7 +163,7 @@ namespace LoginWFsql
             // 
             // panel12
             // 
-            this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
+            this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel12.Location = new System.Drawing.Point(0, 30);
             this.panel12.Name = "panel12";
@@ -175,29 +175,29 @@ namespace LoginWFsql
             this.pictureBox17.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBox17.Enabled = false;
             this.pictureBox17.Image = global::LoginWFsql.Properties.Resources.User;
-            this.pictureBox17.Location = new System.Drawing.Point(52, 2);
+            this.pictureBox17.Location = new System.Drawing.Point(49, 2);
             this.pictureBox17.Name = "pictureBox17";
             this.pictureBox17.Size = new System.Drawing.Size(27, 27);
             this.pictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox17.TabIndex = 41;
             this.pictureBox17.TabStop = false;
             // 
-            // _lb_state_i_owe
+            // _lb_state_card
             // 
-            this._lb_state_i_owe.AutoSize = true;
-            this._lb_state_i_owe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lb_state_i_owe.ForeColor = System.Drawing.Color.White;
-            this._lb_state_i_owe.Location = new System.Drawing.Point(334, 8);
-            this._lb_state_i_owe.Name = "_lb_state_i_owe";
-            this._lb_state_i_owe.Size = new System.Drawing.Size(36, 19);
-            this._lb_state_i_owe.TabIndex = 36;
-            this._lb_state_i_owe.Text = "000";
+            this._lb_state_card.AutoSize = true;
+            this._lb_state_card.Font = new System.Drawing.Font("Consolas", 12F);
+            this._lb_state_card.ForeColor = System.Drawing.Color.White;
+            this._lb_state_card.Location = new System.Drawing.Point(337, 8);
+            this._lb_state_card.Name = "_lb_state_card";
+            this._lb_state_card.Size = new System.Drawing.Size(36, 19);
+            this._lb_state_card.TabIndex = 36;
+            this._lb_state_card.Text = "000";
             // 
             // pictureBox15
             // 
             this.pictureBox15.Enabled = false;
-            this.pictureBox15.Image = global::LoginWFsql.Properties.Resources.i_owe4;
-            this.pictureBox15.Location = new System.Drawing.Point(303, 0);
+            this.pictureBox15.Image = global::LoginWFsql.Properties.Resources.card6;
+            this.pictureBox15.Location = new System.Drawing.Point(310, 0);
             this.pictureBox15.Name = "pictureBox15";
             this.pictureBox15.Size = new System.Drawing.Size(30, 30);
             this.pictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -207,7 +207,7 @@ namespace LoginWFsql
             // _lb_state_cash
             // 
             this._lb_state_cash.AutoSize = true;
-            this._lb_state_cash.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._lb_state_cash.Font = new System.Drawing.Font("Consolas", 12F);
             this._lb_state_cash.ForeColor = System.Drawing.Color.White;
             this._lb_state_cash.Location = new System.Drawing.Point(207, 8);
             this._lb_state_cash.Margin = new System.Windows.Forms.Padding(0);
@@ -221,7 +221,7 @@ namespace LoginWFsql
             this.btMinimize.AutoSize = true;
             this.btMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btMinimize.Font = new System.Drawing.Font("Crosterian", 18F, System.Drawing.FontStyle.Bold);
-            this.btMinimize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
+            this.btMinimize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.btMinimize.Location = new System.Drawing.Point(620, -2);
             this.btMinimize.Name = "btMinimize";
             this.btMinimize.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -238,7 +238,7 @@ namespace LoginWFsql
             this.btClose.AutoSize = true;
             this.btClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btClose.Font = new System.Drawing.Font("Crosterian", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
+            this.btClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.btClose.Location = new System.Drawing.Point(663, 4);
             this.btClose.Name = "btClose";
             this.btClose.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -256,9 +256,9 @@ namespace LoginWFsql
             this._lb_state_userlogin.Cursor = System.Windows.Forms.Cursors.Default;
             this._lb_state_userlogin.Font = new System.Drawing.Font("Constantia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._lb_state_userlogin.ForeColor = System.Drawing.Color.White;
-            this._lb_state_userlogin.Location = new System.Drawing.Point(83, 5);
+            this._lb_state_userlogin.Location = new System.Drawing.Point(79, 7);
             this._lb_state_userlogin.Name = "_lb_state_userlogin";
-            this._lb_state_userlogin.Size = new System.Drawing.Size(83, 19);
+            this._lb_state_userlogin.Size = new System.Drawing.Size(91, 19);
             this._lb_state_userlogin.TabIndex = 30;
             this._lb_state_userlogin.Text = "UserLogin";
             this._lb_state_userlogin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -276,7 +276,7 @@ namespace LoginWFsql
             // 
             // panel24
             // 
-            this.panel24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
+            this.panel24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.panel24.Location = new System.Drawing.Point(39, 7);
             this.panel24.Name = "panel24";
             this.panel24.Size = new System.Drawing.Size(3, 40);
@@ -284,8 +284,8 @@ namespace LoginWFsql
             // 
             // panel25
             // 
-            this.panel25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.panel25.Location = new System.Drawing.Point(172, 7);
+            this.panel25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.panel25.Location = new System.Drawing.Point(174, 7);
             this.panel25.Name = "panel25";
             this.panel25.Size = new System.Drawing.Size(3, 40);
             this.panel25.TabIndex = 32;
@@ -295,8 +295,8 @@ namespace LoginWFsql
             this.label6.AutoSize = true;
             this.label6.Cursor = System.Windows.Forms.Cursors.Default;
             this.label6.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.label6.Location = new System.Drawing.Point(282, 5);
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.label6.Location = new System.Drawing.Point(290, 5);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(25, 35);
@@ -309,8 +309,8 @@ namespace LoginWFsql
             this.label13.AutoSize = true;
             this.label13.Cursor = System.Windows.Forms.Cursors.Default;
             this.label13.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
-            this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.label13.Location = new System.Drawing.Point(521, 5);
+            this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.label13.Location = new System.Drawing.Point(550, 5);
             this.label13.Name = "label13";
             this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label13.Size = new System.Drawing.Size(25, 35);
@@ -321,9 +321,9 @@ namespace LoginWFsql
             // _lb_state_saved
             // 
             this._lb_state_saved.AutoSize = true;
-            this._lb_state_saved.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._lb_state_saved.Font = new System.Drawing.Font("Consolas", 12F);
             this._lb_state_saved.ForeColor = System.Drawing.Color.White;
-            this._lb_state_saved.Location = new System.Drawing.Point(451, 8);
+            this._lb_state_saved.Location = new System.Drawing.Point(467, 8);
             this._lb_state_saved.Name = "_lb_state_saved";
             this._lb_state_saved.Size = new System.Drawing.Size(36, 19);
             this._lb_state_saved.TabIndex = 39;
@@ -333,7 +333,7 @@ namespace LoginWFsql
             // 
             this.pictureBox16.Enabled = false;
             this.pictureBox16.Image = global::LoginWFsql.Properties.Resources.saved1;
-            this.pictureBox16.Location = new System.Drawing.Point(423, 1);
+            this.pictureBox16.Location = new System.Drawing.Point(440, 1);
             this.pictureBox16.Name = "pictureBox16";
             this.pictureBox16.Size = new System.Drawing.Size(30, 30);
             this.pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -345,8 +345,8 @@ namespace LoginWFsql
             this.label10.AutoSize = true;
             this.label10.Cursor = System.Windows.Forms.Cursors.Default;
             this.label10.Font = new System.Drawing.Font("Crosterian", 20F, System.Drawing.FontStyle.Bold);
-            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(132)))), ((int)(((byte)(32)))));
-            this.label10.Location = new System.Drawing.Point(406, 5);
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.label10.Location = new System.Drawing.Point(420, 5);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(25, 35);
@@ -1165,7 +1165,7 @@ namespace LoginWFsql
         private System.Windows.Forms.PictureBox pbCash;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox15;
-        private System.Windows.Forms.Label _lb_state_i_owe;
+        private System.Windows.Forms.Label _lb_state_card;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.PictureBox pictureBox16;
         private System.Windows.Forms.PictureBox pictureBox17;
